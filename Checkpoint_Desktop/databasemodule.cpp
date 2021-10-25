@@ -4,7 +4,7 @@
 
 DatabaseModule::DatabaseModule(QObject *parent)
 {
-    db = QSqlDatabase::addDatabase("QMYSQL");
+    db = QSqlDatabase::addDatabase("QMARIADB");
     db.setHostName("192.168.0.100");
     db.setPort(3306);
     db.setDatabaseName("checkpoints");
@@ -30,24 +30,73 @@ bool DatabaseModule::connect(QString l, QString p)
 
     if(db.open())
     {
-        accessModel = new QSqlTableModel(this);
-        accessModel->setTable("access");
-        accountModel = new QSqlTableModel(this);
-        accountModel->setTable("account");
-        authorizationModel = new QSqlTableModel(this);
-        authorizationModel->setTable("authorization");
-        checkpointModel = new QSqlTableModel(this);
-        checkpointModel->setTable("checkpoint");
-        positionModel = new QSqlTableModel(this);
-        positionModel->setTable("position");
-        privilegeModel = new QSqlTableModel(this);
-        privilegeModel->setTable("privilege");
-        stateModel = new QSqlTableModel(this);
-        stateModel->setTable("state");
-        workerModel = new QSqlTableModel(this);
-        workerModel->setTable("worker");
+        accessModel = new AccessModel(this);
+        accessModel->setTable("access", &db);
+        accountModel = new AccountModel(this);
+        accountModel->setTable("account", &db);
+        authorizationModel = new AuthorizationModel(this);
+        authorizationModel->setTable("authorization", &db);
+        checkpointModel = new CheckpointModel(this);
+        checkpointModel->setTable("checkpoint", &db);
+        positionModel = new PositionModel(this);
+        positionModel->setTable("position", &db);
+        privilegeModel = new PrivilegeModel(this);
+        privilegeModel->setTable("privilege", &db);
+        stateModel = new StateModel(this);
+        stateModel->setTable("state", &db);
+        workerModel = new WorkerModel(this);
+        workerModel->select();
+        workerModel->setTable("worker", &db);
         return true;
     }
     else
         return false;
+}
+
+AccessModel *DatabaseModule::getAccessModel()
+{
+    accessModel->select();
+    return accessModel;
+}
+
+AccountModel *DatabaseModule::getAccountModel()
+{
+    accountModel->select();
+    return accountModel;
+}
+
+AuthorizationModel *DatabaseModule::getAuthorizationModel()
+{
+    authorizationModel->select();
+    return authorizationModel;
+}
+
+CheckpointModel *DatabaseModule::getCheckpointModel()
+{
+    checkpointModel->select();
+    return checkpointModel;
+}
+
+PositionModel *DatabaseModule::getPositionModel()
+{
+    positionModel->select();
+    return positionModel;
+}
+
+PrivilegeModel *DatabaseModule::getPrivilegeModel()
+{
+    privilegeModel->select();
+    return privilegeModel;
+}
+
+StateModel *DatabaseModule::getStateModel()
+{
+    stateModel->select();
+    return stateModel;
+}
+
+WorkerModel *DatabaseModule::getWorkerModel()
+{
+    workerModel->select();
+    return workerModel;
 }

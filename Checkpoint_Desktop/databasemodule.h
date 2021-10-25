@@ -1,10 +1,20 @@
 #ifndef DATABASEMODULE_H
 #define DATABASEMODULE_H
 
+#include <QObject>
 #include <QSqlDatabase>
 #include <QSqlTableModel>
 #include <QSqlError>
 #include <QSqlQuery>
+
+#include "accessmodel.h"
+#include "accountmodel.h"
+#include "authorizationmodel.h"
+#include "checkpointmodel.h"
+#include "positionmodel.h"
+#include "privilegemodel.h"
+#include "statemodel.h"
+#include "workermodel.h"
 
 class DatabaseModule : public QObject
 {
@@ -13,14 +23,14 @@ class DatabaseModule : public QObject
     QSqlDatabase db;
     QString login;
 
-    QSqlTableModel* accessModel;
-    QSqlTableModel* accountModel;
-    QSqlTableModel* authorizationModel;
-    QSqlTableModel* checkpointModel;
-    QSqlTableModel* positionModel;
-    QSqlTableModel* privilegeModel;
-    QSqlTableModel* stateModel;
-    QSqlTableModel* workerModel;
+    AccessModel* accessModel;
+    AccountModel* accountModel;
+    AuthorizationModel* authorizationModel;
+    CheckpointModel* checkpointModel;
+    PositionModel* positionModel;
+    PrivilegeModel* privilegeModel;
+    StateModel* stateModel;
+    WorkerModel* workerModel;
 
 public:
     DatabaseModule(QObject *parent = nullptr);
@@ -29,6 +39,15 @@ public:
     bool connect(QString l, QString p);
 
     QSqlError lastError() { return db.lastError(); }
+
+    AccessModel* getAccessModel();
+    AccountModel* getAccountModel();
+    AuthorizationModel* getAuthorizationModel();
+    CheckpointModel* getCheckpointModel();
+    PositionModel* getPositionModel();
+    PrivilegeModel* getPrivilegeModel();
+    StateModel* getStateModel();
+    WorkerModel* getWorkerModel();
 };
 
 #endif // DATABASEMODULE_H

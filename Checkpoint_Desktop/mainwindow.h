@@ -22,6 +22,24 @@ public:
 private slots:
     void on_pushButton_Connect_clicked();
 
+    void on_pushButton_workers_clicked();
+
+    void on_pushButton_states_clicked();
+
+    void on_pushButton_back_clicked();
+
+    void on_pushButton_checkpoints_clicked();
+
+    void on_pushButton_authorizations_clicked();
+
+    void on_pushButton_accounts_clicked();
+
+    void on_pushButton_lvlAccesses_clicked();
+
+    void on_pushButton_positions_clicked();
+
+    void on_pushButton_privilege_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

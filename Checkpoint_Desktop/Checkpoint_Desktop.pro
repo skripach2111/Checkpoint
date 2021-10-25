@@ -9,13 +9,29 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    accessmodel.cpp \
+    accountmodel.cpp \
+    authorizationmodel.cpp \
+    checkpointmodel.cpp \
     databasemodule.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    positionmodel.cpp \
+    privilegemodel.cpp \
+    statemodel.cpp \
+    workermodel.cpp
 
 HEADERS += \
+    accessmodel.h \
+    accountmodel.h \
+    authorizationmodel.h \
+    checkpointmodel.h \
     databasemodule.h \
-    mainwindow.h
+    mainwindow.h \
+    positionmodel.h \
+    privilegemodel.h \
+    statemodel.h \
+    workermodel.h
 
 FORMS += \
     mainwindow.ui

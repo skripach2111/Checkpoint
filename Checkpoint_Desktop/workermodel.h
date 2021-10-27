@@ -7,6 +7,9 @@
 #include <QAbstractTableModel>
 #include <QObject>
 
+#include "accessmodel.h"
+#include "positionmodel.h"
+
 class WorkerModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -28,6 +31,9 @@ public:
     bool select();
     void setTable(QString t, QSqlDatabase *database);
 
+    void setAccessModel(AccessModel *m_access) { accessModel = m_access; }
+    void setPositionModel(PositionModel *m_position) { positionModel = m_position; }
+
     enum Column {
         INN = 0,
         PHOTO,
@@ -42,6 +48,8 @@ public:
         LAST
     };
 
+    QVariant getDataById(int inn, Column column);
+
 private:
 
     typedef QHash< Column, QVariant > DataHash;
@@ -52,6 +60,9 @@ private:
     QSqlQuery query;
 
     QString table;
+
+    AccessModel *accessModel;
+    PositionModel *positionModel;
 };
 
 #endif // WORKERMODEL_H

@@ -59,8 +59,10 @@ QVariant CheckpointModel::data( const QModelIndex& index, int role ) const {
     {
     case Qt::DisplayRole:
     {
+        if(index.column() == LVL_ACCESS)
+            return accessModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toInt(), AccessModel::Column::TITLE);
+
         return model[ index.row() ][ Column( index.column() ) ];
-        break;
     }
     default:
     {
@@ -100,7 +102,7 @@ bool CheckpointModel::select()
         model.clear();
 
         int row = model.count();
-        beginInsertRows( QModelIndex(), row, row+query.size() );
+        beginInsertRows( createIndex(0, 0), row, row+query.size()-1 );
 
         DataHash record;
         do

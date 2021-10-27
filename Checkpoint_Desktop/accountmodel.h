@@ -7,6 +7,9 @@
 #include <QAbstractTableModel>
 #include <QObject>
 
+#include "workermodel.h"
+#include "privilegemodel.h"
+
 class AccountModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -26,11 +29,13 @@ public:
     bool select();
     void setTable(QString t, QSqlDatabase *database);
 
+    void setWorkerModel(WorkerModel *m_worker) { workerModel = m_worker; }
+    void setPrivilegeModel(PrivilegeModel *m_privilege) { privilegeModel = m_privilege; }
+
     enum Column {
         LOGIN = 0,
         PRIVILEGE,
         WORKER,
-        FLAG,
         LAST
     };
 
@@ -44,6 +49,9 @@ private:
     QSqlQuery query;
 
     QString table;
+
+    WorkerModel *workerModel;
+    PrivilegeModel *privilegeModel;
 };
 
 #endif // ACCOUNTMODEL_H

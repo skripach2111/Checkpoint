@@ -95,7 +95,7 @@ bool StateModel::select()
         model.clear();
 
         int row = model.count();
-        beginInsertRows( QModelIndex(), row, row+query.size() );
+        beginInsertRows( createIndex(0, 0), row, row+query.size()-1 );
 
         DataHash state;
         do

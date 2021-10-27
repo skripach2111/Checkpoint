@@ -47,6 +47,14 @@ bool DatabaseModule::connect(QString l, QString p)
         workerModel = new WorkerModel(this);
         workerModel->select();
         workerModel->setTable("worker", &db);
+
+        accountModel->setPrivilegeModel(privilegeModel);
+        accountModel->setWorkerModel(workerModel);
+        authorizationModel->setWorkerModel(workerModel);
+        checkpointModel->setAccesModel(accessModel);
+        workerModel->setAccessModel(accessModel);
+        workerModel->setPositionModel(positionModel);
+
         return true;
     }
     else

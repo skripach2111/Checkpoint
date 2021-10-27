@@ -5,6 +5,13 @@
 
 #include "databasemodule.h"
 
+#include "accessfiltermodel.h"
+#include "accountfiltermodel.h"
+#include "authorizationfiltermodel.h"
+#include "checkpointfiltermodel.h"
+#include "positionfiltermodel.h"
+#include "workerfiltermodel.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -14,6 +21,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     DatabaseModule* db;
+
+    AccessFilterModel *filterAccess;
+    AccountFilterModel *filterAccount;
+    AuthorizationFilterModel *filterAuthorization;
+    CheckpointFilterModel *filterCheckpoint;
+    PositionFilterModel *filterPosition;
+    WorkerFilterModel *filterWorker;
 
 public:
     MainWindow(QWidget *parent = nullptr);

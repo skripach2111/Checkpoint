@@ -93,7 +93,7 @@ bool PositionModel::select()
         model.clear();
 
         int row = model.count();
-        beginInsertRows( QModelIndex(), row, row+query.size() );
+        beginInsertRows( createIndex(0, 0), row, row+query.size()-1 );
 
         DataHash record;
         do
@@ -118,6 +118,15 @@ void PositionModel::setTable(QString t, QSqlDatabase *database)
 {
     table = t;
     db = database;
+}
+
+QVariant PositionModel::getDataById(int id, Column column)
+{
+    for(int i = 0; i < model.size(); i++)
+    {
+        if(model[i][ID].toInt() == id)
+            return model[i][column];
+    }
 }
 
 bool PositionModel::setData( const QModelIndex& index, const QVariant& value, int role ) {

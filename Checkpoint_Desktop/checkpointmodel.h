@@ -7,6 +7,8 @@
 #include <QAbstractTableModel>
 #include <QObject>
 
+#include "accessmodel.h"
+
 class CheckpointModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -25,6 +27,8 @@ public:
 
     bool select();
     void setTable(QString t, QSqlDatabase *database);
+
+    void setAccesModel(AccessModel *m_access) { accessModel = m_access; }
 
     enum Column {
         ID = 0,
@@ -45,6 +49,8 @@ private:
     QSqlQuery query;
 
     QString table;
+
+    AccessModel *accessModel;
 };
 
 #endif // CHECKPOINTMODEL_H

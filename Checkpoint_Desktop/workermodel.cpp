@@ -69,8 +69,13 @@ QVariant WorkerModel::data( const QModelIndex& index, int role ) const {
     {
     case Qt::DisplayRole:
     {
+        if(index.column() == POSITION)
+            return positionModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toInt(), PositionModel::Column::TITLE);
+
+        if(index.column() == LVL_ACCESS)
+            return accessModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toInt(), AccessModel::Column::TITLE);
+
         return model[ index.row() ][ Column( index.column() ) ];
-        break;
     }
     default:
     {
@@ -115,7 +120,7 @@ bool WorkerModel::select()
         model.clear();
 
         int row = model.count();
-        beginInsertRows( QModelIndex(), row, row+query.size() );
+        beginInsertRows( createIndex(0, 0), row, row+query.size()-1 );
 
         DataHash person;
         do
@@ -147,6 +152,15 @@ void WorkerModel::setTable(QString t, QSqlDatabase *database)
 {
     table = t;
     db = database;
+}
+
+QVariant WorkerModel::getDataById(int inn, Column column)
+{
+    for(int i = 0; i < model.size(); i++)
+    {
+        if(model[i][INN].toInt() == inn)
+            return model[i][column];
+    }
 }
 
 bool WorkerModel::setData( const QModelIndex& index, const QVariant& value, int role ) {

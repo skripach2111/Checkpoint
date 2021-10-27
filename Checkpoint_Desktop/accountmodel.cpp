@@ -34,8 +34,6 @@ QVariant AccountModel::headerData( int section, Qt::Orientation orientation, int
         return "Привилегии";
     case WORKER:
         return "Сотрудник";
-    case FLAG:
-        return "FLAG";
     }
 
     return QVariant();
@@ -57,8 +55,13 @@ QVariant AccountModel::data( const QModelIndex& index, int role ) const {
     {
     case Qt::DisplayRole:
     {
+        if(index.column() == PRIVILEGE)
+            return privilegeModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toInt(), PrivilegeModel::Column::TITLE);
+
+        if(index.column() == WORKER)
+            return workerModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toInt(), WorkerModel::Column::PIB);
+
         return model[ index.row() ][ Column( index.column() ) ];
-        break;
     }
     default:
     {
@@ -80,7 +83,6 @@ void AccountModel::append(const QString &login, const int &privilege, const int 
     account[ LOGIN ] = login;
     account[ PRIVILEGE ] = privilege;
     account[ WORKER ] = worker;
-    account[ FLAG ] = flag;
 
     int row = model.count();
     beginInsertRows( QModelIndex(), row, row );
@@ -97,7 +99,7 @@ bool AccountModel::select()
         model.clear();
 
         int row = model.count();
-        beginInsertRows( QModelIndex(), row, row+query.size() );
+        beginInsertRows( createIndex(0, 0), row, row+query.size()-1 );
 
         DataHash account;
         do
@@ -105,7 +107,6 @@ bool AccountModel::select()
             account[ LOGIN ] = query.value( LOGIN );
             account[ PRIVILEGE ] = query.value( PRIVILEGE );
             account[ WORKER ] = query.value( WORKER );
-            account[ FLAG ] = query.value( FLAG );
 
             model.append( account );
 

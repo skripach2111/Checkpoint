@@ -666,16 +666,47 @@
                </item>
                <item row="0" column="3">
                 <widget class="QComboBox" name="comboBox_filterAuthorizationByCheckpoint">
+                 <property name="editable">
+                  <bool>false</bool>
+                 </property>
+                 <property name="currentText">
+                  <string>не выбрано</string>
+                 </property>
+                 <property name="currentIndex">
+                  <number>0</number>
+                 </property>
+                 <property name="insertPolicy">
+                  <enum>QComboBox::InsertAtTop</enum>
+                 </property>
                  <property name="placeholderText">
                   <string>Пропускной пункт</string>
                  </property>
+                 <property name="frame">
+                  <bool>true</bool>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>не выбрано</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
                <item row="1" column="3">
                 <widget class="QComboBox" name="comboBox_filterAuthorizationByLvlAccess">
+                 <property name="currentIndex">
+                  <number>0</number>
+                 </property>
+                 <property name="insertPolicy">
+                  <enum>QComboBox::InsertAtTop</enum>
+                 </property>
                  <property name="placeholderText">
                   <string>Уровень доступа</string>
                  </property>
+                 <item>
+                  <property name="text">
+                   <string>не выбрано</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
                <item row="1" column="0" colspan="2">
@@ -734,6 +765,12 @@
                  <property name="text">
                   <string>Вошедших</string>
                  </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                 <property name="tristate">
+                  <bool>false</bool>
+                 </property>
                 </widget>
                </item>
                <item row="2" column="1">
@@ -741,12 +778,18 @@
                  <property name="text">
                   <string>Покинувших</string>
                  </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
                <item row="2" column="2">
                 <widget class="QCheckBox" name="checkBox_filterAuthorizationByStateInadmissible">
                  <property name="text">
                   <string>Недопущенных</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -1213,6 +1256,43 @@
                           <height>40</height>
                          </size>
                         </property>
+                        <property name="palette">
+                         <palette>
+                          <active>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </active>
+                          <inactive>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </inactive>
+                          <disabled>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </disabled>
+                         </palette>
+                        </property>
                         <property name="text">
                          <string>Сотрудники</string>
                         </property>
@@ -1235,8 +1315,51 @@
                           <height>40</height>
                          </size>
                         </property>
+                        <property name="palette">
+                         <palette>
+                          <active>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </active>
+                          <inactive>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </inactive>
+                          <disabled>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </disabled>
+                         </palette>
+                        </property>
                         <property name="text">
                          <string>КПП</string>
+                        </property>
+                        <property name="default">
+                         <bool>false</bool>
+                        </property>
+                        <property name="flat">
+                         <bool>false</bool>
                         </property>
                        </widget>
                       </item>
@@ -1248,8 +1371,51 @@
                           <height>40</height>
                          </size>
                         </property>
+                        <property name="palette">
+                         <palette>
+                          <active>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </active>
+                          <inactive>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </inactive>
+                          <disabled>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </disabled>
+                         </palette>
+                        </property>
                         <property name="text">
                          <string>Посещения</string>
+                        </property>
+                        <property name="default">
+                         <bool>false</bool>
+                        </property>
+                        <property name="flat">
+                         <bool>false</bool>
                         </property>
                        </widget>
                       </item>
@@ -1261,8 +1427,51 @@
                           <height>40</height>
                          </size>
                         </property>
+                        <property name="palette">
+                         <palette>
+                          <active>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </active>
+                          <inactive>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </inactive>
+                          <disabled>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </disabled>
+                         </palette>
+                        </property>
                         <property name="text">
                          <string>Аккаунты</string>
+                        </property>
+                        <property name="default">
+                         <bool>false</bool>
+                        </property>
+                        <property name="flat">
+                         <bool>false</bool>
                         </property>
                        </widget>
                       </item>
@@ -1274,8 +1483,51 @@
                           <height>40</height>
                          </size>
                         </property>
+                        <property name="palette">
+                         <palette>
+                          <active>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </active>
+                          <inactive>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </inactive>
+                          <disabled>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </disabled>
+                         </palette>
+                        </property>
                         <property name="text">
                          <string>Уровни доступа</string>
+                        </property>
+                        <property name="default">
+                         <bool>false</bool>
+                        </property>
+                        <property name="flat">
+                         <bool>false</bool>
                         </property>
                        </widget>
                       </item>
@@ -1287,8 +1539,51 @@
                           <height>40</height>
                          </size>
                         </property>
+                        <property name="palette">
+                         <palette>
+                          <active>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </active>
+                          <inactive>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </inactive>
+                          <disabled>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </disabled>
+                         </palette>
+                        </property>
                         <property name="text">
                          <string>Должности</string>
+                        </property>
+                        <property name="default">
+                         <bool>false</bool>
+                        </property>
+                        <property name="flat">
+                         <bool>false</bool>
                         </property>
                        </widget>
                       </item>
@@ -1300,8 +1595,51 @@
                           <height>40</height>
                          </size>
                         </property>
+                        <property name="palette">
+                         <palette>
+                          <active>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </active>
+                          <inactive>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </inactive>
+                          <disabled>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </disabled>
+                         </palette>
+                        </property>
                         <property name="text">
                          <string>Привилегии</string>
+                        </property>
+                        <property name="default">
+                         <bool>false</bool>
+                        </property>
+                        <property name="flat">
+                         <bool>false</bool>
                         </property>
                        </widget>
                       </item>
@@ -1313,11 +1651,54 @@
                           <height>40</height>
                          </size>
                         </property>
+                        <property name="palette">
+                         <palette>
+                          <active>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </active>
+                          <inactive>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </inactive>
+                          <disabled>
+                           <colorrole role="Button">
+                            <brush brushstyle="SolidPattern">
+                             <color alpha="255">
+                              <red>50</red>
+                              <green>50</green>
+                              <blue>50</blue>
+                             </color>
+                            </brush>
+                           </colorrole>
+                          </disabled>
+                         </palette>
+                        </property>
                         <property name="text">
                          <string>Состояния
 авторизации</string>
                         </property>
                         <property name="autoRepeat">
+                         <bool>false</bool>
+                        </property>
+                        <property name="default">
+                         <bool>false</bool>
+                        </property>
+                        <property name="flat">
                          <bool>false</bool>
                         </property>
                        </widget>

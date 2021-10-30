@@ -42,7 +42,7 @@ bool AccessFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sour
 
     if(params[ PRIVILEGE ])
     {
-        value = sourceModel()->index(source_row, AccessModel::Column::PRIVILEGE, source_parent).data();
+        value = sourceModel()->index(source_row, AccessModel::Column::PRIVILEGE, source_parent).data(AccessModel::Role::Read);
         if(value.isValid())
         {
             if(value.toInt() == values[PRIVILEGE].toInt())

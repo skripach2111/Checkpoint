@@ -60,6 +60,10 @@ QVariant AccessModel::data( const QModelIndex& index, int role ) const {
         return model[ index.row() ][ Column( index.column() ) ];
         break;
     }
+    case AccessModel::Role::Read:
+    {
+        return model[ index.row() ][ Column( index.column() ) ];
+    }
     default:
     {
         return QVariant();

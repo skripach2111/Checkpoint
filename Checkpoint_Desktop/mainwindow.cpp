@@ -69,8 +69,10 @@ void MainWindow::on_pushButton_Connect_clicked()
     ui->tableView_authorizations->setModel(filterAuthorization);
     ui->comboBox_filterAuthorizationByCheckpoint->setModel(db->getCheckpointModel());
     ui->comboBox_filterAuthorizationByCheckpoint->setModelColumn(CheckpointModel::Column::TITLE);
+    ui->comboBox_filterAuthorizationByCheckpoint->insertItem(ui->comboBox_filterAuthorizationByCheckpoint->count(), "-");
     ui->comboBox_filterAuthorizationByLvlAccess->setModel(db->getAccessModel());
     ui->comboBox_filterAuthorizationByLvlAccess->setModelColumn(AccessModel::Column::TITLE);
+    ui->comboBox_filterAuthorizationByLvlAccess->insertItem(ui->comboBox_filterAuthorizationByLvlAccess->count(), "-");
 
     ui->tableView_accounts->setModel(filterAccount);
     ui->comboBox_filterAccountsByPrivileges->setModel(db->getPrivilegeModel());

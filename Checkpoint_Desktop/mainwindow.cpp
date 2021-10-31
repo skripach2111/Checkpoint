@@ -55,27 +55,36 @@ void MainWindow::on_pushButton_Connect_clicked()
     filterWorker = new WorkerFilterModel(this);
     filterWorker->setSourceModel(db->getWorkerModel());
 
+    accessCombobox = new ModelForComboBox(this);
+    accessCombobox->setSourceModel(db->getAccessModel());
+    positionCombobox = new ModelForComboBox(this);
+    positionCombobox->setSourceModel(db->getPositionModel());
+    privilegeCombobox = new ModelForComboBox(this);
+    privilegeCombobox->setSourceModel(db->getPrivilegeModel());
+    stateCombobox = new ModelForComboBox(this);
+    stateCombobox->setSourceModel(db->getStateModel());
+    checkpointCombobox = new ModelForComboBox(this);
+    checkpointCombobox->setSourceModel(db->getCheckpointModel());
+
 
     ui->tableView_workers->setModel(filterWorker);
-    ui->comboBox_filterWorkerByPosition->setModel(db->getPositionModel());
+    ui->comboBox_filterWorkerByPosition->setModel(positionCombobox);
     ui->comboBox_filterWorkerByPosition->setModelColumn(PositionModel::Column::TITLE);
-    ui->comboBox_filterWorkerByLvlAccess->setModel(db->getAccessModel());
+    ui->comboBox_filterWorkerByLvlAccess->setModel(accessCombobox);
     ui->comboBox_filterWorkerByLvlAccess->setModelColumn(AccessModel::Column::TITLE);
 
     ui->tableView_checkpoints->setModel(filterCheckpoint);
-    ui->comboBox_filterCheckpointByLvlAccess->setModel(db->getCheckpointModel());
+    ui->comboBox_filterCheckpointByLvlAccess->setModel(accessCombobox);
     ui->comboBox_filterCheckpointByLvlAccess->setModelColumn(AccessModel::Column::TITLE);
 
     ui->tableView_authorizations->setModel(filterAuthorization);
-    ui->comboBox_filterAuthorizationByCheckpoint->setModel(db->getCheckpointModel());
+    ui->comboBox_filterAuthorizationByCheckpoint->setModel(checkpointCombobox);
     ui->comboBox_filterAuthorizationByCheckpoint->setModelColumn(CheckpointModel::Column::TITLE);
-    ui->comboBox_filterAuthorizationByCheckpoint->insertItem(ui->comboBox_filterAuthorizationByCheckpoint->count(), "-");
-    ui->comboBox_filterAuthorizationByLvlAccess->setModel(db->getAccessModel());
+    ui->comboBox_filterAuthorizationByLvlAccess->setModel(accessCombobox);
     ui->comboBox_filterAuthorizationByLvlAccess->setModelColumn(AccessModel::Column::TITLE);
-    ui->comboBox_filterAuthorizationByLvlAccess->insertItem(ui->comboBox_filterAuthorizationByLvlAccess->count(), "-");
 
     ui->tableView_accounts->setModel(filterAccount);
-    ui->comboBox_filterAccountsByPrivileges->setModel(db->getPrivilegeModel());
+    ui->comboBox_filterAccountsByPrivileges->setModel(privilegeCombobox);
     ui->comboBox_filterAccountsByPrivileges->setModelColumn(PrivilegeModel::Column::TITLE);
 
     ui->tableView_lvlAccess->setModel(filterAccess);

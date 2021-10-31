@@ -20,6 +20,7 @@ SOURCES += \
     databasemodule.cpp \
     main.cpp \
     mainwindow.cpp \
+    modelforcombobox.cpp \
     positionfiltermodel.cpp \
     positionmodel.cpp \
     privilegemodel.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     checkpointmodel.h \
     databasemodule.h \
     mainwindow.h \
+    modelforcombobox.h \
     positionfiltermodel.h \
     positionmodel.h \
     privilegemodel.h \

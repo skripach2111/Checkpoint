@@ -630,6 +630,16 @@
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QGridLayout" name="gridLayout">
+               <item row="2" column="2">
+                <widget class="QCheckBox" name="checkBox_filterAuthorizationByStateInadmissible">
+                 <property name="text">
+                  <string>Недопущенных</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="2">
                 <widget class="QFrame" name="frame_8">
                  <property name="frameShape">
@@ -664,37 +674,20 @@
                  </layout>
                 </widget>
                </item>
-               <item row="0" column="3">
-                <widget class="QComboBox" name="comboBox_filterAuthorizationByCheckpoint">
-                 <property name="editable">
-                  <bool>false</bool>
-                 </property>
-                 <property name="currentText">
-                  <string>не выбрано</string>
-                 </property>
-                 <property name="currentIndex">
-                  <number>0</number>
-                 </property>
-                 <property name="insertPolicy">
-                  <enum>QComboBox::InsertAtTop</enum>
+               <item row="0" column="0" colspan="2">
+                <widget class="QLineEdit" name="lineEdit_filterAuthorizationByWorker">
+                 <property name="text">
+                  <string/>
                  </property>
                  <property name="placeholderText">
-                  <string>Пропускной пункт</string>
+                  <string>ФИО прошедшего</string>
                  </property>
-                 <property name="frame">
-                  <bool>true</bool>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string>не выбрано</string>
-                  </property>
-                 </item>
                 </widget>
                </item>
                <item row="1" column="3">
                 <widget class="QComboBox" name="comboBox_filterAuthorizationByLvlAccess">
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>-1</number>
                  </property>
                  <property name="insertPolicy">
                   <enum>QComboBox::InsertAtTop</enum>
@@ -707,13 +700,6 @@
                    <string>не выбрано</string>
                   </property>
                  </item>
-                </widget>
-               </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QLineEdit" name="lineEdit_filterAuthorizationByAuthorizer">
-                 <property name="placeholderText">
-                  <string>ФИО пропустившего</string>
-                 </property>
                 </widget>
                </item>
                <item row="1" column="2">
@@ -750,16 +736,6 @@
                  </layout>
                 </widget>
                </item>
-               <item row="0" column="0" colspan="2">
-                <widget class="QLineEdit" name="lineEdit_filterAuthorizationByWorker">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="placeholderText">
-                  <string>ФИО прошедшего</string>
-                 </property>
-                </widget>
-               </item>
                <item row="2" column="0">
                 <widget class="QCheckBox" name="checkBox_filterAuthorizationByStateIncoming">
                  <property name="text">
@@ -783,14 +759,38 @@
                  </property>
                 </widget>
                </item>
-               <item row="2" column="2">
-                <widget class="QCheckBox" name="checkBox_filterAuthorizationByStateInadmissible">
-                 <property name="text">
-                  <string>Недопущенных</string>
+               <item row="1" column="0" colspan="2">
+                <widget class="QLineEdit" name="lineEdit_filterAuthorizationByAuthorizer">
+                 <property name="placeholderText">
+                  <string>ФИО пропустившего</string>
                  </property>
-                 <property name="checked">
+                </widget>
+               </item>
+               <item row="0" column="3">
+                <widget class="QComboBox" name="comboBox_filterAuthorizationByCheckpoint">
+                 <property name="editable">
+                  <bool>false</bool>
+                 </property>
+                 <property name="currentText">
+                  <string/>
+                 </property>
+                 <property name="currentIndex">
+                  <number>-1</number>
+                 </property>
+                 <property name="insertPolicy">
+                  <enum>QComboBox::InsertAtTop</enum>
+                 </property>
+                 <property name="placeholderText">
+                  <string>Пропускной пункт</string>
+                 </property>
+                 <property name="frame">
                   <bool>true</bool>
                  </property>
+                 <item>
+                  <property name="text">
+                   <string>не выбрано</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
               </layout>

@@ -11,6 +11,7 @@
 #include "checkpointfiltermodel.h"
 #include "positionfiltermodel.h"
 #include "workerfiltermodel.h"
+#include "modelforcombobox.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +29,12 @@ class MainWindow : public QMainWindow
     CheckpointFilterModel *filterCheckpoint;
     PositionFilterModel *filterPosition;
     WorkerFilterModel *filterWorker;
+
+    ModelForComboBox *accessCombobox;
+    ModelForComboBox *positionCombobox;
+    ModelForComboBox *privilegeCombobox;
+    ModelForComboBox *stateCombobox;
+    ModelForComboBox *checkpointCombobox;
 
 public:
     MainWindow(QWidget *parent = nullptr);

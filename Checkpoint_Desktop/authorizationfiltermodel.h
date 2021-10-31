@@ -6,6 +6,8 @@
 
 #include "workermodel.h"
 #include "authorizationmodel.h"
+#include "checkpointmodel.h"
+#include "accessmodel.h"
 
 class AuthorizationFilterModel : public QSortFilterProxyModel
 {

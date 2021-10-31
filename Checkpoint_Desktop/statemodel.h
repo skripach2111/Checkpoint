@@ -33,6 +33,11 @@ public:
         LAST
     };
 
+    enum Role {
+        Display = 0x1,
+        Read
+    };
+
 private:
 
     typedef QHash< Column, QVariant > DataHash;

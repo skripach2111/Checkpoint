@@ -40,6 +40,11 @@ public:
         LAST
     };
 
+    enum Role {
+        Display = 0x1,
+        Read
+    };
+
     QVariant getDataWorker(int inn, WorkerModel::Column column);
 
 private:

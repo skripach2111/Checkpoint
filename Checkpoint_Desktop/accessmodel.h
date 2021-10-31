@@ -35,7 +35,7 @@ public:
     };
 
     enum Role {
-        Display = 0,
+        Display = 0x1,
         Read
     };
 

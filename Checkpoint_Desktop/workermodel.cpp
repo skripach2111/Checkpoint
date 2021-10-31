@@ -77,6 +77,10 @@ QVariant WorkerModel::data( const QModelIndex& index, int role ) const {
 
         return model[ index.row() ][ Column( index.column() ) ];
     }
+    case WorkerModel::Role::Read:
+    {
+        return model[ index.row() ][ Column( index.column() ) ];
+    }
     default:
     {
         return QVariant();

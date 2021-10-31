@@ -5,7 +5,7 @@
 DatabaseModule::DatabaseModule(QObject *parent)
 {
     db = QSqlDatabase::addDatabase("QMARIADB");
-    db.setHostName("192.168.0.100");
+    db.setHostName("213.110.121.129");
     db.setPort(3306);
     db.setDatabaseName("checkpoints");
 }

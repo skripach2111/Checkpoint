@@ -5,6 +5,7 @@
 #include <QSortFilterProxyModel>
 
 #include "checkpointmodel.h"
+#include "accessmodel.h"
 
 class CheckpointFilterModel : public QSortFilterProxyModel
 {

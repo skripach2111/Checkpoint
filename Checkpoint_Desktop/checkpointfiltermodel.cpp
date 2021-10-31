@@ -42,7 +42,7 @@ bool CheckpointFilterModel::filterAcceptsRow(int source_row, const QModelIndex &
 
     if(params[ LVL_ACCESS ])
     {
-        value = sourceModel()->index(source_row, CheckpointModel::Column::LVL_ACCESS, source_parent).data();
+        value = sourceModel()->index(source_row, CheckpointModel::Column::LVL_ACCESS, source_parent).data(AccessModel::Role::Read);
         if(value.isValid())
         {
             if(value.toInt() == values[LVL_ACCESS].toInt())

@@ -72,7 +72,7 @@ bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelInde
 
     if(params[ CHECKPOINT ])
     {
-        value = sourceModel()->index(source_row, AuthorizationModel::Column::CHECKPOINT, source_parent).data();
+        value = sourceModel()->index(source_row, AuthorizationModel::Column::CHECKPOINT, source_parent).data(CheckpointModel::Role::Read);
         if(value.isValid())
         {
             if(value.toInt() == values[CHECKPOINT])
@@ -84,7 +84,7 @@ bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelInde
 
     if(params[ LVL_ACCESS ])
     {
-        value = sourceModel()->index(source_row, AuthorizationModel::Column::WORKER, source_parent).data();
+        value = sourceModel()->index(source_row, AuthorizationModel::Column::WORKER, source_parent).data(AccessModel::Role::Read);
         value = ((AuthorizationModel*)sourceModel())->getDataWorker(value.toInt(), WorkerModel::Column::LVL_ACCESS);
         if(value.isValid())
         {

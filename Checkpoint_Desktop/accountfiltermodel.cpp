@@ -34,7 +34,7 @@ bool AccountFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sou
 
     if(params[ WORKER ])
     {
-        value = sourceModel()->index(source_row, AccountModel::Column::WORKER, source_parent).data();
+        value = sourceModel()->index(source_row, AccountModel::Column::WORKER, source_parent).data(AccountModel::Role::Read);
         if(value.isValid())
         {
             if(value.toString().contains(values[WORKER].toString()) != -1)
@@ -46,7 +46,7 @@ bool AccountFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sou
 
     if(params[ PRIVILEGE ])
     {
-        value = sourceModel()->index(source_row, AccountModel::Column::PRIVILEGE, source_parent).data();
+        value = sourceModel()->index(source_row, AccountModel::Column::PRIVILEGE, source_parent).data(AccountModel::Role::Read);
         if(value.isValid())
         {
             if(value.toInt() == values[PRIVILEGE].toInt())

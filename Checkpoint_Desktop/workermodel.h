@@ -48,6 +48,11 @@ public:
         LAST
     };
 
+    enum Role {
+        Display = 0x1,
+        Read
+    };
+
     QVariant getDataById(int inn, Column column);
 
 private:

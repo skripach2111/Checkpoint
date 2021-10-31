@@ -69,6 +69,10 @@ QVariant AuthorizationModel::data( const QModelIndex& index, int role ) const {
 
         return model[ index.row() ][ Column( index.column() ) ];
     }
+    case AuthorizationModel::Role::Read:
+    {
+        return model[ index.row() ][ Column( index.column() ) ];
+    }
     default:
     {
         return QVariant();

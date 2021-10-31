@@ -54,7 +54,7 @@ bool WorkerFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sour
 
     if(params[ POSITION ])
     {
-        value = sourceModel()->index(source_row, WorkerModel::Column::POSITION, source_parent).data();
+        value = sourceModel()->index(source_row, WorkerModel::Column::POSITION, source_parent).data(PositionModel::Role::Read);
         if(value.isValid())
         {
             if(value.toInt() == values[POSITION].toInt())
@@ -66,7 +66,7 @@ bool WorkerFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sour
 
     if(params[ LVL_ACCESS ])
     {
-        value = sourceModel()->index(source_row, WorkerModel::Column::LVL_ACCESS, source_parent).data();
+        value = sourceModel()->index(source_row, WorkerModel::Column::LVL_ACCESS, source_parent).data(AccessModel::Role::Read);
         if(value.isValid())
         {
             if(value.toInt() == values[LVL_ACCESS].toInt())

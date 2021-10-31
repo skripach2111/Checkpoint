@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSettings>
 
 #include "databasemodule.h"
 
@@ -20,6 +21,8 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
+    QSettings *settings;
 
     DatabaseModule* db;
 
@@ -60,6 +63,12 @@ private slots:
     void on_pushButton_positions_clicked();
 
     void on_pushButton_privilege_clicked();
+
+    void on_pushButton_backToLogin_clicked();
+
+    void on_pushButton_settings_clicked();
+
+    void on_pushButton_applySettings_clicked();
 
 private:
     Ui::MainWindow *ui;

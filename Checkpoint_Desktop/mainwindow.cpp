@@ -14,6 +14,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton_back->setVisible(false);
 
     db = new DatabaseModule(this);
+
+    settings = new QSettings("settings.conf", QSettings::NativeFormat);
+    db->setHostAddress(settings->value("Connection/ip_address").toString());
+    db->setHostPort(settings->value("Connection/port").toInt());
 }
 
 MainWindow::~MainWindow()
@@ -169,3 +173,30 @@ void MainWindow::on_pushButton_states_clicked()
     ui->stackedWidget_buttonPanels->setCurrentIndex(8);
     ui->pushButton_back->setVisible(true);
 }
+
+void MainWindow::on_pushButton_backToLogin_clicked()
+{
+    ui->stackedWidget_mainWindow->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_pushButton_settings_clicked()
+{
+    ui->label_currentHostAddress->setText(settings->value("Connection/ip_address").toString());
+    ui->label_currentHostPort->setText(settings->value("Connection/port").toString());
+    ui->stackedWidget_mainWindow->setCurrentIndex(2);
+}
+
+
+void MainWindow::on_pushButton_applySettings_clicked()
+{
+    if(ui->lineEdit_setHostAddress->text().size() != 0)
+        settings->setValue("Connection/ip_address", ui->lineEdit_setHostAddress->text());
+    if(ui->lineEdit_setHostPort->text().size() != 0)
+        settings->setValue("Connection/port", ui->lineEdit_setHostPort->text());
+    settings->sync();
+
+    ui->label_currentHostAddress->setText("");
+    ui->label_currentHostPort->setText("");
+}
+

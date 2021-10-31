@@ -40,6 +40,9 @@ public:
 
     QSqlError lastError() { return db.lastError(); }
 
+    void setHostAddress(QString address) { db.setHostName(address); }
+    void setHostPort(int port) { db.setPort(port); }
+
     AccessModel* getAccessModel();
     AccountModel* getAccountModel();
     AuthorizationModel* getAuthorizationModel();

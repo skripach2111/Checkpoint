@@ -8,11 +8,15 @@ PositionFilterModel::PositionFilterModel(QObject *parent)
 void PositionFilterModel::setFilterParam(FilterParam par, QVariant val)
 {
     values[par] = val;
+    invalidateFilter();
 }
 
 void PositionFilterModel::setEnabledFilterParam(FilterParam par, bool flag)
 {
     params[par] = flag;
+
+    if(!flag)
+        invalidateFilter();
 }
 
 bool PositionFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const

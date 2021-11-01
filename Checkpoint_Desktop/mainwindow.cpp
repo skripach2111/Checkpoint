@@ -9,8 +9,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->stackedWidget_mainWindow->setCurrentIndex(0);
-    ui->stackedWidget_workPlace->setCurrentIndex(0);
+    ui->stackedWidget_mainWindow->setCurrentIndex(PagesMainWindow::AUTHORIZATION);
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::START);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::MAINMENU_BUTTONS);
     ui->pushButton_back->setVisible(false);
 
     db = new DatabaseModule(this);
@@ -18,6 +19,14 @@ MainWindow::MainWindow(QWidget *parent)
     settings = new QSettings("settings.conf", QSettings::NativeFormat);
     db->setHostAddress(settings->value("Connection/ip_address").toString());
     db->setHostPort(settings->value("Connection/port").toInt());
+
+    connect(ui->radioButton_hideTheDismissed, SIGNAL(clicked()), this, SLOT(workerDissmissedFilterChanged()));
+    connect(ui->radioButton_showDismissed, SIGNAL(clicked()), this, SLOT(workerDissmissedFilterChanged()));
+    connect(ui->radioButton_showAll, SIGNAL(clicked()), this, SLOT(workerDissmissedFilterChanged()));
+
+    //    connect(ui->checkBox_filterAuthorizationByStateIncoming, SIGNAL(stateChanged()), this, SLOT(authorizationStateFilterChenged()));
+    //    connect(ui->checkBox_filterAuthorizationByStateInadmissible, SIGNAL(stateChanged()), this, SLOT(authorizationStateFilterChenged()));
+    //    connect(ui->checkBox_filterAuthorizationByStateGraduates, SIGNAL(stateChanged()), this, SLOT(authorizationStateFilterChenged()));
 }
 
 MainWindow::~MainWindow()
@@ -44,7 +53,7 @@ void MainWindow::on_pushButton_Connect_clicked()
 
     //    }
 
-    ui->stackedWidget_mainWindow->setCurrentIndex(1);
+    ui->stackedWidget_mainWindow->setCurrentIndex(PagesMainWindow::WORKSPACE);
 
     filterAccess = new AccessFilterModel(this);
     filterAccess->setSourceModel(db->getAccessModel());
@@ -101,82 +110,114 @@ void MainWindow::on_pushButton_Connect_clicked()
 
     ui->listView_states->setModel(db->getStateModel());
     ui->listView_states->setModelColumn(StateModel::Column::TITLE);
+
+    filterAccess->setEnabledFilterParam(AccessFilterModel::FilterParam::TITLE, false);
+    filterAccess->setEnabledFilterParam(AccessFilterModel::FilterParam::PRIVILEGE, false);
+
+    filterAccount->setEnabledFilterParam(AccountFilterModel::FilterParam::LOGIN, false);
+    filterAccount->setEnabledFilterParam(AccountFilterModel::FilterParam::WORKER, false);
+    filterAccount->setEnabledFilterParam(AccountFilterModel::FilterParam::PRIVILEGE, false);
+
+    filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::WORKER, false);
+    filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::AUTHORIZER, false);
+    filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::DATE, false);
+    filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::TIME, false);
+    filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::CHECKPOINT, false);
+    filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::LVL_ACCESS, false);
+    filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, 1);
+    filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, true);
+    filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_OUT, 2);
+    filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_OUT, true);
+    filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_NOT_ALLOWED, 3);
+    filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_NOT_ALLOWED, true);
+
+    filterCheckpoint->setEnabledFilterParam(CheckpointFilterModel::FilterParam::TITLE, false);
+    filterCheckpoint->setEnabledFilterParam(CheckpointFilterModel::FilterParam::LVL_ACCESS, false);
+
+    filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::INN, false);
+    filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::PIB, false);
+    filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::POSITION, false);
+    filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::LVL_ACCESS, false);
+    filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::VIEW, true);
+    filterWorker->setFilterParam(WorkerFilterModel::FilterParam::VIEW, WorkerFilterModel::ViewMode::HIDE_DISMISSED);
+
+    filterPosition->setEnabledFilterParam(PositionFilterModel::FilterParam::TITLE, false);
 }
 
 
 void MainWindow::on_pushButton_back_clicked()
 {
-    ui->stackedWidget_workPlace->setCurrentIndex(0);
-    ui->stackedWidget_buttonPanels->setCurrentIndex(0);
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::START);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::MAINMENU_BUTTONS);
     ui->pushButton_back->setVisible(false);
 }
 
 void MainWindow::on_pushButton_workers_clicked()
 {
-    ui->stackedWidget_workPlace->setCurrentIndex(1);
-    ui->stackedWidget_buttonPanels->setCurrentIndex(1);
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::WORKERS);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::WORKERS_BUTTONS);
     ui->pushButton_back->setVisible(true);
 }
 
 
 void MainWindow::on_pushButton_checkpoints_clicked()
 {
-    ui->stackedWidget_workPlace->setCurrentIndex(2);
-    ui->stackedWidget_buttonPanels->setCurrentIndex(2);
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::CHECKPOINTS);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::CHECKPOINTS_BUTTONS);
     ui->pushButton_back->setVisible(true);
 }
 
 
 void MainWindow::on_pushButton_authorizations_clicked()
 {
-    ui->stackedWidget_workPlace->setCurrentIndex(3);
-    ui->stackedWidget_buttonPanels->setCurrentIndex(3);
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::AUTHORIZATIONS);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::AUTHORIZATIONS_BUTTONS);
     ui->pushButton_back->setVisible(true);
 }
 
 
 void MainWindow::on_pushButton_accounts_clicked()
 {
-    ui->stackedWidget_workPlace->setCurrentIndex(4);
-    ui->stackedWidget_buttonPanels->setCurrentIndex(4);
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::ACCOUNTS);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::AUTHORIZATIONS_BUTTONS);
     ui->pushButton_back->setVisible(true);
 }
 
 
 void MainWindow::on_pushButton_lvlAccesses_clicked()
 {
-    ui->stackedWidget_workPlace->setCurrentIndex(5);
-    ui->stackedWidget_buttonPanels->setCurrentIndex(5);
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::LVL_ACCESS);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::LVL_ACCESS_BUTTONS);
     ui->pushButton_back->setVisible(true);
 }
 
 
 void MainWindow::on_pushButton_positions_clicked()
 {
-    ui->stackedWidget_workPlace->setCurrentIndex(6);
-    ui->stackedWidget_buttonPanels->setCurrentIndex(6);
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::POSITION);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::POSITION_BUTTONS);
     ui->pushButton_back->setVisible(true);
 }
 
 
 void MainWindow::on_pushButton_privilege_clicked()
 {
-    ui->stackedWidget_workPlace->setCurrentIndex(7);
-    ui->stackedWidget_buttonPanels->setCurrentIndex(7);
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::PRIVILEGES);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::PRIVILEGES_BUTTONS);
     ui->pushButton_back->setVisible(true);
 }
 
 
 void MainWindow::on_pushButton_states_clicked()
 {
-    ui->stackedWidget_workPlace->setCurrentIndex(8);
-    ui->stackedWidget_buttonPanels->setCurrentIndex(8);
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::STATES);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::STATES_BUTTONS);
     ui->pushButton_back->setVisible(true);
 }
 
 void MainWindow::on_pushButton_backToLogin_clicked()
 {
-    ui->stackedWidget_mainWindow->setCurrentIndex(0);
+    ui->stackedWidget_mainWindow->setCurrentIndex(PagesMainWindow::AUTHORIZATION);
 }
 
 
@@ -184,7 +225,7 @@ void MainWindow::on_pushButton_settings_clicked()
 {
     ui->label_currentHostAddress->setText(settings->value("Connection/ip_address").toString());
     ui->label_currentHostPort->setText(settings->value("Connection/port").toString());
-    ui->stackedWidget_mainWindow->setCurrentIndex(2);
+    ui->stackedWidget_mainWindow->setCurrentIndex(PagesMainWindow::SETTINGS);
 }
 
 
@@ -196,7 +237,294 @@ void MainWindow::on_pushButton_applySettings_clicked()
         settings->setValue("Connection/port", ui->lineEdit_setHostPort->text());
     settings->sync();
 
-    ui->label_currentHostAddress->setText("");
-    ui->label_currentHostPort->setText("");
+    ui->label_currentHostAddress->setText(settings->value("Connection/ip_address").toString());
+    ui->label_currentHostPort->setText(settings->value("Connection/port").toString());
+
+    ui->lineEdit_setHostAddress->setText("");
+    ui->lineEdit_setHostPort->setText("");
+}
+
+
+void MainWindow::on_lineEdit_filterWorkerByInn_editingFinished()
+{
+    if(ui->lineEdit_filterWorkerByInn->text().size() != 0)
+    {
+        filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::INN, true);
+        filterWorker->setFilterParam(WorkerFilterModel::FilterParam::INN, ui->lineEdit_filterWorkerByInn->text());
+    }
+    else
+        filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::INN, false);
+}
+
+
+void MainWindow::on_lineEdit_filterWorkerByFIO_editingFinished()
+{
+    if(ui->lineEdit_filterWorkerByFIO->text().size() != 0)
+    {
+        filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::PIB, true);
+        filterWorker->setFilterParam(WorkerFilterModel::FilterParam::PIB, ui->lineEdit_filterWorkerByFIO->text());
+    }
+    else
+        filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::PIB, false);
+}
+
+
+void MainWindow::on_comboBox_filterWorkerByPosition_currentIndexChanged(int index)
+{
+    if(index == 0)
+        filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::POSITION, false);
+    else
+    {
+        filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::POSITION, true);
+        filterWorker->setFilterParam(WorkerFilterModel::FilterParam::POSITION, positionCombobox->data(positionCombobox->index(index, 0)));
+    }
+}
+
+
+void MainWindow::on_comboBox_filterWorkerByLvlAccess_currentIndexChanged(int index)
+{
+    if(index == 0)
+        filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::LVL_ACCESS, false);
+    else
+    {
+        filterWorker->setEnabledFilterParam(WorkerFilterModel::FilterParam::LVL_ACCESS, true);
+        filterWorker->setFilterParam(WorkerFilterModel::FilterParam::LVL_ACCESS, accessCombobox->data(accessCombobox->index(index, AccessModel::Column::ID)));
+    }
+}
+
+void MainWindow::workerDissmissedFilterChanged()
+{
+    if(ui->radioButton_hideTheDismissed->isChecked())
+        filterWorker->setFilterParam(WorkerFilterModel::FilterParam::VIEW, WorkerFilterModel::ViewMode::HIDE_DISMISSED);
+    else if(ui->radioButton_showAll->isChecked())
+        filterWorker->setFilterParam(WorkerFilterModel::FilterParam::VIEW, WorkerFilterModel::ViewMode::SHOW_ALL);
+    else if(ui->radioButton_showDismissed->isChecked())
+        filterWorker->setFilterParam(WorkerFilterModel::FilterParam::VIEW, WorkerFilterModel::ViewMode::SHOW_ONLY_DISMISSED);
+}
+
+//void MainWindow::authorizationStateFilterChenged()
+//{
+//    if(ui->checkBox_filterAuthorizationByStateGraduates)
+//    {
+//        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, true);
+//        filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, 1);
+//    }
+//    else
+//    {
+
+//    }
+//}
+
+
+
+void MainWindow::on_lineEdit_filterCheckpointByTitle_editingFinished()
+{
+    if(ui->lineEdit_filterCheckpointByTitle->text().size() != 0)
+    {
+        filterCheckpoint->setEnabledFilterParam(CheckpointFilterModel::FilterParam::TITLE, true);
+        filterCheckpoint->setFilterParam(CheckpointFilterModel::FilterParam::TITLE, ui->lineEdit_filterCheckpointByTitle->text());
+    }
+    else
+        filterCheckpoint->setEnabledFilterParam(CheckpointFilterModel::FilterParam::TITLE, false);
+}
+
+
+void MainWindow::on_comboBox_filterCheckpointByLvlAccess_currentIndexChanged(int index)
+{
+    if(index == 0)
+        filterCheckpoint->setEnabledFilterParam(CheckpointFilterModel::FilterParam::LVL_ACCESS, false);
+    else
+    {
+        filterCheckpoint->setEnabledFilterParam(CheckpointFilterModel::FilterParam::LVL_ACCESS, true);
+        filterCheckpoint->setFilterParam(CheckpointFilterModel::FilterParam::LVL_ACCESS, accessCombobox->data(accessCombobox->index(index, AccessModel::Column::ID)));
+    }
+}
+
+
+void MainWindow::on_checkBox_filterAuthorizationByDate_stateChanged(int arg1)
+{
+    if(arg1 == 1)
+    {
+        ui->dateEdit_filterAuthorization->setEnabled(true);
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::DATE, true);
+        filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::DATE, ui->dateEdit_filterAuthorization->date());
+    }
+    else
+    {
+        ui->dateEdit_filterAuthorization->setEnabled(false);
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::DATE, false);
+    }
+}
+
+
+void MainWindow::on_checkBox_filterAuthorizationByTime_stateChanged(int arg1)
+{
+    if(arg1 == 1)
+    {
+        ui->timeEdit_filterAuthorization->setEnabled(true);
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::TIME, true);
+        filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::TIME, ui->timeEdit_filterAuthorization->time());
+    }
+    else
+    {
+        ui->timeEdit_filterAuthorization->setEnabled(false);
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::TIME, false);
+    }
+}
+
+
+void MainWindow::on_lineEdit_filterAuthorizationByWorker_editingFinished()
+{
+    if(ui->lineEdit_filterAuthorizationByWorker->text().size() != 0)
+    {
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::WORKER, true);
+        filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::WORKER, ui->lineEdit_filterAuthorizationByWorker->text());
+    }
+    else
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::WORKER, false);
+}
+
+
+void MainWindow::on_lineEdit_filterAuthorizationByAuthorizer_editingFinished()
+{
+    if(ui->lineEdit_filterAuthorizationByAuthorizer->text().size() != 0)
+    {
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::AUTHORIZER, true);
+        filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::AUTHORIZER, ui->lineEdit_filterAuthorizationByAuthorizer->text());
+    }
+    else
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::AUTHORIZER, false);
+}
+
+
+void MainWindow::on_comboBox_filterAuthorizationByCheckpoint_currentIndexChanged(int index)
+{
+    if(index == 0)
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::CHECKPOINT, false);
+    else
+    {
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::CHECKPOINT, true);
+        filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::CHECKPOINT, checkpointCombobox->data(checkpointCombobox->index(index, 0)));
+    }
+}
+
+
+void MainWindow::on_comboBox_filterAuthorizationByLvlAccess_currentIndexChanged(int index)
+{
+    if(index == 0)
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::LVL_ACCESS, false);
+    else
+    {
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::LVL_ACCESS, true);
+        filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::LVL_ACCESS, accessCombobox->data(accessCombobox->index(index, 0)));
+    }
+}
+
+
+void MainWindow::on_checkBox_filterAuthorizationByStateIncoming_stateChanged(int arg1)
+{
+    if(ui->checkBox_filterAuthorizationByStateGraduates->isChecked())
+    {
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, true);
+        filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, 1);
+    }
+    else
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, false);
+}
+
+
+void MainWindow::on_checkBox_filterAuthorizationByStateGraduates_stateChanged(int arg1)
+{
+    if(ui->checkBox_filterAuthorizationByStateGraduates->isChecked())
+    {
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_OUT, true);
+        filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_OUT, 2);
+    }
+    else
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_OUT, false);
+}
+
+
+void MainWindow::on_checkBox_filterAuthorizationByStateInadmissible_stateChanged(int arg1)
+{
+    if(ui->checkBox_filterAuthorizationByStateGraduates->isChecked())
+    {
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_NOT_ALLOWED, true);
+        filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_NOT_ALLOWED, 3);
+    }
+    else
+        filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_NOT_ALLOWED, false);
+}
+
+
+void MainWindow::on_lineEdit_filterAccountsByLogin_editingFinished()
+{
+    if(ui->lineEdit_filterAccountsByLogin->text().size() != 0)
+    {
+        filterAccount->setEnabledFilterParam(AccountFilterModel::FilterParam::LOGIN, true);
+        filterAccount->setFilterParam(AccountFilterModel::FilterParam::LOGIN, ui->lineEdit_filterAccountsByLogin->text());
+    }
+    else
+        filterAccount->setEnabledFilterParam(AccountFilterModel::FilterParam::LOGIN, false);
+}
+
+
+void MainWindow::on_lineEdit_filterAccountsByFIO_editingFinished()
+{
+    if(ui->lineEdit_filterAccountsByFIO->text().size() != 0)
+    {
+        filterAccount->setEnabledFilterParam(AccountFilterModel::FilterParam::WORKER, true);
+        filterAccount->setFilterParam(AccountFilterModel::FilterParam::WORKER, ui->lineEdit_filterAccountsByFIO->text());
+    }
+    else
+        filterAccount->setEnabledFilterParam(AccountFilterModel::FilterParam::WORKER, false);
+}
+
+
+void MainWindow::on_comboBox_filterAccountsByPrivileges_currentIndexChanged(int index)
+{
+    if(index == 0)
+        filterAccount->setEnabledFilterParam(AccountFilterModel::FilterParam::PRIVILEGE, false);
+    else
+    {
+        filterAccount->setEnabledFilterParam(AccountFilterModel::FilterParam::PRIVILEGE, true);
+        filterAccount->setFilterParam(AccountFilterModel::FilterParam::PRIVILEGE, privilegeCombobox->data(privilegeCombobox->index(index, 0)));
+    }
+}
+
+
+void MainWindow::on_lineEdit_filterLvlAccessByTitle_editingFinished()
+{
+    if(ui->lineEdit_filterLvlAccessByTitle->text().size() != 0)
+    {
+        filterAccess->setEnabledFilterParam(AccessFilterModel::FilterParam::TITLE, true);
+        filterAccess->setFilterParam(AccessFilterModel::FilterParam::TITLE, ui->lineEdit_filterLvlAccessByTitle->text());
+    }
+    else
+        filterAccess->setEnabledFilterParam(AccessFilterModel::FilterParam::TITLE, false);
+}
+
+
+void MainWindow::on_spinBox_filterLvlAccessByLvl_valueChanged(int arg1)
+{
+    if(arg1 == 0)
+        filterAccess->setEnabledFilterParam(AccessFilterModel::FilterParam::PRIVILEGE, false);
+    else
+    {
+        filterAccess->setEnabledFilterParam(AccessFilterModel::FilterParam::PRIVILEGE, true);
+        filterAccess->setFilterParam(AccessFilterModel::FilterParam::PRIVILEGE, arg1);
+    }
+}
+
+
+void MainWindow::on_lineEdit_filterPositionsByTitle_editingFinished()
+{
+    if(ui->lineEdit_filterPositionsByTitle->text().size() != 0)
+    {
+        filterPosition->setEnabledFilterParam(PositionFilterModel::FilterParam::TITLE, true);
+        filterPosition->setFilterParam(PositionFilterModel::FilterParam::TITLE, ui->lineEdit_filterPositionsByTitle->text());
+    }
+    else
+        filterPosition->setEnabledFilterParam(PositionFilterModel::FilterParam::TITLE, false);
 }
 

@@ -8,11 +8,15 @@ AccountFilterModel::AccountFilterModel(QObject *parent)
 void AccountFilterModel::setFilterParam(FilterParam par, QVariant val)
 {
     values[par] = val;
+    invalidateFilter();
 }
 
 void AccountFilterModel::setEnabledFilterParam(FilterParam par, bool flag)
 {
     params[par] = flag;
+
+    if(!flag)
+        invalidateFilter();
 }
 
 bool AccountFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const

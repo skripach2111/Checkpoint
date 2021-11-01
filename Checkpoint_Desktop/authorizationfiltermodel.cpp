@@ -10,11 +10,15 @@ AuthorizationFilterModel::AuthorizationFilterModel(QObject *parent)
 void AuthorizationFilterModel::setFilterParam(FilterParam par, QVariant val)
 {
     values[par] = val;
+    invalidateFilter();
 }
 
 void AuthorizationFilterModel::setEnabledFilterParam(FilterParam par, bool flag)
 {
     params[par] = flag;
+
+    if(!flag)
+        invalidateFilter();
 }
 
 bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
@@ -72,7 +76,7 @@ bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelInde
 
     if(params[ CHECKPOINT ])
     {
-        value = sourceModel()->index(source_row, AuthorizationModel::Column::CHECKPOINT, source_parent).data(CheckpointModel::Role::Read);
+        value = sourceModel()->index(source_row, AuthorizationModel::Column::CHECKPOINT, source_parent).data(AuthorizationModel::Role::Read);
         if(value.isValid())
         {
             if(value.toInt() == values[CHECKPOINT])
@@ -84,7 +88,7 @@ bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelInde
 
     if(params[ LVL_ACCESS ])
     {
-        value = sourceModel()->index(source_row, AuthorizationModel::Column::WORKER, source_parent).data(AccessModel::Role::Read);
+        value = sourceModel()->index(source_row, AuthorizationModel::Column::WORKER, source_parent).data(AuthorizationModel::Role::Read);
         value = ((AuthorizationModel*)sourceModel())->getDataWorker(value.toInt(), WorkerModel::Column::LVL_ACCESS);
         if(value.isValid())
         {
@@ -99,7 +103,7 @@ bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelInde
     {
         if(params[ STATE_IN ])
         {
-            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data();
+            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data(AuthorizationModel::Role::Read);
             if(value.isValid())
             {
                 if(value.toInt() == values[STATE_IN])
@@ -109,7 +113,7 @@ bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelInde
 
         if(params[ STATE_OUT ])
         {
-            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data();
+            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data(AuthorizationModel::Role::Read);
             if(value.isValid())
             {
                 if(value.toInt() == values[STATE_OUT])
@@ -119,7 +123,7 @@ bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelInde
 
         if(params[ STATE_NOT_ALLOWED ])
         {
-            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data();
+            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data(AuthorizationModel::Role::Read);
             if(value.isValid())
             {
                 if(value.toInt() == values[STATE_NOT_ALLOWED])

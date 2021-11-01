@@ -39,6 +39,36 @@ class MainWindow : public QMainWindow
     ModelForComboBox *stateCombobox;
     ModelForComboBox *checkpointCombobox;
 
+    enum PagesMainWindow {
+        AUTHORIZATION = 0,
+        WORKSPACE,
+        SETTINGS
+    };
+
+    enum PagesWorkPlace {
+        START = 0,
+        WORKERS,
+        CHECKPOINTS,
+        AUTHORIZATIONS,
+        ACCOUNTS,
+        LVL_ACCESS,
+        POSITION,
+        PRIVILEGES,
+        STATES
+    };
+
+    enum PagesButtonsPanel {
+        MAINMENU_BUTTONS = 0,
+        WORKERS_BUTTONS,
+        CHECKPOINTS_BUTTONS,
+        AUTHORIZATIONS_BUTTONS,
+        ACCOUNTS_BUTTONS,
+        LVL_ACCESS_BUTTONS,
+        POSITION_BUTTONS,
+        PRIVILEGES_BUTTONS,
+        STATES_BUTTONS
+    };
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -69,6 +99,51 @@ private slots:
     void on_pushButton_settings_clicked();
 
     void on_pushButton_applySettings_clicked();
+
+    void on_lineEdit_filterWorkerByInn_editingFinished();
+
+    void on_lineEdit_filterWorkerByFIO_editingFinished();
+
+    void on_comboBox_filterWorkerByPosition_currentIndexChanged(int index);
+
+    void on_comboBox_filterWorkerByLvlAccess_currentIndexChanged(int index);
+
+    void workerDissmissedFilterChanged();
+    void authorizationStateFilterChenged();
+
+    void on_lineEdit_filterCheckpointByTitle_editingFinished();
+
+    void on_comboBox_filterCheckpointByLvlAccess_currentIndexChanged(int index);
+
+    void on_checkBox_filterAuthorizationByDate_stateChanged(int arg1);
+
+    void on_checkBox_filterAuthorizationByTime_stateChanged(int arg1);
+
+    void on_lineEdit_filterAuthorizationByWorker_editingFinished();
+
+    void on_lineEdit_filterAuthorizationByAuthorizer_editingFinished();
+
+    void on_comboBox_filterAuthorizationByCheckpoint_currentIndexChanged(int index);
+
+    void on_comboBox_filterAuthorizationByLvlAccess_currentIndexChanged(int index);
+
+    void on_checkBox_filterAuthorizationByStateIncoming_stateChanged(int arg1);
+
+    void on_checkBox_filterAuthorizationByStateGraduates_stateChanged(int arg1);
+
+    void on_checkBox_filterAuthorizationByStateInadmissible_stateChanged(int arg1);
+
+    void on_lineEdit_filterAccountsByLogin_editingFinished();
+
+    void on_lineEdit_filterAccountsByFIO_editingFinished();
+
+    void on_comboBox_filterAccountsByPrivileges_currentIndexChanged(int index);
+
+    void on_lineEdit_filterLvlAccessByTitle_editingFinished();
+
+    void on_spinBox_filterLvlAccessByLvl_valueChanged(int arg1);
+
+    void on_lineEdit_filterPositionsByTitle_editingFinished();
 
 private:
     Ui::MainWindow *ui;

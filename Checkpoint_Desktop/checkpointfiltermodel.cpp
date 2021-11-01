@@ -8,11 +8,15 @@ CheckpointFilterModel::CheckpointFilterModel(QObject *parent)
 void CheckpointFilterModel::setFilterParam(FilterParam par, QVariant val)
 {
     values[par] = val;
+    invalidateFilter();
 }
 
 void CheckpointFilterModel::setEnabledFilterParam(FilterParam par, bool flag)
 {
     params[par] = flag;
+
+    if(!flag)
+        invalidateFilter();
 }
 
 bool CheckpointFilterModel::filterAcceptsColumn(int source_column, const QModelIndex &source_parent) const

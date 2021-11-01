@@ -8,11 +8,15 @@ WorkerFilterModel::WorkerFilterModel(QObject *parent)
 void WorkerFilterModel::setFilterParam(FilterParam par, QVariant val)
 {
     values[par] = val;
+    invalidateFilter();
 }
 
 void WorkerFilterModel::setEnabledFilterParam(FilterParam par, bool flag)
 {
     params[par] = flag;
+
+    if(!flag)
+        invalidateFilter();
 }
 
 bool WorkerFilterModel::filterAcceptsColumn(int source_column, const QModelIndex &source_parent) const
@@ -33,7 +37,7 @@ bool WorkerFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sour
         value = sourceModel()->index(source_row, WorkerModel::Column::INN, source_parent).data();
         if(value.isValid())
         {
-            if(value.toString().contains(values[INN].toString()) != -1)
+            if(value.toString().contains(values[INN].toString()))
                 flag *= 1;
             else
                 flag *= 0;
@@ -45,7 +49,7 @@ bool WorkerFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sour
         value = sourceModel()->index(source_row, WorkerModel::Column::PIB, source_parent).data();
         if(value.isValid())
         {
-            if(value.toString().contains(values[PIB].toString()) != -1)
+            if(value.toString().contains(values[PIB].toString()))
                 flag *= 1;
             else
                 flag *= 0;
@@ -81,7 +85,7 @@ bool WorkerFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sour
         value = sourceModel()->index(source_row, WorkerModel::Column::FLAG, source_parent).data();
         if(value.isValid())
         {
-            switch((ViewMode)value.toInt())
+            switch((ViewMode)values[VIEW].toInt())
             {
             case HIDE_DISMISSED:
             {

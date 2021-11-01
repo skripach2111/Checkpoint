@@ -33,7 +33,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget_mainWindow">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_authorization">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -346,7 +346,7 @@
         <item row="0" column="1">
          <widget class="QStackedWidget" name="stackedWidget_workPlace">
           <property name="currentIndex">
-           <number>4</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="page_start">
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -511,6 +511,9 @@
                  <property name="text">
                   <string>Скрыть уволенных</string>
                  </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
               </layout>
@@ -559,7 +562,7 @@
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <item>
-                <widget class="QLineEdit" name="lineEdit">
+                <widget class="QLineEdit" name="lineEdit_filterCheckpointByTitle">
                  <property name="placeholderText">
                   <string>Название</string>
                  </property>
@@ -669,7 +672,11 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QDateEdit" name="dateEdit_filterAuthorization"/>
+                   <widget class="QDateEdit" name="dateEdit_filterAuthorization">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </widget>
@@ -731,7 +738,11 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QTimeEdit" name="timeEdit_filterAuthorization"/>
+                   <widget class="QTimeEdit" name="timeEdit_filterAuthorization">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </widget>
@@ -1198,7 +1209,7 @@
               <item>
                <widget class="QStackedWidget" name="stackedWidget_buttonPanels">
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>8</number>
                 </property>
                 <widget class="QWidget" name="page_mainMenuButtons">
                  <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1230,7 +1241,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>177</width>
+                       <width>128</width>
                        <height>392</height>
                       </rect>
                      </property>
@@ -1904,7 +1915,7 @@
                   </item>
                  </layout>
                 </widget>
-                <widget class="QWidget" name="page">
+                <widget class="QWidget" name="page_authorizationsButtons">
                  <layout class="QVBoxLayout" name="verticalLayout_18">
                   <item>
                    <widget class="QScrollArea" name="scrollArea_4">
@@ -1919,8 +1930,8 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>98</width>
-                       <height>70</height>
+                       <width>173</width>
+                       <height>256</height>
                       </rect>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -1969,7 +1980,7 @@
                   </item>
                  </layout>
                 </widget>
-                <widget class="QWidget" name="page_3">
+                <widget class="QWidget" name="page_accountsButtons">
                  <layout class="QVBoxLayout" name="verticalLayout_20">
                   <item>
                    <widget class="QScrollArea" name="scrollArea_5">
@@ -1984,8 +1995,8 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>122</width>
-                       <height>208</height>
+                       <width>173</width>
+                       <height>256</height>
                       </rect>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_19">
@@ -2073,7 +2084,7 @@
                   </item>
                  </layout>
                 </widget>
-                <widget class="QWidget" name="page_2">
+                <widget class="QWidget" name="page_lvlAccessButtons">
                  <layout class="QVBoxLayout" name="verticalLayout_23">
                   <item>
                    <widget class="QScrollArea" name="scrollArea_6">
@@ -2088,8 +2099,8 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>122</width>
-                       <height>208</height>
+                       <width>173</width>
+                       <height>256</height>
                       </rect>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -2177,7 +2188,7 @@
                   </item>
                  </layout>
                 </widget>
-                <widget class="QWidget" name="page_4">
+                <widget class="QWidget" name="page_positionsButtons">
                  <layout class="QVBoxLayout" name="verticalLayout_26">
                   <item>
                    <widget class="QScrollArea" name="scrollArea_7">
@@ -2192,8 +2203,8 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>122</width>
-                       <height>162</height>
+                       <width>173</width>
+                       <height>256</height>
                       </rect>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -2268,7 +2279,7 @@
                   </item>
                  </layout>
                 </widget>
-                <widget class="QWidget" name="page_7">
+                <widget class="QWidget" name="page_privilegesButtons">
                  <layout class="QVBoxLayout" name="verticalLayout_28">
                   <item>
                    <widget class="QLabel" name="label_14">
@@ -2285,7 +2296,7 @@
                   </item>
                  </layout>
                 </widget>
-                <widget class="QWidget" name="page_5">
+                <widget class="QWidget" name="page_statesButtons">
                  <layout class="QVBoxLayout" name="verticalLayout_30">
                   <item>
                    <widget class="QLabel" name="label_16">

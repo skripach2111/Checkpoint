@@ -8,11 +8,15 @@ AccessFilterModel::AccessFilterModel(QObject *parent)
 void AccessFilterModel::setFilterParam(FilterParam par, QVariant val)
 {
     values[par] = val;
+    invalidateFilter();
 }
 
 void AccessFilterModel::setEnabledFilterParam(FilterParam par, bool flag)
 {
     params[par] = flag;
+
+    if(!flag)
+        invalidateFilter();
 }
 
 bool AccessFilterModel::filterAcceptsColumn(int source_column, const QModelIndex &source_parent) const

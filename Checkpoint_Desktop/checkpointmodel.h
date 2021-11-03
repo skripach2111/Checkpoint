@@ -23,9 +23,12 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
     Qt::ItemFlags flags( const QModelIndex& index ) const;
 
-    void append( const int& id, const QString& title, const QString& location, const int& lvlAccess, const bool& flag );
+    void appendRow( const int& id, const QString& title, const QString& location, const int& lvlAccess, const bool& flag );
+    void updateRow( int row, const QString& title, const QString& location, const int& lvlAccess, const bool& flag );
+    void removeRow( int row );
 
     bool select();
+    bool submit();
     void setTable(QString t, QSqlDatabase *database);
 
     void setAccesModel(AccessModel *m_access) { accessModel = m_access; }
@@ -36,12 +39,20 @@ public:
         LOCATION,
         LVL_ACCESS,
         FLAG,
-        LAST
+        LAST,
+        STATE_ROW
     };
 
     enum Role {
         Display = 0x1,
         Read
+    };
+
+    enum StatesRows {
+        NOT_EDITED = 0x1,
+        ADDED,
+        EDITED,
+        DELETED
     };
 
 private:

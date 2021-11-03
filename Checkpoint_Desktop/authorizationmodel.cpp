@@ -87,7 +87,7 @@ Qt::ItemFlags AuthorizationModel::flags( const QModelIndex& index ) const {
     return flags;
 }
 
-void AuthorizationModel::append(const int &worker, const QDate &date, const QTime &time, const int &state, const int &authorizer, const int &checkpoint)
+void AuthorizationModel::appendRow(const int &worker, const QDate &date, const QTime &time, const int &state, const int &authorizer, const int &checkpoint)
 {
     DataHash record;
     record[ WORKER ] = worker;
@@ -96,6 +96,7 @@ void AuthorizationModel::append(const int &worker, const QDate &date, const QTim
     record[ STATE ] = state;
     record[ AUTHORIZER ] = authorizer;
     record[ CHECKPOINT ] = checkpoint;
+    record[ STATE_ROW ] = StatesRows::ADDED;
 
     int row = model.count();
     beginInsertRows( QModelIndex(), row, row );
@@ -134,6 +135,32 @@ bool AuthorizationModel::select()
     }
 
     return false;
+}
+
+bool AuthorizationModel::submit()
+{
+    for(int i = 0; i < model.size(); i++)
+    {
+        if(model[ i ][ STATE_ROW ] != StatesRows::NOT_EDITED)
+        {
+            if(model[ i ][ STATE_ROW ] == StatesRows::ADDED)
+            {
+                query.prepare("INSERT INTO :table (worker, date, time, state, authorizer, checkpoint) "
+                              "VALUES(:worker, :date, :time, :state, :authorizer, :checkpoint)");
+                query.bindValue(":table", table);
+                query.bindValue(":worker", model[ i ][ WORKER ]);
+                query.bindValue(":date", model[ i ][ DATE ]);
+                query.bindValue(":time", model[ i ][ TIME ]);
+                query.bindValue(":state", model[ i ][ STATE ]);
+                query.bindValue(":authorizer", model[ i ][ AUTHORIZER ]);
+                query.bindValue(":checkpoint", model[ i ][ CHECKPOINT ]);
+
+                query.exec();
+            }
+        }
+    }
+
+    return true;
 }
 
 void AuthorizationModel::setTable(QString t, QSqlDatabase *database)

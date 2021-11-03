@@ -82,7 +82,20 @@ Qt::ItemFlags CheckpointModel::flags( const QModelIndex& index ) const {
     return flags;
 }
 
-void CheckpointModel::append(const int &id, const QString &title, const QString &location, const int &lvlAccess, const bool &flag)
+void CheckpointModel::updateRow(int row, const QString &title, const QString &location, const int &lvlAccess, const bool &flag)
+{
+    beginResetModel();
+
+    model[ row ][ TITLE ] = title;
+    model[ row ][ LOCATION ] = location;
+    model[ row ][ LVL_ACCESS ] = lvlAccess;
+    model[ row ][ FLAG ] = flag;
+    model[ row ][ STATE_ROW ] = StatesRows::EDITED;
+
+    endResetModel();
+}
+
+void CheckpointModel::appendRow(const int &id, const QString &title, const QString &location, const int &lvlAccess, const bool &flag)
 {
     DataHash record;
     record[ ID ] = id;
@@ -90,6 +103,7 @@ void CheckpointModel::append(const int &id, const QString &title, const QString 
     record[ LOCATION ] = location;
     record[ LVL_ACCESS ] = lvlAccess;
     record[ FLAG ] = flag;
+    record[ STATE_ROW ] = StatesRows::ADDED;
 
     int row = model.count();
     beginInsertRows( QModelIndex(), row, row );
@@ -116,6 +130,7 @@ bool CheckpointModel::select()
             record[ LOCATION ] = query.value( LOCATION );
             record[ LVL_ACCESS ] = query.value( LVL_ACCESS );
             record[ FLAG ] = query.value( FLAG );
+            record[ STATE_ROW ] = StatesRows::NOT_EDITED;
 
             model.append( record );
 
@@ -127,6 +142,49 @@ bool CheckpointModel::select()
     }
 
     return false;
+}
+
+bool CheckpointModel::submit()
+{
+    for(int i = 0; i < model.size(); i++)
+    {
+        if(model[ i ][ STATE_ROW ] != StatesRows::NOT_EDITED)
+        {
+            if(model[ i ][ STATE_ROW ] == StatesRows::ADDED)
+            {
+                query.prepare("INSERT INTO :table (title, location, lvlAccess, flag) VALUES(:title, :location, :lvlAccess, :flag)");
+                query.bindValue(":table", table);
+                query.bindValue(":title", model[ i ][ TITLE ]);
+                query.bindValue(":location", model[ i ][ LOCATION ]);
+                query.bindValue(":lvlAccess", model[ i ][ LVL_ACCESS ]);
+                query.bindValue(":flag", model[ i ][ FLAG ]);
+
+                query.exec();
+            }
+            else if(model[ i ][ STATE_ROW ] == StatesRows::EDITED)
+            {
+                query.prepare("UPDATE :table SET title = :title, location = :location, lvlAccess = :lvlAccess, flag = :flag WHERE id = :id");
+                query.bindValue(":table", table);
+                query.bindValue(":id", model[ i ][ ID ]);
+                query.bindValue(":title", model[ i ][ TITLE ]);
+                query.bindValue(":location", model[ i ][ LOCATION ]);
+                query.bindValue(":lvlAccess", model[ i ][ LVL_ACCESS ]);
+                query.bindValue(":flag", model[ i ][ FLAG ]);
+
+                query.exec();
+            }
+            else if(model[ i ][ STATE_ROW ] == StatesRows::DELETED)
+            {
+                query.prepare("UPDATE :table SET flag = 1 WHERE id = :id");
+                query.bindValue(":table", table);
+                query.bindValue(":id", model[ i ][ ID ]);
+
+                query.exec();
+            }
+        }
+    }
+
+    return true;
 }
 
 void CheckpointModel::setTable(QString t, QSqlDatabase *database)

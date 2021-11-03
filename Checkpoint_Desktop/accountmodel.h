@@ -24,9 +24,12 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
     Qt::ItemFlags flags( const QModelIndex& index ) const;
 
-    void append( const QString& login, const int& privilege, const int& worker, const bool& flag );
+    void appendRow( const QString& login, const QString& password, const int& privilege, const int& worker);
+    void updateRow( int row, const QString& login, const QString& password, const int& privilege, const int& worker);
+    void removeRow( int row );
 
     bool select();
+    bool submit();
     void setTable(QString t, QSqlDatabase *database);
 
     void setWorkerModel(WorkerModel *m_worker) { workerModel = m_worker; }
@@ -34,14 +37,23 @@ public:
 
     enum Column {
         LOGIN = 0,
+        PASSWORD,
         PRIVILEGE,
         WORKER,
-        LAST
+        LAST,
+        STATE_ROW
     };
 
     enum Role {
         Display = 0x1,
         Read
+    };
+
+    enum StatesRows {
+        NOT_EDITED = 0x1,
+        ADDED,
+        EDITED,
+        DELETED
     };
 
 private:

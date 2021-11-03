@@ -21,9 +21,12 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
     Qt::ItemFlags flags( const QModelIndex& index ) const;
 
-    void append( const int& id, const QString& title, const int& privilege, const bool& flag );
+    void appendRow( const QString& title, const int& privilege, const bool& flag );
+    void updateRow( int row, const QString& title, const int& privilege, const bool& flag );
+    void removeRow(int row);
 
     bool select();
+    bool submit();
     void setTable(QString t, QSqlDatabase *database);
 
     enum Column {
@@ -31,12 +34,20 @@ public:
         TITLE,
         PRIVILEGE,
         FLAG,
-        LAST
+        LAST,
+        STATE_ROW
     };
 
     enum Role {
         Display = 0x1,
         Read
+    };
+
+    enum StatesRows {
+        NOT_EDITED = 0x1,
+        ADDED,
+        EDITED,
+        DELETED
     };
 
     QVariant getDataById(int id, Column column);

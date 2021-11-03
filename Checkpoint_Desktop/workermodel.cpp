@@ -95,7 +95,7 @@ Qt::ItemFlags WorkerModel::flags( const QModelIndex& index ) const {
     return flags;
 }
 
-void WorkerModel::append(const int &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag)
+void WorkerModel::appendRow(const int &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag)
 {
     DataHash person;
     person[ INN ] = inn;
@@ -108,11 +108,35 @@ void WorkerModel::append(const int &inn, const QByteArray &photo, const QString 
     person[ POSITION ] = position;
     person[ LVL_ACCESS ] = lvlAcess;
     person[ FLAG ] = flag;
+    person[ STATE_ROW ] = StatesRows::ADDED;
 
     int row = model.count();
     beginInsertRows( QModelIndex(), row, row );
     model.append( person );
     endInsertRows();
+}
+
+void WorkerModel::updatedRow(int row, const int &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag)
+{
+    beginResetModel();
+
+    model[ row ][ PHOTO ] = photo;
+    model[ row ][ PIB ] = pib;
+    model[ row ][ DATE_OF_BIRTH ] = dateOfBirth;
+    model[ row ][ PLACE_OF_REGISTRATION ] = placeOfRegistration;
+    model[ row ][ PLACE_OF_RESIDENCE ] = placeOfResidence;
+    model[ row ][ NUMBER_PASSPORT ] = numberPassport;
+    model[ row ][ POSITION ] = position;
+    model[ row ][ LVL_ACCESS ] = lvlAcess;
+    model[ row ][ FLAG ] = flag;
+    model[ row ][ STATE_ROW ] = StatesRows::EDITED;
+
+    endResetModel();
+}
+
+void WorkerModel::removeRow(int row)
+{
+    model[ row ][ STATE_ROW ] = StatesRows::DELETED;
 }
 
 bool WorkerModel::select()
@@ -139,6 +163,7 @@ bool WorkerModel::select()
             person[ POSITION ] = query.value( POSITION );
             person[ LVL_ACCESS ] = query.value( LVL_ACCESS );
             person[ FLAG ] = query.value( FLAG );
+            person[ STATE_ROW ] = StatesRows::NOT_EDITED;
 
             model.append( person );
 
@@ -150,6 +175,65 @@ bool WorkerModel::select()
     }
 
     return false;
+}
+
+bool WorkerModel::submit()
+{
+    for(int i = 0; i < model.size(); i++)
+    {
+        if(model[ i ][ STATE_ROW ] != StatesRows::NOT_EDITED)
+        {
+            if(model[ i ][ STATE_ROW ] == StatesRows::ADDED)
+            {
+                query.prepare("INSERT INTO :table (inn, photo, pib, dateOfBirth, placeOfRegistration, placeOfResidence, numberPassport, position, lvlAccess, flag) "
+                              "VALUES(:inn, :photo, :pib, :dateOfBirth, :placeOfRegistration, :placeOfResidence, :numberPassport, :position, :lvlAccess, :flag)");
+
+                query.bindValue(":table", table);
+                query.bindValue(":inn", model[ i ][ INN ]);
+                query.bindValue(":photo", model[ i ][ PHOTO ]);
+                query.bindValue(":pib", model[ i ][ PIB ]);
+                query.bindValue(":dateOfBirth", model[ i ][ DATE_OF_BIRTH ]);
+                query.bindValue(":placeOfRegistration", model[ i ][ PLACE_OF_REGISTRATION ]);
+                query.bindValue(":placeOfResidence", model[ i ][ PLACE_OF_RESIDENCE ]);
+                query.bindValue(":numberPassport", model[ i ][ NUMBER_PASSPORT ]);
+                query.bindValue(":position", model[ i ][ POSITION ]);
+                query.bindValue(":lvlAccess", model[ i ][ LVL_ACCESS ]);
+                query.bindValue(":flag", model[ i ][ FLAG ]);
+
+                query.exec();
+            }
+            else if(model[ i ][ STATE_ROW ] == StatesRows::EDITED)
+            {
+                query.prepare("UPDATE :table SET photo = :photo,  pib = :pib, dateOfBirth = :dateOfBirth, placeOfRegistration = :placeOfRegistration,"
+                              "placeOfResidence = :placeOfResidence, numberPassport = :numberPassport, position = :position, lvlAccess = :lvlAccess"
+                              "WHERE inn = :inn");
+
+                query.bindValue(":table", table);
+                query.bindValue(":inn", model[ i ][ INN ]);
+                query.bindValue(":photo", model[ i ][ PHOTO ]);
+                query.bindValue(":pib", model[ i ][ PIB ]);
+                query.bindValue(":dateOfBirth", model[ i ][ DATE_OF_BIRTH ]);
+                query.bindValue(":placeOfRegistration", model[ i ][ PLACE_OF_REGISTRATION ]);
+                query.bindValue(":placeOfResidence", model[ i ][ PLACE_OF_RESIDENCE ]);
+                query.bindValue(":numberPassport", model[ i ][ NUMBER_PASSPORT ]);
+                query.bindValue(":position", model[ i ][ POSITION ]);
+                query.bindValue(":lvlAccess", model[ i ][ LVL_ACCESS ]);
+
+                query.exec();
+            }
+            else if(model[ i ][ STATE_ROW ] == StatesRows::DELETED)
+            {
+                query.prepare("UPDATE :table SET flag = 1 WHERE inn = :inn");
+
+                query.bindValue(":table", table);
+                query.bindValue(":inn", model[ i ][ INN ]);
+
+                query.exec();
+            }
+        }
+    }
+
+    return true;
 }
 
 void WorkerModel::setTable(QString t, QSqlDatabase *database)

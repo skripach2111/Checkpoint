@@ -24,11 +24,17 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
     Qt::ItemFlags flags( const QModelIndex& index ) const;
 
-    void append( const int& inn, const QByteArray& photo, const QString& pib, const QDate& dateOfBirth, const QString& placeOfRegistration,
+    void appendRow( const int& inn, const QByteArray& photo, const QString& pib, const QDate& dateOfBirth, const QString& placeOfRegistration,
+                 const QString& placeOfResidence, const QString& numberPassport, const int& position,
+                 const int& lvlAcess, const bool& flag);
+    void updatedRow( int row, const int& inn, const QByteArray& photo, const QString& pib, const QDate& dateOfBirth, const QString& placeOfRegistration,
                  const QString& placeOfResidence, const QString& numberPassport, const int& position,
                  const int& lvlAcess, const bool& flag);
 
+    void removeRow(int row);
+
     bool select();
+    bool submit();
     void setTable(QString t, QSqlDatabase *database);
 
     void setAccessModel(AccessModel *m_access) { accessModel = m_access; }
@@ -45,12 +51,20 @@ public:
         POSITION,
         LVL_ACCESS,
         FLAG,
-        LAST
+        LAST,
+        STATE_ROW
     };
 
     enum Role {
         Display = 0x1,
         Read
+    };
+
+    enum StatesRows {
+        NOT_EDITED = 0x1,
+        ADDED,
+        EDITED,
+        DELETED
     };
 
     QVariant getDataById(int inn, Column column);

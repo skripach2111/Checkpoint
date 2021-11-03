@@ -77,17 +77,34 @@ Qt::ItemFlags AccessModel::flags( const QModelIndex& index ) const {
     return flags;
 }
 
-void AccessModel::append( const int& id, const QString& title, const int& privilege, const bool& flag ) {
+void AccessModel::appendRow( const QString& title, const int& privilege, const bool& flag ) {
     DataHash access;
-    access[ ID ] = id;
     access[ TITLE ] = title;
     access[ PRIVILEGE ] = privilege;
     access[ FLAG ] = flag;
+    access[ STATE_ROW ] = StatesRows::ADDED;
 
     int row = model.count();
     beginInsertRows( QModelIndex(), row, row );
     model.append( access );
     endInsertRows();
+}
+
+void AccessModel::updateRow(int row, const QString &title, const int &privilege, const bool &flag)
+{
+    beginResetModel();
+
+    model[ row ][ TITLE ] = title;
+    model[ row ][ PRIVILEGE ] = privilege;
+    model[ row ][ FLAG ] = flag;
+    model[ row ][ STATE_ROW ] = StatesRows::EDITED;
+
+    endResetModel();
+}
+
+void AccessModel::removeRow(int row)
+{
+    model[ row ][ STATE_ROW ] = StatesRows::DELETED;
 }
 
 bool AccessModel::select()
@@ -108,6 +125,7 @@ bool AccessModel::select()
             access[ TITLE ] = query.value( TITLE );
             access[ PRIVILEGE ] = query.value( PRIVILEGE );
             access[ FLAG ] = query.value( FLAG );
+            access[ STATE_ROW ] = StatesRows::NOT_EDITED;
 
             model.append( access );
 
@@ -119,6 +137,46 @@ bool AccessModel::select()
     }
 
     return false;
+}
+
+bool AccessModel::submit()
+{
+    for(int i = 0; i < model.size(); i++)
+    {
+        if(model[ i ][ STATE_ROW ] != StatesRows::NOT_EDITED)
+        {
+            if(model[ i ][ STATE_ROW ] == StatesRows::ADDED)
+            {
+                query.prepare("INSERT INTO :table (title, privilege, flag) VALUES (:title, :privilege, :flag)");
+                query.bindValue(":table", table);
+                query.bindValue(":title", model[ i ][ TITLE ]);
+                query.bindValue(":privilege", model[ i ][ PRIVILEGE ]);
+                query.bindValue(":flag", model[ i ][ FLAG ]);
+
+                query.exec();
+            }
+            else if(model[ i ][ STATE_ROW ] == StatesRows::EDITED)
+            {
+                query.prepare("UPDATE :table SET title = :title, privilege = :privilege, flag = :flag WHERE id = :id");
+                query.bindValue(":table", table);
+                query.bindValue(":id", model[ i ][ ID ]);
+                query.bindValue(":title", model[ i ][ TITLE ]);
+                query.bindValue(":privilege", model[ i ][ PRIVILEGE ]);
+
+                query.exec();
+            }
+            else if(model[ i ][ STATE_ROW ] == StatesRows::DELETED)
+            {
+                query.prepare("UPDATE :table SET flag = 1 WHERE id = :id");
+                query.bindValue(":table", table);
+                query.bindValue(":id", model[ i ][ ID ]);
+
+                query.exec();
+            }
+        }
+    }
+
+    return true;
 }
 
 void AccessModel::setTable(QString t, QSqlDatabase *database)

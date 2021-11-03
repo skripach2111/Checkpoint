@@ -23,9 +23,10 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
     Qt::ItemFlags flags( const QModelIndex& index ) const;
 
-    void append( const int& worker, const QDate& date, const QTime& time, const int& state, const int& authorizer, const int& checkpoint );
+    void appendRow( const int& worker, const QDate& date, const QTime& time, const int& state, const int& authorizer, const int& checkpoint );
 
     bool select();
+    bool submit();
     void setTable(QString t, QSqlDatabase *database);
 
     void setWorkerModel(WorkerModel *m_worker) { workerModel = m_worker; }
@@ -37,12 +38,20 @@ public:
         STATE,
         AUTHORIZER,
         CHECKPOINT,
-        LAST
+        LAST,
+        STATE_ROW
     };
 
     enum Role {
         Display = 0x1,
         Read
+    };
+
+    enum StatesRows {
+        NOT_EDITED = 0x1,
+        ADDED,
+        EDITED,
+        DELETED
     };
 
     QVariant getDataWorker(int inn, WorkerModel::Column column);

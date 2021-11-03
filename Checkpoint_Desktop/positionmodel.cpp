@@ -76,11 +76,23 @@ Qt::ItemFlags PositionModel::flags( const QModelIndex& index ) const {
     return flags;
 }
 
-void PositionModel::append( const int& id, const QString& title, const bool& flag ) {
+void PositionModel::updateRow(int row, const int &id, const QString &title, const bool &flag)
+{
+    beginResetModel();
+
+    model[ row ][ TITLE ] = title;
+    model[ row ][ FLAG ] = flag;
+    model[ row ][ STATE_ROW ] = StatesRows::EDITED;
+
+    endResetModel();
+}
+
+void PositionModel::appendRow( const int& id, const QString& title, const bool& flag ) {
     DataHash record;
     record[ ID ] = id;
     record[ TITLE ] = title;
     record[ FLAG ] = flag;
+    record[ STATE_ROW ] = StatesRows::ADDED;
 
     int row = model.count();
     beginInsertRows( QModelIndex(), row, row );
@@ -105,6 +117,7 @@ bool PositionModel::select()
             record[ ID ] = query.value( ID ).toInt();
             record[ TITLE ] = query.value( TITLE ).toString();
             record[ FLAG ] = query.value( FLAG ).toBool();
+            record[ STATE_ROW ] = StatesRows::NOT_EDITED;
 
             model.append( record );
 
@@ -116,6 +129,45 @@ bool PositionModel::select()
     }
 
     return false;
+}
+
+bool PositionModel::submit()
+{
+    for(int i = 0; i < model.size(); i++)
+    {
+        if(model[ i ][ STATE_ROW ] != StatesRows::NOT_EDITED)
+        {
+            if(model[ i ][ STATE_ROW ] == StatesRows::ADDED)
+            {
+                query.prepare("INSERT INTO :table (title, flag) VALUES(:title, :flag)");
+                query.bindValue(":table", table);
+                query.bindValue(":title", model[ i ][ TITLE ]);
+                query.bindValue(":flag", model[ i ][ FLAG ]);
+
+                query.exec();
+            }
+            else if(model[ i ][ STATE_ROW ] == StatesRows::EDITED)
+            {
+                query.prepare("UPDATE :table SET title = :title, flag = :flag WHERE id = :id");
+                query.bindValue(":table", table);
+                query.bindValue(":id", model[ i ][ ID ]);
+                query.bindValue(":title", model[ i ][ TITLE ]);
+                query.bindValue(":flag", model[ i ][ FLAG ]);
+
+                query.exec();
+            }
+            else if(model[ i ][ STATE_ROW ] == StatesRows::DELETED)
+            {
+                query.prepare("UPDATE :table SET flag = 1 WHERE id = :id");
+                query.bindValue(":table", table);
+                query.bindValue(":id", model[ i ][ ID ]);
+
+                query.exec();
+            }
+        }
+    }
+
+    return true;
 }
 
 void PositionModel::setTable(QString t, QSqlDatabase *database)

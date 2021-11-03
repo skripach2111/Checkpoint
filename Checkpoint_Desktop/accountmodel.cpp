@@ -81,17 +81,36 @@ Qt::ItemFlags AccountModel::flags( const QModelIndex& index ) const {
     return flags;
 }
 
-void AccountModel::append(const QString &login, const int &privilege, const int &worker, const bool &flag)
+void AccountModel::appendRow(const QString &login, const QString& password, const int &privilege, const int &worker)
 {
     DataHash account;
     account[ LOGIN ] = login;
     account[ PRIVILEGE ] = privilege;
     account[ WORKER ] = worker;
+    account[ PASSWORD ] = password;
+    account[ STATE_ROW ] = StatesRows::ADDED;
 
     int row = model.count();
     beginInsertRows( QModelIndex(), row, row );
     model.append( account );
     endInsertRows();
+}
+
+void AccountModel::updateRow(int row, const QString &login, const QString& password, const int &privilege, const int &worker)
+{
+    beginResetModel();
+
+    model[ row ][ PRIVILEGE ] = privilege;
+    model[ row ][ WORKER ] = worker;
+    model[ row ][ PASSWORD ] = password;
+    model[ row ][ STATE_ROW ] = StatesRows::EDITED;
+
+    endResetModel();
+}
+
+void AccountModel::removeRow(int row)
+{
+    model[ row ][ STATE_ROW ] = StatesRows::DELETED;
 }
 
 bool AccountModel::select()
@@ -111,6 +130,8 @@ bool AccountModel::select()
             account[ LOGIN ] = query.value( LOGIN );
             account[ PRIVILEGE ] = query.value( PRIVILEGE );
             account[ WORKER ] = query.value( WORKER );
+            account[ PASSWORD ] = query.value( PASSWORD );
+            account[ STATE_ROW ] = StatesRows::NOT_EDITED;
 
             model.append( account );
 
@@ -122,6 +143,48 @@ bool AccountModel::select()
     }
 
     return false;
+}
+
+bool AccountModel::submit()
+{
+    for(int i = 0; i < model.size(); i++)
+    {
+        if(model[ i ][ STATE_ROW ] != StatesRows::NOT_EDITED)
+        {
+            if(model[ i ][ STATE_ROW ] == StatesRows::ADDED)
+            {
+                query.prepare("INSERT INTO :table (login, password, privilege, worker) VALUES(:login, :password, :privilege, :worker)");
+                query.bindValue(":table", table);
+                query.bindValue(":login", model[ i ][ LOGIN ]);
+                query.bindValue(":password", model[ i ][ PASSWORD ]);
+                query.bindValue(":privilege", model[ i ][ PRIVILEGE ]);
+                query.bindValue(":worker", model[ i ][ WORKER ]);
+
+                query.exec();
+            }
+            else if(model[ i ][ STATE_ROW ] == StatesRows::EDITED)
+            {
+                query.prepare("UPDATE :table SET password = :password, privilege = :privilege, worker = :worker WHERE login = :login");
+                query.bindValue(":table", table);
+                query.bindValue(":login", model[ i ][ LOGIN ]);
+                query.bindValue(":password", model[ i ][ PASSWORD ]);
+                query.bindValue(":privilege", model[ i ][ PRIVILEGE ]);
+                query.bindValue(":worker", model[ i ][ WORKER ]);
+
+                query.exec();
+            }
+            else if(model[ i ][ STATE_ROW ] == StatesRows::DELETED)
+            {
+                query.prepare("DELETE FROM :table WHERE login = :login");
+                query.bindValue(":table", table);
+                query.bindValue(":login", model[ i ][ LOGIN ]);
+
+                query.exec();
+            }
+        }
+    }
+
+    return true;
 }
 
 void AccountModel::setTable(QString t, QSqlDatabase *database)

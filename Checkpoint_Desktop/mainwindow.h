@@ -38,6 +38,7 @@ class MainWindow : public QMainWindow
     ModelForComboBox *privilegeCombobox;
     ModelForComboBox *stateCombobox;
     ModelForComboBox *checkpointCombobox;
+    ModelForComboBox *workerCombobox;
 
     enum PagesMainWindow {
         AUTHORIZATION = 0,
@@ -54,7 +55,16 @@ class MainWindow : public QMainWindow
         LVL_ACCESS,
         POSITION,
         PRIVILEGES,
-        STATES
+        STATES,
+        WORKERS_ADD,
+        WORKERS_VIEW,
+        CHECKPOINTS_ADD,
+        CHECKPOINTS_VIEW,
+        AUTHORIZATIONS_VIEW,
+        ACCOUNTS_ADD,
+        ACCOUNTS_VIEW,
+        ACCESS_ADD,
+        POSITION_ADD
     };
 
     enum PagesButtonsPanel {
@@ -66,12 +76,15 @@ class MainWindow : public QMainWindow
         LVL_ACCESS_BUTTONS,
         POSITION_BUTTONS,
         PRIVILEGES_BUTTONS,
-        STATES_BUTTONS
+        STATES_BUTTONS,
+        SAVE_CANCEL_BUTTONS
     };
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    void switchBackButton(bool flag);
 
 private slots:
     void on_pushButton_Connect_clicked();
@@ -144,6 +157,12 @@ private slots:
     void on_spinBox_filterLvlAccessByLvl_valueChanged(int arg1);
 
     void on_lineEdit_filterPositionsByTitle_editingFinished();
+
+    void on_pushButton_addWorker_clicked();
+
+    void on_pushButton_cancel_clicked();
+
+    void on_pushButton_moreAboutWorker_clicked();
 
 private:
     Ui::MainWindow *ui;

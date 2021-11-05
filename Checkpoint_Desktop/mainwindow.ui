@@ -346,7 +346,7 @@
         <item row="0" column="1">
          <widget class="QStackedWidget" name="stackedWidget_workPlace">
           <property name="currentIndex">
-           <number>17</number>
+           <number>4</number>
           </property>
           <widget class="QWidget" name="page_start">
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -389,7 +389,7 @@
                <string>Приступим!</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -399,7 +399,7 @@
                <string>Для начала работы - выбирите интересующий раздел в меню слева.</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -520,7 +520,20 @@
              </widget>
             </item>
             <item>
-             <widget class="QTableView" name="tableView_workers"/>
+             <widget class="QTableView" name="tableView_workers">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="dragDropOverwriteMode">
+               <bool>false</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -592,7 +605,23 @@
              </widget>
             </item>
             <item>
-             <widget class="QTableView" name="tableView_checkpoints"/>
+             <widget class="QTableView" name="tableView_checkpoints">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="showDropIndicator" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="dragDropOverwriteMode">
+               <bool>false</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -808,7 +837,23 @@
              </widget>
             </item>
             <item>
-             <widget class="QTableView" name="tableView_authorizations"/>
+             <widget class="QTableView" name="tableView_authorizations">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="showDropIndicator" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="dragDropOverwriteMode">
+               <bool>false</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -874,7 +919,26 @@
              </widget>
             </item>
             <item>
-             <widget class="QTableView" name="tableView_accounts"/>
+             <widget class="QTableView" name="tableView_accounts">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="tabKeyNavigation">
+               <bool>false</bool>
+              </property>
+              <property name="showDropIndicator" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="dragDropOverwriteMode">
+               <bool>false</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -949,7 +1013,26 @@
              </widget>
             </item>
             <item>
-             <widget class="QTableView" name="tableView_lvlAccess"/>
+             <widget class="QTableView" name="tableView_lvlAccess">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="tabKeyNavigation">
+               <bool>false</bool>
+              </property>
+              <property name="showDropIndicator" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="dragDropOverwriteMode">
+               <bool>false</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -1014,7 +1097,17 @@
              </widget>
             </item>
             <item>
-             <widget class="QListView" name="listView_positions"/>
+             <widget class="QListView" name="listView_positions">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="showDropIndicator" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -1047,7 +1140,17 @@
              </widget>
             </item>
             <item>
-             <widget class="QListView" name="listView_privilege"/>
+             <widget class="QListView" name="listView_privilege">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="showDropIndicator" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -1081,6 +1184,15 @@
             </item>
             <item>
              <widget class="QListView" name="listView_states">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="showDropIndicator" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
               <property name="resizeMode">
                <enum>QListView::Fixed</enum>
               </property>
@@ -1157,7 +1269,7 @@
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_36">
                     <item>
-                     <widget class="QWidget" name="widget_addWorkerPhoto" native="true">
+                     <widget class="ScaledPixmap" name="widget_addWorkerPhoto" native="true">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1489,7 +1601,7 @@
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_22">
                   <item>
-                   <widget class="QWidget" name="widget" native="true">
+                   <widget class="ScaledPixmap" name="widget_viewWorkerPhoto" native="true">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -3044,7 +3156,7 @@
               <item>
                <widget class="QStackedWidget" name="stackedWidget_buttonPanels">
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>1</number>
                 </property>
                 <widget class="QWidget" name="page_mainMenuButtons">
                  <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -3075,7 +3187,7 @@
                      <property name="geometry">
                       <rect>
                        <x>0</x>
-                       <y>-210</y>
+                       <y>0</y>
                        <width>177</width>
                        <height>392</height>
                       </rect>
@@ -3583,7 +3695,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>122</width>
+                       <width>159</width>
                        <height>162</height>
                       </rect>
                      </property>
@@ -4204,6 +4316,22 @@
                </widget>
               </item>
               <item>
+               <spacer name="verticalSpacer_32">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>5</width>
+                  <height>5</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
                <spacer name="verticalSpacer_11">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -4254,8 +4382,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>332</width>
-             <height>135</height>
+             <width>780</width>
+             <height>493</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -4463,6 +4591,14 @@
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ScaledPixmap</class>
+   <extends>QWidget</extends>
+   <header location="global">scaledpixmap.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -24,6 +24,7 @@ SOURCES += \
     positionfiltermodel.cpp \
     positionmodel.cpp \
     privilegemodel.cpp \
+    scaledpixmap.cpp \
     statemodel.cpp \
     workerfiltermodel.cpp \
     workermodel.cpp
@@ -43,6 +44,7 @@ HEADERS += \
     positionfiltermodel.h \
     positionmodel.h \
     privilegemodel.h \
+    scaledpixmap.h \
     statemodel.h \
     workerfiltermodel.h \
     workermodel.h

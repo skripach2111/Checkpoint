@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget_mainWindow->setCurrentIndex(PagesMainWindow::AUTHORIZATION);
     ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::START);
     ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::MAINMENU_BUTTONS);
+    ui->pushButton_save->setVisible(false);
+    ui->pushButton_cancel->setVisible(false);
     ui->pushButton_back->setVisible(false);
 
     db = new DatabaseModule(this);

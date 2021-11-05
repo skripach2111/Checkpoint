@@ -109,7 +109,7 @@ private slots:
     void on_comboBox_filterWorkerByLvlAccess_currentIndexChanged(int index);
 
     void workerDissmissedFilterChanged();
-    void authorizationStateFilterChenged();
+//    void authorizationStateFilterChenged();
 
     void on_lineEdit_filterCheckpointByTitle_editingFinished();
 

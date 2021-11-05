@@ -37,7 +37,7 @@ bool CheckpointFilterModel::filterAcceptsRow(int source_row, const QModelIndex &
         value = sourceModel()->index(source_row, CheckpointModel::Column::TITLE, source_parent).data();
         if(value.isValid())
         {
-            if(value.toString().contains(values[TITLE].toString()) != -1)
+            if(value.toString().contains(values[TITLE].toString()))
                 flag *= 1;
             else
                 flag *= 0;

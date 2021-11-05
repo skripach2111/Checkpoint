@@ -31,7 +31,7 @@ bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelInde
         value = sourceModel()->index(source_row, AuthorizationModel::Column::WORKER, source_parent).data(Qt::DisplayRole);
         if(value.isValid())
         {
-            if(value.toString().contains(values[WORKER].toString()) != -1)
+            if(value.toString().contains(values[WORKER].toString()))
                 flag *= 1;
             else
                 flag *= 0;
@@ -43,7 +43,7 @@ bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelInde
         value = sourceModel()->index(source_row, AuthorizationModel::Column::WORKER, source_parent).data(Qt::DisplayRole);
         if(value.isValid())
         {
-            if(value.toString().contains(values[WORKER].toString()) != -1)
+            if(value.toString().contains(values[WORKER].toString()))
                 flag *= 1;
             else
                 flag *= 0;

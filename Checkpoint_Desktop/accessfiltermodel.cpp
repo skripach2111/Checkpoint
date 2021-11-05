@@ -37,7 +37,7 @@ bool AccessFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sour
         value = sourceModel()->index(source_row, AccessModel::Column::TITLE, source_parent).data();
         if(value.isValid())
         {
-            if(value.toString().contains(values[TITLE].toString()) != -1)
+            if(value.toString().contains(values[TITLE].toString()))
                 flag *= 1;
             else
                 flag *= 0;

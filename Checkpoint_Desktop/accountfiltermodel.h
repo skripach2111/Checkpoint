@@ -25,6 +25,8 @@ public:
     // QSortFilterProxyModel interface
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+    bool filterAcceptsColumn(int source_column, const QModelIndex &source_parent) const;
+
 
 private:
     QHash <FilterParam, bool> params;

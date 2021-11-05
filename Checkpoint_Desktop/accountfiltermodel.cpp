@@ -29,7 +29,7 @@ bool AccountFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sou
         value = sourceModel()->index(source_row, AccountModel::Column::LOGIN, source_parent).data();
         if(value.isValid())
         {
-            if(value.toString().contains(values[LOGIN].toString()) != -1)
+            if(value.toString().contains(values[LOGIN].toString()))
                 flag *= 1;
             else
                 flag *= 0;
@@ -41,7 +41,7 @@ bool AccountFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sou
         value = sourceModel()->index(source_row, AccountModel::Column::WORKER, source_parent).data(AccountModel::Role::Read);
         if(value.isValid())
         {
-            if(value.toString().contains(values[WORKER].toString()) != -1)
+            if(value.toString().contains(values[WORKER].toString()))
                 flag *= 1;
             else
                 flag *= 0;
@@ -61,4 +61,12 @@ bool AccountFilterModel::filterAcceptsRow(int source_row, const QModelIndex &sou
     }
 
     return flag;
+}
+
+bool AccountFilterModel::filterAcceptsColumn(int source_column, const QModelIndex &source_parent) const
+{
+    if(source_column == AccountModel::Column::PASSWORD)
+        return false;
+    else
+        return true;
 }

@@ -45,7 +45,6 @@ bool DatabaseModule::connect(QString l, QString p)
         stateModel = new StateModel(this);
         stateModel->setTable("state", &db);
         workerModel = new WorkerModel(this);
-        workerModel->select();
         workerModel->setTable("worker", &db);
 
         accountModel->setPrivilegeModel(privilegeModel);
@@ -105,6 +104,6 @@ StateModel *DatabaseModule::getStateModel()
 
 WorkerModel *DatabaseModule::getWorkerModel()
 {
-    workerModel->select();
+//    workerModel->select();
     return workerModel;
 }

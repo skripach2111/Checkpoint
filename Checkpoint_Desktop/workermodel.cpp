@@ -1,5 +1,7 @@
 #include "workermodel.h"
 
+#include <QDebug>
+
 WorkerModel::WorkerModel(QObject *parent) : QAbstractTableModel(parent)
 {
 
@@ -108,7 +110,7 @@ void WorkerModel::appendRow(const int &inn, const QByteArray &photo, const QStri
     person[ POSITION ] = position;
     person[ LVL_ACCESS ] = lvlAcess;
     person[ FLAG ] = flag;
-    person[ STATE_ROW ] = StatesRows::ADDED;
+    person[ STATE_ROW ] = (int)StatesRows::ADDED;
 
     int row = model.count();
     beginInsertRows( QModelIndex(), row, row );
@@ -119,6 +121,7 @@ void WorkerModel::appendRow(const int &inn, const QByteArray &photo, const QStri
 void WorkerModel::updatedRow(int row, const int &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag)
 {
     beginResetModel();
+    qDebug() << "Start update";
 
     model[ row ][ PHOTO ] = photo;
     model[ row ][ PIB ] = pib;
@@ -129,9 +132,13 @@ void WorkerModel::updatedRow(int row, const int &inn, const QByteArray &photo, c
     model[ row ][ POSITION ] = position;
     model[ row ][ LVL_ACCESS ] = lvlAcess;
     model[ row ][ FLAG ] = flag;
-    model[ row ][ STATE_ROW ] = StatesRows::EDITED;
+    model[ row ][ STATE_ROW ] = (int)StatesRows::EDITED;
+
+    qDebug() << StatesRows::EDITED;
 
     endResetModel();
+    qDebug() << model[ row ][ PIB ] << "row" << row << model[ row ][ STATE_ROW ];
+    qDebug() << "End update";
 }
 
 void WorkerModel::removeRow(int row)
@@ -163,7 +170,7 @@ bool WorkerModel::select()
             person[ POSITION ] = query.value( POSITION );
             person[ LVL_ACCESS ] = query.value( LVL_ACCESS );
             person[ FLAG ] = query.value( FLAG );
-            person[ STATE_ROW ] = StatesRows::NOT_EDITED;
+            person[ STATE_ROW ] = (int)StatesRows::NOT_EDITED;
 
             model.append( person );
 
@@ -177,20 +184,29 @@ bool WorkerModel::select()
     return false;
 }
 
-bool WorkerModel::submit()
+bool WorkerModel::saveChanges()
 {
+    qDebug() << "Save changes";
+
     for(int i = 0; i < model.size(); i++)
     {
-        if(model[ i ][ STATE_ROW ] != StatesRows::NOT_EDITED)
+        qDebug() << i;
+        qDebug() << model[ i ][ PIB ];
+        qDebug() << "State:" << model[ i ][ STATE_ROW ];
+
+        if(model[ i ][ STATE_ROW ].toInt() != StatesRows::NOT_EDITED)
         {
-            if(model[ i ][ STATE_ROW ] == StatesRows::ADDED)
+            qDebug() << "!= NOT_EDITED";
+            if(model[ i ][ STATE_ROW ].toInt() == StatesRows::ADDED)
             {
+                qDebug() << "Row added";
+
                 query.prepare("INSERT INTO :table (inn, photo, pib, dateOfBirth, placeOfRegistration, placeOfResidence, numberPassport, position, lvlAccess, flag) "
                               "VALUES(:inn, :photo, :pib, :dateOfBirth, :placeOfRegistration, :placeOfResidence, :numberPassport, :position, :lvlAccess, :flag)");
 
                 query.bindValue(":table", table);
                 query.bindValue(":inn", model[ i ][ INN ]);
-                query.bindValue(":photo", model[ i ][ PHOTO ]);
+                query.bindValue(":photo", model[ i ][ PHOTO ], QSql::In | QSql::Binary);
                 query.bindValue(":pib", model[ i ][ PIB ]);
                 query.bindValue(":dateOfBirth", model[ i ][ DATE_OF_BIRTH ]);
                 query.bindValue(":placeOfRegistration", model[ i ][ PLACE_OF_REGISTRATION ]);
@@ -202,15 +218,16 @@ bool WorkerModel::submit()
 
                 query.exec();
             }
-            else if(model[ i ][ STATE_ROW ] == StatesRows::EDITED)
+            else if(model[ i ][ STATE_ROW ].toInt() == StatesRows::EDITED)
             {
-                query.prepare("UPDATE :table SET photo = :photo,  pib = :pib, dateOfBirth = :dateOfBirth, placeOfRegistration = :placeOfRegistration,"
-                              "placeOfResidence = :placeOfResidence, numberPassport = :numberPassport, position = :position, lvlAccess = :lvlAccess"
-                              "WHERE inn = :inn");
+                qDebug() << "Row edited";
 
-                query.bindValue(":table", table);
+                query.prepare(QString("UPDATE %1 SET photo = :photo,  pib = :pib, dateOfBirth = :dateOfBirth, placeOfRegistration = :placeOfRegistration,"
+                              "placeOfResidence = :placeOfResidence, numberPassport = :numberPassport, position = :position, lvlAccess = :lvlAccess"
+                              "WHERE inn = :inn").arg(table));
+
                 query.bindValue(":inn", model[ i ][ INN ]);
-                query.bindValue(":photo", model[ i ][ PHOTO ]);
+                query.bindValue(":photo", model[ i ][ PHOTO ].toByteArray(), QSql::In |QSql::Binary);
                 query.bindValue(":pib", model[ i ][ PIB ]);
                 query.bindValue(":dateOfBirth", model[ i ][ DATE_OF_BIRTH ]);
                 query.bindValue(":placeOfRegistration", model[ i ][ PLACE_OF_REGISTRATION ]);
@@ -221,8 +238,10 @@ bool WorkerModel::submit()
 
                 query.exec();
             }
-            else if(model[ i ][ STATE_ROW ] == StatesRows::DELETED)
+            else if(model[ i ][ STATE_ROW ].toInt() == StatesRows::DELETED)
             {
+                qDebug() << "Row deleted";
+
                 query.prepare("UPDATE :table SET flag = 1 WHERE inn = :inn");
 
                 query.bindValue(":table", table);
@@ -232,6 +251,8 @@ bool WorkerModel::submit()
             }
         }
     }
+
+    qDebug() << query.lastError();
 
     return true;
 }
@@ -255,6 +276,8 @@ bool WorkerModel::setData( const QModelIndex& index, const QVariant& value, int 
     if( !index.isValid() || role != Qt::EditRole || model.count() <= index.row() ) {
         return false;
     }
+
+    qDebug() << "set data";
 
     model[ index.row() ][ Column( index.column() ) ] = value;
     emit dataChanged( index, index );

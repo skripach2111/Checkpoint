@@ -77,6 +77,8 @@ void MainWindow::on_pushButton_Connect_clicked()
     filterWorker = new WorkerFilterModel(this);
     filterWorker->setSourceModel(db->getWorkerModel());
 
+    db->getWorkerModel()->select();
+
     accessCombobox = new ModelForComboBox(this);
     accessCombobox->setSourceModel(db->getAccessModel());
     positionCombobox = new ModelForComboBox(this);
@@ -555,6 +557,9 @@ void MainWindow::on_lineEdit_filterPositionsByTitle_editingFinished()
 
 void MainWindow::on_pushButton_addWorker_clicked()
 {
+    flagAddWorker = true;
+    ui->label_addWorkerLabel->setText(addWorkerLabel);
+
     ui->lineEdit_addWorkerPIB->setText("");
     ui->lineEdit_addWorkerINN->setText("");
     ui->dateEdit_addWorkerDate->setDate(QDate::currentDate());
@@ -582,8 +587,9 @@ void MainWindow::on_pushButton_moreAboutWorker_clicked()
 {
     if(ui->tableView_workers->currentIndex().column() == -1)
         return;
+
     QPixmap pixmap;
-    pixmap.loadFromData(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PHOTO).data(Qt::DisplayRole).toByteArray(), "JPG");
+    pixmap.loadFromData(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PHOTO).data(Qt::DisplayRole).toByteArray());
 
     ui->label_viewWorkerPIB->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PIB).data(Qt::DisplayRole).toString());
     ui->label_viewWorkerINN->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::INN).data(Qt::DisplayRole).toString());
@@ -597,5 +603,98 @@ void MainWindow::on_pushButton_moreAboutWorker_clicked()
 
     ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::WORKERS_VIEW);
     switchBackButton(false);
+}
+
+
+void MainWindow::on_pushButton_editWorker_clicked()
+{
+    if(ui->tableView_workers->currentIndex().column() == -1)
+        return;
+
+    flagAddWorker = false;
+    ui->label_addWorkerLabel->setText(updateWorkerLabel);
+
+    QPixmap pixmap;
+    pixmap.loadFromData(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PHOTO).data(Qt::DisplayRole).toByteArray());
+
+    ui->comboBox_addWorkerLvlAccess->setCurrentIndex(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::LVL_ACCESS).data(WorkerModel::Role::Read).toInt());
+    ui->comboBox_addWorkerPosition->setCurrentIndex(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::POSITION).data(WorkerModel::Role::Read).toInt());
+    ui->dateEdit_addWorkerDate->setDate(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::DATE_OF_BIRTH).data().toDate());
+    ui->lineEdit_addWorkerINN->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::INN).data(Qt::DisplayRole).toString());
+    ui->lineEdit_addWorkerNumberPassport->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::NUMBER_PASSPORT).data(Qt::DisplayRole).toString());
+    ui->lineEdit_addWorkerPIB->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PIB).data(Qt::DisplayRole).toString());
+    ui->lineEdit_addWorkerPlaceFoRegistration->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PLACE_OF_REGISTRATION).data(Qt::DisplayRole).toString());
+    ui->lineEdit_addWorkerPlaceOfResidence->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PLACE_OF_RESIDENCE).data(Qt::DisplayRole).toString());
+    ui->widget_addWorkerPhoto->setScaledPixmap(pixmap);
+
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::WORKERS_ADD);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::SAVE_CANCEL_BUTTONS);
+    switchBackButton(true);
+}
+
+
+void MainWindow::on_pushButton_save_clicked()
+{
+    switch(ui->stackedWidget_workPlace->currentIndex())
+    {
+    case PagesWorkPlace::WORKERS_ADD:
+    {
+        if(flagAddWorker)
+        {
+            db->getWorkerModel()->appendRow(ui->lineEdit_addWorkerINN->text().toInt(),
+                                            pixmapToByteArray(ui->widget_addWorkerPhoto->getPixmap()),
+                                            ui->lineEdit_addWorkerPIB->text(), ui->dateEdit_addWorkerDate->date(),
+                                            ui->lineEdit_addWorkerPlaceFoRegistration->text(),
+                                            ui->lineEdit_addWorkerPlaceOfResidence->text(),
+                                            ui->lineEdit_addWorkerNumberPassport->text(),
+                                            ui->comboBox_addWorkerPosition->currentIndex()-1,
+                                            ui->comboBox_addWorkerLvlAccess->currentIndex()-1, 0);
+
+            db->getWorkerModel()->saveChanges();
+            db->getWorkerModel()->select();
+        }
+        else
+        {
+            db->getWorkerModel()->updatedRow(ui->tableView_workers->currentIndex().row(), ui->lineEdit_addWorkerINN->text().toInt(),
+                                             pixmapToByteArray(ui->widget_addWorkerPhoto->getPixmap()),
+                                             ui->lineEdit_addWorkerPIB->text(), ui->dateEdit_addWorkerDate->date(),
+                                             ui->lineEdit_addWorkerPlaceFoRegistration->text(),
+                                             ui->lineEdit_addWorkerPlaceOfResidence->text(),
+                                             ui->lineEdit_addWorkerNumberPassport->text(),
+                                             ui->comboBox_addWorkerPosition->currentIndex()-1,
+                                             ui->comboBox_addWorkerLvlAccess->currentIndex()-1, 0);
+
+            db->getWorkerModel()->saveChanges();
+            db->getWorkerModel()->select();
+        }
+        break;
+    }
+    }
+
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::START);
+    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::MAINMENU_BUTTONS);
+    switchBackButton(false);
+}
+
+QByteArray pixmapToByteArray(QPixmap pixmap)
+{
+    QByteArray bytes;
+    QBuffer buffer(&bytes);
+    buffer.open(QIODevice::WriteOnly);
+    pixmap.save(&buffer, "JPEG");
+    buffer.close();
+
+    return bytes;
+}
+
+void MainWindow::on_pushButton_addWorkerLoadPhoto_clicked()
+{
+    QFileDialog dialog(this);
+
+    QString dir = dialog.getSaveFileName();
+    QPixmap pixmap;
+    pixmap.load(dir);
+
+    ui->widget_addWorkerPhoto->setScaledPixmap(pixmap);
 }
 

@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QSettings>
+#include <QBuffer>
+#include <QFileDialog>
 
 #include "databasemodule.h"
 
@@ -21,6 +23,11 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
+    QString addWorkerLabel = "Добавление сотрудника";
+    QString updateWorkerLabel = "Редактирование сотрудника";
+
+    bool flagAddWorker;
 
     QSettings *settings;
 
@@ -164,7 +171,15 @@ private slots:
 
     void on_pushButton_moreAboutWorker_clicked();
 
+    void on_pushButton_editWorker_clicked();
+
+    void on_pushButton_save_clicked();
+
+    void on_pushButton_addWorkerLoadPhoto_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
+
+QByteArray pixmapToByteArray(QPixmap pixmap);
 #endif // MAINWINDOW_H

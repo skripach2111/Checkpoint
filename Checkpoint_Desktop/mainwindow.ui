@@ -346,7 +346,7 @@
         <item row="0" column="1">
          <widget class="QStackedWidget" name="stackedWidget_workPlace">
           <property name="currentIndex">
-           <number>4</number>
+           <number>9</number>
           </property>
           <widget class="QWidget" name="page_start">
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1203,7 +1203,7 @@
           <widget class="QWidget" name="page_workers_add">
            <layout class="QVBoxLayout" name="verticalLayout_32">
             <item>
-             <widget class="QLabel" name="label_23">
+             <widget class="QLabel" name="label_addWorkerLabel">
               <property name="font">
                <font>
                 <pointsize>26</pointsize>
@@ -4382,8 +4382,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>780</width>
-             <height>493</height>
+             <width>334</width>
+             <height>135</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_31">

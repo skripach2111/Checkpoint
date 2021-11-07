@@ -6,6 +6,7 @@
 #include <QSqlError>
 #include <QAbstractTableModel>
 #include <QObject>
+#include <QBuffer>
 
 #include "accessmodel.h"
 #include "positionmodel.h"
@@ -34,7 +35,7 @@ public:
     void removeRow(int row);
 
     bool select();
-    bool submit();
+    bool saveChanges();
     void setTable(QString t, QSqlDatabase *database);
 
     void setAccessModel(AccessModel *m_access) { accessModel = m_access; }
@@ -51,8 +52,8 @@ public:
         POSITION,
         LVL_ACCESS,
         FLAG,
-        LAST,
-        STATE_ROW
+        STATE_ROW,
+        LAST
     };
 
     enum Role {
@@ -61,7 +62,7 @@ public:
     };
 
     enum StatesRows {
-        NOT_EDITED = 0x1,
+        NOT_EDITED = 0,
         ADDED,
         EDITED,
         DELETED

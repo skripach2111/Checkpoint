@@ -568,6 +568,8 @@ void MainWindow::on_pushButton_addWorker_clicked()
     ui->lineEdit_addWorkerNumberPassport->setText("");
     ui->comboBox_addWorkerLvlAccess->setCurrentIndex(0);
     ui->comboBox_addWorkerPosition->setCurrentIndex(0);
+    ui->comboBox_addWorkerStateDissmised->setCurrentIndex(0);
+    ui->widget_addWorkerPhoto->setScaledPixmap(QPixmap());
 
     ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::WORKERS_ADD);
     ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::SAVE_CANCEL_BUTTONS);
@@ -591,7 +593,7 @@ void MainWindow::on_pushButton_moreAboutWorker_clicked()
     QPixmap pixmap;
     pixmap.loadFromData(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PHOTO).data(Qt::DisplayRole).toByteArray());
 
-    ui->label_viewWorkerPIB->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PIB).data(Qt::DisplayRole).toString());
+    ui->label_viewWorkerPIB->setText(filterWorker->sourceModel()->index(ui->tableView_workers->selectionModel()->currentIndex().row(), WorkerModel::Column::PIB).data(Qt::DisplayRole).toString());
     ui->label_viewWorkerINN->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::INN).data(Qt::DisplayRole).toString());
     ui->label_viewWorkerDateOfBirth->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::DATE_OF_BIRTH).data(Qt::DisplayRole).toString());
     ui->label_viewWorkerPlaceOfRegistration->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PLACE_OF_REGISTRATION).data(Qt::DisplayRole).toString());
@@ -600,6 +602,10 @@ void MainWindow::on_pushButton_moreAboutWorker_clicked()
     ui->label_viewWorkerLvlAccess->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::LVL_ACCESS).data(Qt::DisplayRole).toString());
     ui->label_viewWorkerPosition->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::POSITION).data(Qt::DisplayRole).toString());
     ui->widget_viewWorkerPhoto->setScaledPixmap(pixmap);
+    if(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::FLAG).data().toInt())
+        ui->label_viewWorkerStateDissmised->setText("Уволен");
+    else
+        ui->label_viewWorkerStateDissmised->setText("Работает");
 
     ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::WORKERS_VIEW);
     switchBackButton(false);
@@ -626,6 +632,7 @@ void MainWindow::on_pushButton_editWorker_clicked()
     ui->lineEdit_addWorkerPlaceFoRegistration->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PLACE_OF_REGISTRATION).data(Qt::DisplayRole).toString());
     ui->lineEdit_addWorkerPlaceOfResidence->setText(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::PLACE_OF_RESIDENCE).data(Qt::DisplayRole).toString());
     ui->widget_addWorkerPhoto->setScaledPixmap(pixmap);
+    ui->comboBox_addWorkerStateDissmised->setCurrentIndex(filterWorker->sourceModel()->index(ui->tableView_workers->currentIndex().row(), WorkerModel::Column::FLAG).data().toInt());
 
     ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::WORKERS_ADD);
     ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::SAVE_CANCEL_BUTTONS);
@@ -648,7 +655,7 @@ void MainWindow::on_pushButton_save_clicked()
                                             ui->lineEdit_addWorkerPlaceOfResidence->text(),
                                             ui->lineEdit_addWorkerNumberPassport->text(),
                                             ui->comboBox_addWorkerPosition->currentIndex()-1,
-                                            ui->comboBox_addWorkerLvlAccess->currentIndex()-1, 0);
+                                            ui->comboBox_addWorkerLvlAccess->currentIndex()-1, ui->comboBox_addWorkerStateDissmised->currentIndex());
 
             db->getWorkerModel()->saveChanges();
             db->getWorkerModel()->select();
@@ -662,7 +669,7 @@ void MainWindow::on_pushButton_save_clicked()
                                              ui->lineEdit_addWorkerPlaceOfResidence->text(),
                                              ui->lineEdit_addWorkerNumberPassport->text(),
                                              ui->comboBox_addWorkerPosition->currentIndex()-1,
-                                             ui->comboBox_addWorkerLvlAccess->currentIndex()-1, 0);
+                                             ui->comboBox_addWorkerLvlAccess->currentIndex()-1, ui->comboBox_addWorkerStateDissmised->currentIndex());
 
             db->getWorkerModel()->saveChanges();
             db->getWorkerModel()->select();

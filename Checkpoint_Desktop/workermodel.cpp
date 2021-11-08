@@ -186,25 +186,16 @@ bool WorkerModel::select()
 
 bool WorkerModel::saveChanges()
 {
-    qDebug() << "Save changes";
-
     for(int i = 0; i < model.size(); i++)
     {
-        qDebug() << i;
-        qDebug() << model[ i ][ PIB ];
-        qDebug() << "State:" << model[ i ][ STATE_ROW ];
-
         if(model[ i ][ STATE_ROW ].toInt() != StatesRows::NOT_EDITED)
         {
             qDebug() << "!= NOT_EDITED";
             if(model[ i ][ STATE_ROW ].toInt() == StatesRows::ADDED)
             {
-                qDebug() << "Row added";
+                query.prepare(QString("INSERT INTO %1 (inn, photo, pib, dateOfBirth, placeOfRegistration, placeOfResidence, numberPassport, position, lvlAccess, flag) "
+                              "VALUES(:inn, :photo, :pib, :dateOfBirth, :placeOfRegistration, :placeOfResidence, :numberPassport, :position, :lvlAccess, :flag)").arg(table));
 
-                query.prepare("INSERT INTO :table (inn, photo, pib, dateOfBirth, placeOfRegistration, placeOfResidence, numberPassport, position, lvlAccess, flag) "
-                              "VALUES(:inn, :photo, :pib, :dateOfBirth, :placeOfRegistration, :placeOfResidence, :numberPassport, :position, :lvlAccess, :flag)");
-
-                query.bindValue(":table", table);
                 query.bindValue(":inn", model[ i ][ INN ]);
                 query.bindValue(":photo", model[ i ][ PHOTO ], QSql::In | QSql::Binary);
                 query.bindValue(":pib", model[ i ][ PIB ]);
@@ -220,11 +211,8 @@ bool WorkerModel::saveChanges()
             }
             else if(model[ i ][ STATE_ROW ].toInt() == StatesRows::EDITED)
             {
-                qDebug() << "Row edited";
-
                 query.prepare(QString("UPDATE %1 SET photo = :photo,  pib = :pib, dateOfBirth = :dateOfBirth, placeOfRegistration = :placeOfRegistration,"
-                              "placeOfResidence = :placeOfResidence, numberPassport = :numberPassport, position = :position, lvlAccess = :lvlAccess"
-                              "WHERE inn = :inn").arg(table));
+                              "placeOfResidence = :placeOfResidence, numberPassport = :numberPassport, position = :position, lvlAccess = :lvlAccess, flag = :flag WHERE inn = :inn").arg(table));
 
                 query.bindValue(":inn", model[ i ][ INN ]);
                 query.bindValue(":photo", model[ i ][ PHOTO ].toByteArray(), QSql::In |QSql::Binary);
@@ -235,16 +223,14 @@ bool WorkerModel::saveChanges()
                 query.bindValue(":numberPassport", model[ i ][ NUMBER_PASSPORT ]);
                 query.bindValue(":position", model[ i ][ POSITION ]);
                 query.bindValue(":lvlAccess", model[ i ][ LVL_ACCESS ]);
+                query.bindValue(":flag", model[ i ][ FLAG ]);
 
                 query.exec();
             }
             else if(model[ i ][ STATE_ROW ].toInt() == StatesRows::DELETED)
             {
-                qDebug() << "Row deleted";
+                query.prepare(QString("UPDATE :table SET flag = 1 WHERE inn = :inn"));
 
-                query.prepare("UPDATE :table SET flag = 1 WHERE inn = :inn");
-
-                query.bindValue(":table", table);
                 query.bindValue(":inn", model[ i ][ INN ]);
 
                 query.exec();

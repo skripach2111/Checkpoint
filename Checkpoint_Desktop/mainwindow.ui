@@ -1468,22 +1468,6 @@
                 </item>
                 <item>
                  <layout class="QGridLayout" name="gridLayout_7">
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_32">
-                    <property name="font">
-                     <font>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Должность:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1" colspan="2">
-                   <widget class="QComboBox" name="comboBox_addWorkerPosition"/>
-                  </item>
                   <item row="1" column="0" colspan="2">
                    <widget class="QLabel" name="label_33">
                     <property name="font">
@@ -1510,8 +1494,51 @@
                     </property>
                    </spacer>
                   </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_32">
+                    <property name="font">
+                     <font>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Должность:</string>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="1" column="2">
                    <widget class="QComboBox" name="comboBox_addWorkerLvlAccess"/>
+                  </item>
+                  <item row="0" column="1" colspan="2">
+                   <widget class="QComboBox" name="comboBox_addWorkerPosition"/>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_23">
+                    <property name="font">
+                     <font>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Состояние:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1" colspan="2">
+                   <widget class="QComboBox" name="comboBox_addWorkerStateDissmised">
+                    <item>
+                     <property name="text">
+                      <string>Работает</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Уволен</string>
+                     </property>
+                    </item>
+                   </widget>
                   </item>
                  </layout>
                 </item>
@@ -1879,19 +1906,6 @@
                 </item>
                 <item>
                  <layout class="QGridLayout" name="gridLayout_8">
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_49">
-                    <property name="font">
-                     <font>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Должность:</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="1" column="0" colspan="2">
                    <widget class="QLabel" name="label_51">
                     <property name="font">
@@ -1905,10 +1919,16 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="2">
-                   <widget class="QLabel" name="label_viewWorkerLvlAccess">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_49">
+                    <property name="font">
+                     <font>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
                     <property name="text">
-                     <string>_lvlAccess</string>
+                     <string>Должность:</string>
                     </property>
                    </widget>
                   </item>
@@ -1925,10 +1945,37 @@
                     </property>
                    </spacer>
                   </item>
+                  <item row="1" column="2">
+                   <widget class="QLabel" name="label_viewWorkerLvlAccess">
+                    <property name="text">
+                     <string>_lvlAccess</string>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="0" column="1" colspan="2">
                    <widget class="QLabel" name="label_viewWorkerPosition">
                     <property name="text">
                      <string>_position</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_43">
+                    <property name="font">
+                     <font>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Состояние:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1" colspan="2">
+                   <widget class="QLabel" name="label_viewWorkerStateDissmised">
+                    <property name="text">
+                     <string/>
                     </property>
                    </widget>
                   </item>
@@ -2004,8 +2051,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>230</width>
+                 <height>120</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_45">
@@ -2127,8 +2174,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>211</width>
+                 <height>102</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_47">
@@ -2288,8 +2335,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>183</width>
+                 <height>186</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_49">
@@ -2560,8 +2607,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>309</width>
+                 <height>154</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -2733,8 +2780,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>159</width>
+                 <height>102</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_53">
@@ -2894,8 +2941,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>210</width>
+                 <height>87</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -2985,8 +3032,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>135</width>
+                 <height>52</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_57">
@@ -3188,7 +3235,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>177</width>
+                       <width>128</width>
                        <height>392</height>
                       </rect>
                      </property>
@@ -4382,7 +4429,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>334</width>
+             <width>332</width>
              <height>135</height>
             </rect>
            </property>

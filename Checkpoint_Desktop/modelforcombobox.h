@@ -13,6 +13,7 @@ public:
     explicit ModelForComboBox(QObject *parent = nullptr);
 
     void setSourceModel(QAbstractTableModel *model) { sourceModel = model; }
+    QAbstractTableModel* sourceNodel() { return sourceNodel(); }
     void setStartText(QString text) { startText = text; }
 
 

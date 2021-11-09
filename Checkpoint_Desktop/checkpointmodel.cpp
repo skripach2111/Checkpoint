@@ -119,12 +119,16 @@ void CheckpointModel::appendRow(const int &id, const QString &title, const QStri
 
 bool CheckpointModel::select()
 {
+    beginResetModel();
+    beginRemoveRows(createIndex(0, 0), 0, model.count());
+    while(model.count() != 0)
+        model.removeFirst();
+    endRemoveRows();
+
     query.prepare(QString("SELECT * FROM %1").arg(table));
     query.exec();
     if(query.next())
     {
-        model.clear();
-
         int row = model.count();
         beginInsertRows( createIndex(0, 0), row, row+query.size()-1 );
 
@@ -143,9 +147,9 @@ bool CheckpointModel::select()
         }while(query.next());
 
         endInsertRows();
-
-        return true;
     }
+
+    endResetModel();
 
     return false;
 }

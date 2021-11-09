@@ -6,6 +6,7 @@
 #include <QSqlError>
 #include <QAbstractTableModel>
 #include <QObject>
+#include <QDebug>
 
 #include "workermodel.h"
 #include "privilegemodel.h"

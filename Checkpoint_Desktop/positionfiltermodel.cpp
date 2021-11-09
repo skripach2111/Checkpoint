@@ -21,6 +21,9 @@ void PositionFilterModel::setEnabledFilterParam(FilterParam par, bool flag)
 
 bool PositionFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
+    if(sourceModel()->index(source_row, PositionModel::Column::FLAG, source_parent).data().toInt() == 1)
+        return false;
+
     bool flag = true;
     QVariant value;
 

@@ -115,12 +115,16 @@ void AccountModel::removeRow(int row)
 
 bool AccountModel::select()
 {
+    beginResetModel();
+    beginRemoveRows(createIndex(0, 0), 0, model.count());
+    while(model.count() != 0)
+        model.removeFirst();
+    endRemoveRows();
+
     query.prepare(QString("SELECT * FROM %1").arg(table));
     query.exec();
     if(query.next())
     {
-        model.clear();
-
         int row = model.count();
         beginInsertRows( createIndex(0, 0), row, row+query.size()-1 );
 
@@ -138,9 +142,9 @@ bool AccountModel::select()
         }while(query.next());
 
         endInsertRows();
-
-        return true;
     }
+
+    endResetModel();
 
     return false;
 }

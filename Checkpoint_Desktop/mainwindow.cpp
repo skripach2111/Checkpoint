@@ -749,14 +749,16 @@ void MainWindow::on_pushButton_save_clicked()
         if(flagAddAccount)
         {
             db->getAccountModel()->appendRow(ui->lineEdit_addAccountLogin->text(), ui->lineEdit_addAccountPasswordFirst->text(),
-                                             ui->comboBox_addAccountPrivilege->currentIndex(), ui->comboBox_addAccountWorker->currentIndex());
+                                             ui->comboBox_addAccountPrivilege->currentIndex(),
+                                             workerCombobox->index(ui->comboBox_addAccountWorker->currentIndex(), WorkerModel::Column::INN).data().toInt());
         }
         else
         {
             db->getAccountModel()->updateRow(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(),
                                              ui->lineEdit_addAccountLogin->text(),
                                              ui->lineEdit_addAccountPasswordFirst->text(),
-                                             ui->comboBox_addAccountPrivilege->currentIndex(), ui->comboBox_addAccountWorker->currentIndex());
+                                             ui->comboBox_addAccountPrivilege->currentIndex(),
+                                             workerCombobox->index(ui->comboBox_addAccountWorker->currentIndex(), WorkerModel::Column::INN).data().toInt());
         }
 
         db->getAccountModel()->saveChange();
@@ -793,7 +795,7 @@ void MainWindow::on_pushButton_save_clicked()
         }
         else
         {
-            db->getPositionModel()->updateRow(filterPosition->mapToSource(ui->listView_positions->currentIndex()).row(),
+            db->getPositionModel()->updateRow(filterPosition->mapToSource(filterPosition->index(ui->listView_positions->currentIndex().row(), 0)).row(),
                                               0, ui->lineEdit_addPositionTitle->text(), 0);
         }
 
@@ -1023,7 +1025,9 @@ void MainWindow::on_pushButton_editPosition_clicked()
 
     ui->label_addPositionLabel->setText(updatePositionLabel);
 
-    ui->lineEdit_addPositionTitle->setText(filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->listView_positions->currentIndex()).row(), PositionModel::Column::TITLE).data().toString());
+    ui->lineEdit_addPositionTitle->setText(filterPosition->sourceModel()->index(filterPosition->mapToSource(filterPosition->index(ui->listView_positions->currentIndex().row(), 0)).row(), PositionModel::Column::TITLE).data().toString());
+    //ui->label_addPositionLabel->setText(filterPosition->sourceModel()->index(filterPosition->mapToSource(ui->listView_positions->currentIndex()).row(), PositionModel::Column::TITLE).data().toString());
+
 
     ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::POSITION_ADD);
     ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::SAVE_CANCEL_BUTTONS);
@@ -1036,7 +1040,7 @@ void MainWindow::on_pushButton_removePosition_clicked()
     if(ui->listView_positions->currentIndex().row() == -1)
         return;
 
-    db->getPositionModel()->removeRow(filterPosition->mapToSource(ui->listView_positions->currentIndex()).row());
+    db->getPositionModel()->removeRow(filterPosition->mapToSource(filterPosition->index(ui->listView_positions->currentIndex().row(), 0)).row());
     db->getPositionModel()->saveChanges();
     db->getPositionModel()->select();
 }

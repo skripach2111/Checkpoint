@@ -97,7 +97,7 @@ void AccessModel::updateRow(int row, const QString &title, const int &privilege,
     model[ row ][ TITLE ] = title;
     model[ row ][ PRIVILEGE ] = privilege;
     model[ row ][ FLAG ] = flag;
-    model[ row ][ STATE_ROW ] = StatesRows::EDITED;
+    model[ row ][ STATE_ROW ] = (int)StatesRows::EDITED;
 
     endResetModel();
 }
@@ -109,12 +109,16 @@ void AccessModel::removeRow(int row)
 
 bool AccessModel::select()
 {
+    beginResetModel();
+    beginRemoveRows(createIndex(0, 0), 0, model.count());
+    while(model.count() != 0)
+        model.removeFirst();
+    endRemoveRows();
+
     query.prepare(QString("SELECT * FROM %1").arg(table));
     query.exec();
     if(query.next())
     {
-        model.clear();
-
         int row = model.count();
         beginInsertRows( createIndex(0, 0), row, row+query.size()-1 );
 
@@ -132,12 +136,13 @@ bool AccessModel::select()
         }while(query.next());
 
         endInsertRows();
-
-        return true;
     }
+
+    endResetModel();
 
     return false;
 }
+
 
 bool AccessModel::saveChanges()
 {
@@ -145,8 +150,10 @@ bool AccessModel::saveChanges()
     {
         if(model[ i ][ STATE_ROW ] != StatesRows::NOT_EDITED)
         {
+            qDebug() << "!= NOT_EDIT";
             if(model[ i ][ STATE_ROW ] == StatesRows::ADDED)
             {
+                qDebug() << "ADDED";
                 query.prepare(QString("INSERT INTO %1 (title, privilege, flag) VALUES (:title, :privilege, :flag)").arg(table));
                 query.bindValue(":title", model[ i ][ TITLE ]);
                 query.bindValue(":privilege", model[ i ][ PRIVILEGE ]);
@@ -156,6 +163,7 @@ bool AccessModel::saveChanges()
             }
             else if(model[ i ][ STATE_ROW ] == StatesRows::EDITED)
             {
+                qDebug() << "EDITED";
                 query.prepare(QString("UPDATE %1 SET title = :title, privilege = :privilege, flag = :flag WHERE id = :id").arg(table));
                 query.bindValue(":id", model[ i ][ ID ]);
                 query.bindValue(":title", model[ i ][ TITLE ]);
@@ -165,15 +173,18 @@ bool AccessModel::saveChanges()
             }
             else if(model[ i ][ STATE_ROW ] == StatesRows::DELETED)
             {
+                qDebug() << "DELETED";
                 query.prepare(QString("UPDATE %1 SET flag = 1 WHERE id = :id").arg(table));
                 query.bindValue(":id", model[ i ][ ID ]);
 
                 query.exec();
             }
         }
-    }
+
+        qDebug() << query.lastError();
 
     return true;
+}
 }
 
 void AccessModel::setTable(QString t, QSqlDatabase *database)

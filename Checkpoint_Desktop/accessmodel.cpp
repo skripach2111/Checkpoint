@@ -139,7 +139,7 @@ bool AccessModel::select()
     return false;
 }
 
-bool AccessModel::submit()
+bool AccessModel::saveChanges()
 {
     for(int i = 0; i < model.size(); i++)
     {
@@ -147,8 +147,7 @@ bool AccessModel::submit()
         {
             if(model[ i ][ STATE_ROW ] == StatesRows::ADDED)
             {
-                query.prepare("INSERT INTO :table (title, privilege, flag) VALUES (:title, :privilege, :flag)");
-                query.bindValue(":table", table);
+                query.prepare(QString("INSERT INTO %1 (title, privilege, flag) VALUES (:title, :privilege, :flag)").arg(table));
                 query.bindValue(":title", model[ i ][ TITLE ]);
                 query.bindValue(":privilege", model[ i ][ PRIVILEGE ]);
                 query.bindValue(":flag", model[ i ][ FLAG ]);
@@ -157,8 +156,7 @@ bool AccessModel::submit()
             }
             else if(model[ i ][ STATE_ROW ] == StatesRows::EDITED)
             {
-                query.prepare("UPDATE :table SET title = :title, privilege = :privilege, flag = :flag WHERE id = :id");
-                query.bindValue(":table", table);
+                query.prepare(QString("UPDATE %1 SET title = :title, privilege = :privilege, flag = :flag WHERE id = :id").arg(table));
                 query.bindValue(":id", model[ i ][ ID ]);
                 query.bindValue(":title", model[ i ][ TITLE ]);
                 query.bindValue(":privilege", model[ i ][ PRIVILEGE ]);
@@ -167,8 +165,7 @@ bool AccessModel::submit()
             }
             else if(model[ i ][ STATE_ROW ] == StatesRows::DELETED)
             {
-                query.prepare("UPDATE :table SET flag = 1 WHERE id = :id");
-                query.bindValue(":table", table);
+                query.prepare(QString("UPDATE %1 SET flag = 1 WHERE id = :id").arg(table));
                 query.bindValue(":id", model[ i ][ ID ]);
 
                 query.exec();

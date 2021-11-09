@@ -110,7 +110,7 @@ void WorkerModel::appendRow(const int &inn, const QByteArray &photo, const QStri
     person[ POSITION ] = position;
     person[ LVL_ACCESS ] = lvlAcess;
     person[ FLAG ] = flag;
-    person[ STATE_ROW ] = (int)StatesRows::ADDED;
+    person[ STATE_ROW ] = StatesRows::ADDED;
 
     int row = model.count();
     beginInsertRows( QModelIndex(), row, row );
@@ -121,7 +121,6 @@ void WorkerModel::appendRow(const int &inn, const QByteArray &photo, const QStri
 void WorkerModel::updatedRow(int row, const int &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag)
 {
     beginResetModel();
-    qDebug() << "Start update";
 
     model[ row ][ PHOTO ] = photo;
     model[ row ][ PIB ] = pib;
@@ -132,13 +131,9 @@ void WorkerModel::updatedRow(int row, const int &inn, const QByteArray &photo, c
     model[ row ][ POSITION ] = position;
     model[ row ][ LVL_ACCESS ] = lvlAcess;
     model[ row ][ FLAG ] = flag;
-    model[ row ][ STATE_ROW ] = (int)StatesRows::EDITED;
-
-    qDebug() << StatesRows::EDITED;
+    model[ row ][ STATE_ROW ] = StatesRows::EDITED;
 
     endResetModel();
-    qDebug() << model[ row ][ PIB ] << "row" << row << model[ row ][ STATE_ROW ];
-    qDebug() << "End update";
 }
 
 void WorkerModel::removeRow(int row)
@@ -161,7 +156,7 @@ bool WorkerModel::select()
         do
         {
             person[ INN ] = query.value( INN );
-            person[ PHOTO ] = query.value( PHOTO );
+            person[ PHOTO ] =  QByteArray::fromBase64( query.value( PHOTO ).toByteArray() );
             person[ PIB ] = query.value( PIB );
             person[ DATE_OF_BIRTH ] = query.value( DATE_OF_BIRTH );
             person[ PLACE_OF_REGISTRATION ] = query.value( PLACE_OF_REGISTRATION );
@@ -190,14 +185,13 @@ bool WorkerModel::saveChanges()
     {
         if(model[ i ][ STATE_ROW ].toInt() != StatesRows::NOT_EDITED)
         {
-            qDebug() << "!= NOT_EDITED";
             if(model[ i ][ STATE_ROW ].toInt() == StatesRows::ADDED)
             {
                 query.prepare(QString("INSERT INTO %1 (inn, photo, pib, dateOfBirth, placeOfRegistration, placeOfResidence, numberPassport, position, lvlAccess, flag) "
                               "VALUES(:inn, :photo, :pib, :dateOfBirth, :placeOfRegistration, :placeOfResidence, :numberPassport, :position, :lvlAccess, :flag)").arg(table));
 
                 query.bindValue(":inn", model[ i ][ INN ]);
-                query.bindValue(":photo", model[ i ][ PHOTO ], QSql::In | QSql::Binary);
+                query.bindValue(":photo", model[ i ][ PHOTO ].toByteArray().toBase64(), QSql::In | QSql::Binary);
                 query.bindValue(":pib", model[ i ][ PIB ]);
                 query.bindValue(":dateOfBirth", model[ i ][ DATE_OF_BIRTH ]);
                 query.bindValue(":placeOfRegistration", model[ i ][ PLACE_OF_REGISTRATION ]);
@@ -215,7 +209,7 @@ bool WorkerModel::saveChanges()
                               "placeOfResidence = :placeOfResidence, numberPassport = :numberPassport, position = :position, lvlAccess = :lvlAccess, flag = :flag WHERE inn = :inn").arg(table));
 
                 query.bindValue(":inn", model[ i ][ INN ]);
-                query.bindValue(":photo", model[ i ][ PHOTO ].toByteArray(), QSql::In |QSql::Binary);
+                query.bindValue(":photo", model[ i ][ PHOTO ].toByteArray().toBase64(), QSql::In | QSql::Binary);
                 query.bindValue(":pib", model[ i ][ PIB ]);
                 query.bindValue(":dateOfBirth", model[ i ][ DATE_OF_BIRTH ]);
                 query.bindValue(":placeOfRegistration", model[ i ][ PLACE_OF_REGISTRATION ]);
@@ -237,8 +231,6 @@ bool WorkerModel::saveChanges()
             }
         }
     }
-
-    qDebug() << query.lastError();
 
     return true;
 }
@@ -262,8 +254,6 @@ bool WorkerModel::setData( const QModelIndex& index, const QVariant& value, int 
     if( !index.isValid() || role != Qt::EditRole || model.count() <= index.row() ) {
         return false;
     }
-
-    qDebug() << "set data";
 
     model[ index.row() ][ Column( index.column() ) ] = value;
     emit dataChanged( index, index );

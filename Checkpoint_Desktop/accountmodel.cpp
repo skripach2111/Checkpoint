@@ -145,7 +145,7 @@ bool AccountModel::select()
     return false;
 }
 
-bool AccountModel::submit()
+bool AccountModel::saveChange()
 {
     for(int i = 0; i < model.size(); i++)
     {
@@ -153,8 +153,7 @@ bool AccountModel::submit()
         {
             if(model[ i ][ STATE_ROW ] == StatesRows::ADDED)
             {
-                query.prepare("INSERT INTO :table (login, password, privilege, worker) VALUES(:login, :password, :privilege, :worker)");
-                query.bindValue(":table", table);
+                query.prepare(QString("INSERT INTO %1 (login, password, privilege, worker) VALUES(:login, :password, :privilege, :worker)").arg(table));
                 query.bindValue(":login", model[ i ][ LOGIN ]);
                 query.bindValue(":password", model[ i ][ PASSWORD ]);
                 query.bindValue(":privilege", model[ i ][ PRIVILEGE ]);
@@ -164,8 +163,7 @@ bool AccountModel::submit()
             }
             else if(model[ i ][ STATE_ROW ] == StatesRows::EDITED)
             {
-                query.prepare("UPDATE :table SET password = :password, privilege = :privilege, worker = :worker WHERE login = :login");
-                query.bindValue(":table", table);
+                query.prepare(QString("UPDATE %1 SET password = :password, privilege = :privilege, worker = :worker WHERE login = :login").arg(table));
                 query.bindValue(":login", model[ i ][ LOGIN ]);
                 query.bindValue(":password", model[ i ][ PASSWORD ]);
                 query.bindValue(":privilege", model[ i ][ PRIVILEGE ]);
@@ -175,8 +173,7 @@ bool AccountModel::submit()
             }
             else if(model[ i ][ STATE_ROW ] == StatesRows::DELETED)
             {
-                query.prepare("DELETE FROM :table WHERE login = :login");
-                query.bindValue(":table", table);
+                query.prepare(QString("DELETE FROM %1 WHERE login = :login").arg(table));
                 query.bindValue(":login", model[ i ][ LOGIN ]);
 
                 query.exec();

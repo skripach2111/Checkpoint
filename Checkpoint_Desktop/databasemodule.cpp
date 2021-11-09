@@ -60,50 +60,54 @@ bool DatabaseModule::connect(QString l, QString p)
         return false;
 }
 
-AccessModel *DatabaseModule::getAccessModel()
+void DatabaseModule::selectTables()
 {
     accessModel->select();
+    accountModel->select();
+    authorizationModel->select();
+    checkpointModel->select();
+    positionModel->select();
+    privilegeModel->select();
+    stateModel->select();
+    workerModel->select();
+}
+
+AccessModel *DatabaseModule::getAccessModel()
+{
     return accessModel;
 }
 
 AccountModel *DatabaseModule::getAccountModel()
 {
-    accountModel->select();
     return accountModel;
 }
 
 AuthorizationModel *DatabaseModule::getAuthorizationModel()
 {
-    authorizationModel->select();
     return authorizationModel;
 }
 
 CheckpointModel *DatabaseModule::getCheckpointModel()
 {
-    checkpointModel->select();
     return checkpointModel;
 }
 
 PositionModel *DatabaseModule::getPositionModel()
 {
-    positionModel->select();
     return positionModel;
 }
 
 PrivilegeModel *DatabaseModule::getPrivilegeModel()
 {
-    privilegeModel->select();
     return privilegeModel;
 }
 
 StateModel *DatabaseModule::getStateModel()
 {
-    stateModel->select();
     return stateModel;
 }
 
 WorkerModel *DatabaseModule::getWorkerModel()
 {
-//    workerModel->select();
     return workerModel;
 }

@@ -52,8 +52,8 @@ public:
         POSITION,
         LVL_ACCESS,
         FLAG,
-        STATE_ROW,
-        LAST
+        LAST,
+        STATE_ROW
     };
 
     enum Role {

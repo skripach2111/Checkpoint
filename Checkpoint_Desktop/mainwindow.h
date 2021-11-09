@@ -27,7 +27,23 @@ class MainWindow : public QMainWindow
     QString addWorkerLabel = "Добавление сотрудника";
     QString updateWorkerLabel = "Редактирование сотрудника";
 
+    QString addCheckpointLabel = "Добавление проходной";
+    QString updateCheclpointLabel = "Редактирование проходной";
+
+    QString addAccountLabel = "Добавление аккаунта";
+    QString updateAccountLabel = "Редактирование аккаунта";
+
+    QString addAccessLabel = "Добавление уровня доступа";
+    QString updateAccesLabel = "Редактирование уравня доступа";
+
+    QString addPositionLabel = "Добавление должности";
+    QString updatePositionLabel = "Редактирование должности";
+
     bool flagAddWorker;
+    bool flagAddCheckpoint;
+    bool flagAddAccount;
+    bool flagAddLvlAcces;
+    bool flagAddPosition;
 
     QSettings *settings;
 
@@ -176,6 +192,34 @@ private slots:
     void on_pushButton_save_clicked();
 
     void on_pushButton_addWorkerLoadPhoto_clicked();
+
+    void on_pushButton_addCheckpoint_clicked();
+
+    void on_pushButton_editCheckpoint_clicked();
+
+    void on_pushButton_removeCheckpoint_clicked();
+
+    void on_pushButton_moreAboutAuthorization_clicked();
+
+    void on_pushButton_addAccount_clicked();
+
+    void on_pushButton_editAccount_clicked();
+
+    void on_pushButton_moreAboutAccount_clicked();
+
+    void on_pushButton_removeAccount_clicked();
+
+    void on_pushButton_addLvlAccess_clicked();
+
+    void on_pushButton_editLvlAccess_clicked();
+
+    void on_pushButton_removeLvlAccess_clicked();
+
+    void on_pushButton_addPosition_clicked();
+
+    void on_pushButton_editPosition_clicked();
+
+    void on_pushButton_removePosition_clicked();
 
 private:
     Ui::MainWindow *ui;

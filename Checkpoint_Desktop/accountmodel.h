@@ -29,7 +29,7 @@ public:
     void removeRow( int row );
 
     bool select();
-    bool submit();
+    bool saveChange();
     void setTable(QString t, QSqlDatabase *database);
 
     void setWorkerModel(WorkerModel *m_worker) { workerModel = m_worker; }

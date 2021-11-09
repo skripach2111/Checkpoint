@@ -26,7 +26,7 @@ public:
     void removeRow( int row );
 
     bool select();
-    bool submit();
+    bool saveChanges();
     void setTable(QString t, QSqlDatabase *database);
 
     enum Column {

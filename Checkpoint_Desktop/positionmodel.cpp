@@ -87,6 +87,11 @@ void PositionModel::updateRow(int row, const int &id, const QString &title, cons
     endResetModel();
 }
 
+void PositionModel::removeRow(int row)
+{
+    model[ row ][ STATE_ROW ] = StatesRows::DELETED;
+}
+
 void PositionModel::appendRow( const int& id, const QString& title, const bool& flag ) {
     DataHash record;
     record[ ID ] = id;
@@ -131,7 +136,7 @@ bool PositionModel::select()
     return false;
 }
 
-bool PositionModel::submit()
+bool PositionModel::saveChanges()
 {
     for(int i = 0; i < model.size(); i++)
     {
@@ -139,8 +144,7 @@ bool PositionModel::submit()
         {
             if(model[ i ][ STATE_ROW ] == StatesRows::ADDED)
             {
-                query.prepare("INSERT INTO :table (title, flag) VALUES(:title, :flag)");
-                query.bindValue(":table", table);
+                query.prepare(QString("INSERT INTO %1 (title, flag) VALUES(:title, :flag)").arg(table));
                 query.bindValue(":title", model[ i ][ TITLE ]);
                 query.bindValue(":flag", model[ i ][ FLAG ]);
 
@@ -148,8 +152,7 @@ bool PositionModel::submit()
             }
             else if(model[ i ][ STATE_ROW ] == StatesRows::EDITED)
             {
-                query.prepare("UPDATE :table SET title = :title, flag = :flag WHERE id = :id");
-                query.bindValue(":table", table);
+                query.prepare(QString("UPDATE %1 SET title = :title, flag = :flag WHERE id = :id").arg(table));
                 query.bindValue(":id", model[ i ][ ID ]);
                 query.bindValue(":title", model[ i ][ TITLE ]);
                 query.bindValue(":flag", model[ i ][ FLAG ]);
@@ -158,8 +161,7 @@ bool PositionModel::submit()
             }
             else if(model[ i ][ STATE_ROW ] == StatesRows::DELETED)
             {
-                query.prepare("UPDATE :table SET flag = 1 WHERE id = :id");
-                query.bindValue(":table", table);
+                query.prepare(QString("UPDATE %1 SET flag = 1 WHERE id = :id").arg(table));
                 query.bindValue(":id", model[ i ][ ID ]);
 
                 query.exec();

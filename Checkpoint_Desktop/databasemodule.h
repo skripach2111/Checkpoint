@@ -43,6 +43,8 @@ public:
     void setHostAddress(QString address) { db.setHostName(address); }
     void setHostPort(int port) { db.setPort(port); }
 
+    void selectTables();
+
     AccessModel* getAccessModel();
     AccountModel* getAccountModel();
     AuthorizationModel* getAuthorizationModel();

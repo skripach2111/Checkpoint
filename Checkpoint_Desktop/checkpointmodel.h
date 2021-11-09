@@ -6,6 +6,7 @@
 #include <QSqlError>
 #include <QAbstractTableModel>
 #include <QObject>
+#include <QDebug>
 
 #include "accessmodel.h"
 
@@ -28,7 +29,7 @@ public:
     void removeRow( int row );
 
     bool select();
-    bool submit();
+    bool saveChanges();
     void setTable(QString t, QSqlDatabase *database);
 
     void setAccesModel(AccessModel *m_access) { accessModel = m_access; }

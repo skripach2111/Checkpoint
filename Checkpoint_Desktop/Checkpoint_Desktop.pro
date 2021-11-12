@@ -1,4 +1,4 @@
-QT       += core gui sql
+QT       += core gui sql printsupport qml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -63,3 +63,21 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 #LIBS += /libqsqlmysql.so -l
+
+# For Lime Report
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/limereport/ -llimereport
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/limereport/ -llimereport
+else:unix: LIBS += -L$$PWD/libs/limereport/ -llimereport
+
+INCLUDEPATH += $$PWD/libs/limereport/include
+DEPENDPATH += $$PWD/libs/limereport/include
+
+
+linux{
+    #Link share lib to ../libs/limereport rpath
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/libs
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../libs/
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../PDFTest/libs/limereport/
+    QMAKE_LFLAGS_RPATH += #. .. ./libs
+}

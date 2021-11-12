@@ -6,6 +6,8 @@
 #include <QBuffer>
 #include <QFileDialog>
 
+#include <LimeReport>
+
 #include "databasemodule.h"
 
 #include "accessfiltermodel.h"

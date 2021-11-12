@@ -82,7 +82,7 @@ void AccessModel::appendRow( const QString& title, const int& privilege, const b
     access[ TITLE ] = title;
     access[ PRIVILEGE ] = privilege;
     access[ FLAG ] = flag;
-    access[ STATE_ROW ] = StatesRows::ADDED;
+    access[ STATE_ROW ] = (int)StatesRows::ADDED;
 
     int row = model.count();
     beginInsertRows( QModelIndex(), row, row );
@@ -180,11 +180,11 @@ bool AccessModel::saveChanges()
                 query.exec();
             }
         }
-
-        qDebug() << query.lastError();
-
-    return true;
 }
+
+    qDebug() << query.lastError();
+
+return true;
 }
 
 void AccessModel::setTable(QString t, QSqlDatabase *database)

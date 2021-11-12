@@ -177,9 +177,40 @@ void MainWindow::on_pushButton_Connect_clicked()
 
 void MainWindow::on_pushButton_back_clicked()
 {
-    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::START);
-    ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::MAINMENU_BUTTONS);
-    ui->pushButton_back->setVisible(false);
+    switch(ui->stackedWidget_workPlace->currentIndex())
+    {
+    case PagesWorkPlace::ACCOUNTS_VIEW:
+    {
+        ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::ACCOUNTS);
+        ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::ACCOUNTS_BUTTONS);
+        break;
+    }
+    case PagesWorkPlace::AUTHORIZATIONS_VIEW:
+    {
+        ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::AUTHORIZATIONS);
+        ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::AUTHORIZATIONS_BUTTONS);
+        break;
+    }
+    case PagesWorkPlace::CHECKPOINTS_VIEW:
+    {
+        ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::CHECKPOINTS);
+        ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::CHECKPOINTS_BUTTONS);
+        break;
+    }
+    case PagesWorkPlace::WORKERS_VIEW:
+    {
+        ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::WORKERS);
+        ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::WORKERS_BUTTONS);
+        break;
+    }
+    default:
+    {
+        ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::START);
+        ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::MAINMENU_BUTTONS);
+        ui->pushButton_back->setVisible(false);
+    }
+    }
+
 }
 
 void MainWindow::on_pushButton_workers_clicked()
@@ -564,6 +595,7 @@ void MainWindow::on_pushButton_addWorker_clicked()
     flagAddWorker = true;
     ui->label_addWorkerLabel->setText(addWorkerLabel);
 
+    ui->lineEdit_addWorkerINN->setEnabled(true);
     ui->lineEdit_addWorkerPIB->setText("");
     ui->lineEdit_addWorkerINN->setText("");
     ui->dateEdit_addWorkerDate->setDate(QDate::currentDate());
@@ -671,6 +703,7 @@ void MainWindow::on_pushButton_editWorker_clicked()
     ui->comboBox_addWorkerLvlAccess->setCurrentIndex(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::LVL_ACCESS).data(WorkerModel::Role::Read).toInt());
     ui->comboBox_addWorkerPosition->setCurrentIndex(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::POSITION).data(WorkerModel::Role::Read).toInt());
     ui->dateEdit_addWorkerDate->setDate(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::DATE_OF_BIRTH).data().toDate());
+    ui->lineEdit_addWorkerINN->setEnabled(false);
     ui->lineEdit_addWorkerINN->setText(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::INN).data().toString());
     ui->lineEdit_addWorkerNumberPassport->setText(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::NUMBER_PASSPORT).data().toString());
     ui->lineEdit_addWorkerPIB->setText(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::PIB).data().toString());
@@ -904,6 +937,7 @@ void MainWindow::on_pushButton_addAccount_clicked()
 
     ui->comboBox_addAccountPrivilege->setCurrentIndex(0);
     ui->comboBox_addAccountWorker->setCurrentIndex(0);
+    ui->lineEdit_addAccountLogin->setEnabled(true);
     ui->lineEdit_addAccountLogin->setText("");
     ui->lineEdit_addAccountPasswordFirst->setText("");
     ui->lineEdit_addAccountPasswordSecond->setText("");
@@ -925,6 +959,7 @@ void MainWindow::on_pushButton_editAccount_clicked()
 
     ui->comboBox_addAccountPrivilege->setCurrentIndex(filterAccount->sourceModel()->index(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(), AccountModel::Column::PRIVILEGE).data(AccountModel::Role::Read).toInt());
     ui->comboBox_addAccountWorker->setCurrentIndex(filterAccount->sourceModel()->index(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(), AccountModel::Column::WORKER).data(AccountModel::Role::Read).toInt());
+    ui->lineEdit_addAccountLogin->setEnabled(false);
     ui->lineEdit_addAccountLogin->setText(filterAccount->sourceModel()->index(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(), AccountModel::Column::LOGIN).data().toString());
     ui->lineEdit_addAccountPasswordFirst->setText(filterAccount->sourceModel()->index(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(), AccountModel::Column::PASSWORD).data().toString());
 

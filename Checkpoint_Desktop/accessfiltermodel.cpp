@@ -29,6 +29,9 @@ bool AccessFilterModel::filterAcceptsColumn(int source_column, const QModelIndex
 
 bool AccessFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
+    if(sourceModel()->index(source_row, AccessModel::Column::FLAG, source_parent).data().toInt() == 1)
+        return false;
+
     bool flag = true;
     QVariant value;
 

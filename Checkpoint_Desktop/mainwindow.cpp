@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->pushButton_moreAboutLvlAccess->setVisible(false);
 
+    ui->pushButton_exitLogin->setVisible(false);
+    ui->pushButton_faq->setVisible(false);
+
     db = new DatabaseModule(this);
 
     settings = new QSettings("settings.conf", QSettings::NativeFormat);
@@ -350,9 +353,15 @@ void MainWindow::on_pushButton_settings_clicked()
 void MainWindow::on_pushButton_applySettings_clicked()
 {
     if(ui->lineEdit_setHostAddress->text().size() != 0)
+    {
         settings->setValue("Connection/ip_address", ui->lineEdit_setHostAddress->text());
+        db->setHostAddress(ui->lineEdit_setHostAddress->text());
+    }
     if(ui->lineEdit_setHostPort->text().size() != 0)
+    {
         settings->setValue("Connection/port", ui->lineEdit_setHostPort->text());
+        db->setHostPort(ui->lineEdit_setHostPort->text().toInt());
+    }
     settings->sync();
 
     ui->label_currentHostAddress->setText(settings->value("Connection/ip_address").toString());
@@ -649,6 +658,8 @@ void MainWindow::on_lineEdit_filterPositionsByTitle_editingFinished()
 
 void MainWindow::on_pushButton_addWorker_clicked()
 {
+    ui->label_errorMessage->setText("");
+
     flagAddWorker = true;
     ui->label_addWorkerLabel->setText(addWorkerLabel);
 
@@ -777,89 +788,210 @@ void MainWindow::on_pushButton_editWorker_clicked()
 
 void MainWindow::on_pushButton_save_clicked()
 {
+    bool correct = true;
+
     switch(ui->stackedWidget_workPlace->currentIndex())
     {
     case PagesWorkPlace::WORKERS_ADD:
     {
-        if(flagAddWorker)
+        if(ui->lineEdit_addWorkerINN->text().size() == 0)
         {
-            db->getWorkerModel()->appendRow(ui->lineEdit_addWorkerINN->text().toInt(),
-                                            pixmapToByteArray(ui->widget_addWorkerPhoto->getPixmap()),
-                                            ui->lineEdit_addWorkerPIB->text(), ui->dateEdit_addWorkerDate->date(),
-                                            ui->lineEdit_addWorkerPlaceFoRegistration->text(),
-                                            ui->lineEdit_addWorkerPlaceOfResidence->text(),
-                                            ui->lineEdit_addWorkerNumberPassport->text(),
-                                            ui->comboBox_addWorkerPosition->currentIndex(),
-                                            ui->comboBox_addWorkerLvlAccess->currentIndex(), ui->comboBox_addWorkerStateDissmised->currentIndex());
-        }
-        else
-        {
-            db->getWorkerModel()->updatedRow(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), ui->lineEdit_addWorkerINN->text().toInt(),
-                                             pixmapToByteArray(ui->widget_addWorkerPhoto->getPixmap()),
-                                             ui->lineEdit_addWorkerPIB->text(), ui->dateEdit_addWorkerDate->date(),
-                                             ui->lineEdit_addWorkerPlaceFoRegistration->text(),
-                                             ui->lineEdit_addWorkerPlaceOfResidence->text(),
-                                             ui->lineEdit_addWorkerNumberPassport->text(),
-                                             ui->comboBox_addWorkerPosition->currentIndex(),
-                                             ui->comboBox_addWorkerLvlAccess->currentIndex(), ui->comboBox_addWorkerStateDissmised->currentIndex());
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"ИНН\" не может быть пустым!\n\n");
         }
 
-        db->getWorkerModel()->saveChanges();
-        db->getWorkerModel()->select();
+        if(ui->lineEdit_addWorkerPIB->text().size() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"ФИО\" не может быть пустым!\n\n");
+        }
 
-        ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::WORKERS);
-        ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::WORKERS_BUTTONS);
+        if(ui->dateEdit_addWorkerDate->date() == QDate::currentDate())
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Дата рождения\" не может быть текущей датой!\n\n");
+        }
+
+        if(ui->lineEdit_addWorkerPlaceFoRegistration->text().size() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Место регистрации\" не может быть пустым!\n\n");
+        }
+
+        if(ui->lineEdit_addWorkerPlaceOfResidence->text().size() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Место проживания\" не может быть пустым!\n\n");
+        }
+
+        if(ui->lineEdit_addWorkerNumberPassport->text().size() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Номер паспорта\" не может быть пустым!\n\n");
+        }
+
+        if(ui->comboBox_addWorkerPosition->currentIndex() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Должность\" не выбрано!\n\n");
+        }
+
+        if(ui->comboBox_addWorkerLvlAccess->currentIndex() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Уровень доступа\" не выбрано!\n\n");
+        }
+
+
+        if(correct)
+        {
+            if(flagAddWorker)
+            {
+                db->getWorkerModel()->appendRow(ui->lineEdit_addWorkerINN->text().toInt(),
+                                                pixmapToByteArray(ui->widget_addWorkerPhoto->getPixmap()),
+                                                ui->lineEdit_addWorkerPIB->text(), ui->dateEdit_addWorkerDate->date(),
+                                                ui->lineEdit_addWorkerPlaceFoRegistration->text(),
+                                                ui->lineEdit_addWorkerPlaceOfResidence->text(),
+                                                ui->lineEdit_addWorkerNumberPassport->text(),
+                                                ui->comboBox_addWorkerPosition->currentIndex(),
+                                                ui->comboBox_addWorkerLvlAccess->currentIndex(), ui->comboBox_addWorkerStateDissmised->currentIndex());
+            }
+            else
+            {
+                db->getWorkerModel()->updatedRow(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), ui->lineEdit_addWorkerINN->text().toInt(),
+                                                 pixmapToByteArray(ui->widget_addWorkerPhoto->getPixmap()),
+                                                 ui->lineEdit_addWorkerPIB->text(), ui->dateEdit_addWorkerDate->date(),
+                                                 ui->lineEdit_addWorkerPlaceFoRegistration->text(),
+                                                 ui->lineEdit_addWorkerPlaceOfResidence->text(),
+                                                 ui->lineEdit_addWorkerNumberPassport->text(),
+                                                 ui->comboBox_addWorkerPosition->currentIndex(),
+                                                 ui->comboBox_addWorkerLvlAccess->currentIndex(), ui->comboBox_addWorkerStateDissmised->currentIndex());
+            }
+
+            db->getWorkerModel()->saveChanges();
+            db->getWorkerModel()->select();
+
+            ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::WORKERS);
+            ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::WORKERS_BUTTONS);
+        }
         break;
     }
     case PagesWorkPlace::CHECKPOINTS_ADD:
     {
-        if(flagAddCheckpoint)
+        if(ui->label_addCheckpointLabel->text().size() == 0)
         {
-            db->getCheckpointModel()->appendRow(0, ui->lineEdit_addCheckpointTitle->text(),
-                                                ui->lineEdit_addCheckpointLocation->text(),
-                                                ui->comboBox_addCheckpointLvlAccess->currentIndex(), 0);
-        }
-        else
-        {
-            db->getCheckpointModel()->updateRow(filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(), CheckpointModel::Column::ID).data().toInt(),
-                                                ui->lineEdit_addCheckpointTitle->text(),
-                                                ui->lineEdit_addCheckpointLocation->text(),
-                                                ui->comboBox_addCheckpointLvlAccess->currentIndex(), 0);
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Название\" не может быть пустым!\n\n");
         }
 
-        db->getCheckpointModel()->saveChanges();
-        db->getCheckpointModel()->select();
+        if(ui->lineEdit_addCheckpointLocation->text().size() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Размещение\" не может быть пустым!\n\n");
+        }
 
-        ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::CHECKPOINTS);
-        ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::CHECKPOINTS_BUTTONS);
+        if(ui->comboBox_addCheckpointLvlAccess->currentIndex() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Уровень доступа\" не выбрано!\n\n");
+        }
+
+        if(correct)
+        {
+            if(flagAddCheckpoint)
+            {
+                db->getCheckpointModel()->appendRow(0, ui->lineEdit_addCheckpointTitle->text(),
+                                                    ui->lineEdit_addCheckpointLocation->text(),
+                                                    ui->comboBox_addCheckpointLvlAccess->currentIndex(), 0);
+            }
+            else
+            {
+                db->getCheckpointModel()->updateRow(filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(), CheckpointModel::Column::ID).data().toInt(),
+                                                    ui->lineEdit_addCheckpointTitle->text(),
+                                                    ui->lineEdit_addCheckpointLocation->text(),
+                                                    ui->comboBox_addCheckpointLvlAccess->currentIndex(), 0);
+            }
+
+            db->getCheckpointModel()->saveChanges();
+            db->getCheckpointModel()->select();
+
+            ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::CHECKPOINTS);
+            ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::CHECKPOINTS_BUTTONS);
+        }
         break;
     }
     case PagesWorkPlace::ACCOUNTS_ADD:
     {
-        if(flagAddAccount)
+        if(ui->lineEdit_addAccountLogin->text().size() == 0)
         {
-            db->getAccountModel()->appendRow(ui->lineEdit_addAccountLogin->text(), ui->lineEdit_addAccountPasswordFirst->text(),
-                                             ui->comboBox_addAccountPrivilege->currentIndex(),
-                                             workerCombobox->index(ui->comboBox_addAccountWorker->currentIndex(), WorkerModel::Column::INN).data().toInt());
-        }
-        else
-        {
-            db->getAccountModel()->updateRow(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(),
-                                             ui->lineEdit_addAccountLogin->text(),
-                                             ui->lineEdit_addAccountPasswordFirst->text(),
-                                             ui->comboBox_addAccountPrivilege->currentIndex(),
-                                             workerCombobox->index(ui->comboBox_addAccountWorker->currentIndex(), WorkerModel::Column::INN).data().toInt());
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Логин\" не может быть пустым!\n\n");
         }
 
-        db->getAccountModel()->saveChange();
-        db->getAccountModel()->select();
+        if(ui->lineEdit_addAccountPasswordFirst->text().size() == 0 || ui->lineEdit_addAccountPasswordFirst->text().size() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поля \"Пароль\" не заполнены!\n\n");
+        }
+        else if(ui->lineEdit_addAccountPasswordFirst->text() != ui->lineEdit_addAccountPasswordFirst->text())
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Пароли не совпадают!");
+        }
 
-        ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::ACCOUNTS);
-        ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::ACCOUNTS_BUTTONS);
+        if(ui->comboBox_addAccountPrivilege->currentIndex() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Права\" не выбрано!\n\n");
+        }
+
+        if(ui->comboBox_addAccountWorker->currentIndex() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Сотрудник\" не выбрано!\n\n");
+        }
+
+        if(correct)
+        {
+            if(flagAddAccount)
+            {
+                db->getAccountModel()->appendRow(ui->lineEdit_addAccountLogin->text(), ui->lineEdit_addAccountPasswordFirst->text(),
+                                                 ui->comboBox_addAccountPrivilege->currentIndex(),
+                                                 workerCombobox->index(ui->comboBox_addAccountWorker->currentIndex(), WorkerModel::Column::INN).data().toInt());
+            }
+            else
+            {
+                db->getAccountModel()->updateRow(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(),
+                                                 ui->lineEdit_addAccountLogin->text(),
+                                                 ui->lineEdit_addAccountPasswordFirst->text(),
+                                                 ui->comboBox_addAccountPrivilege->currentIndex(),
+                                                 workerCombobox->index(ui->comboBox_addAccountWorker->currentIndex(), WorkerModel::Column::INN).data().toInt());
+            }
+
+            db->getAccountModel()->saveChange();
+            db->getAccountModel()->select();
+
+            ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::ACCOUNTS);
+            ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::ACCOUNTS_BUTTONS);
+        }
         break;
     }
     case PagesWorkPlace::ACCESS_ADD:
     {
+        if(ui->lineEdit_addAccessTitle->text().size() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Название\" не может быть пустым!\n\n");
+        }
+
+        if(ui->spinBox_addAccessLvl->value() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Значение \"Позиция в иерархии\" не может быть равным \"0\"!\n\n");
+        }
+
+        if(correct)
+        {
         if(flagAddLvlAcces)
         {
             db->getAccessModel()->appendRow(ui->lineEdit_addAccessTitle->text(), ui->spinBox_addAccessLvl->value(), 0);
@@ -875,10 +1007,17 @@ void MainWindow::on_pushButton_save_clicked()
 
         ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::LVL_ACCESS);
         ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::LVL_ACCESS_BUTTONS);
+        }
         break;
     }
     case PagesWorkPlace::POSITION_ADD:
     {
+        if(ui->lineEdit_addPositionTitle->text().size() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Название\" не может быть пустым!\n\n");
+        }
+
         if(flagAddPosition)
         {
             db->getPositionModel()->appendRow(0, ui->lineEdit_addPositionTitle->text(), 0);
@@ -898,7 +1037,8 @@ void MainWindow::on_pushButton_save_clicked()
     }
     }
 
-    switchBackButton(false);
+    if(correct)
+        switchBackButton(false);
 }
 
 QByteArray pixmapToByteArray(QPixmap pixmap)
@@ -927,6 +1067,8 @@ void MainWindow::on_pushButton_addWorkerLoadPhoto_clicked()
 
 void MainWindow::on_pushButton_addCheckpoint_clicked()
 {
+    ui->label_errorMessage->setText("");
+
     flagAddCheckpoint = true;
 
     ui->label_addCheckpointLabel->setText(addCheckpointLabel);
@@ -988,6 +1130,8 @@ void MainWindow::on_pushButton_moreAboutAuthorization_clicked()
 
 void MainWindow::on_pushButton_addAccount_clicked()
 {
+    ui->label_errorMessage->setText("");
+
     flagAddAccount = true;
 
     ui->label_addAccountLabel->setText(addAccountLabel);
@@ -1052,6 +1196,8 @@ void MainWindow::on_pushButton_removeAccount_clicked()
 
 void MainWindow::on_pushButton_addLvlAccess_clicked()
 {
+    ui->label_errorMessage->setText("");
+
     flagAddLvlAcces = true;
 
     ui->label_addLvlAccessLabel->setText(addAccessLabel);
@@ -1096,6 +1242,8 @@ void MainWindow::on_pushButton_removeLvlAccess_clicked()
 
 void MainWindow::on_pushButton_addPosition_clicked()
 {
+    ui->label_errorMessage->setText("");
+
     flagAddPosition = true;
 
     ui->label_addPositionLabel->setText(addPositionLabel);
@@ -1157,13 +1305,13 @@ void MainWindow::on_pushButton_viewWorkerPrintPass_clicked()
                         pixmapToByteArray(ui->widget_viewWorkerPhoto->getPixmap()),(ui->label_viewWorkerINN->text()));
 
     QString reportFile = "reports/pass.lrxml";
-        if (!reportFile.isEmpty())
-        {
-            LimeReport::ReportEngine m_report;
+    if (!reportFile.isEmpty())
+    {
+        LimeReport::ReportEngine m_report;
 
-            m_report.loadFromFile(reportFile);
-            m_report.dataManager()->addModel("modeldata", &modelData, false);
-            m_report.previewReport();
-        }
+        m_report.loadFromFile(reportFile);
+        m_report.dataManager()->addModel("modeldata", &modelData, false);
+        m_report.previewReport();
+    }
 }
 

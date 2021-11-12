@@ -26,6 +26,9 @@ QVariant ModelForPrint::data(const QModelIndex &index, int role) const
     {
     case Qt::DisplayRole:
     {
+        if(index.column() == PHOTO)
+            return model[ index.row() ][ Column( index.column() ) ];
+
         return model[ index.row() ][ Column( index.column() ) ];
         break;
     }
@@ -62,7 +65,7 @@ QVariant ModelForPrint::headerData( int section, Qt::Orientation orientation, in
     return QVariant();
 }
 
-void ModelForPrint::appendRow(const QString &pib, const QString &position, const QString &lvl_access, const QByteArray &photo, const QByteArray &qr_code)
+void ModelForPrint::appendRow(const QString &pib, const QString &position, const QString &lvl_access, const QByteArray &photo, const QString &qr_code)
 {
     DataHash record;
     record[ PIB ] = pib;

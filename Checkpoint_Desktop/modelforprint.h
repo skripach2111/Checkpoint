@@ -16,7 +16,7 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
     Qt::ItemFlags flags( const QModelIndex& index ) const;
 
-    void appendRow( const QString& pib, const QString& position, const QString& lvl_access, const QByteArray& photo, const QByteArray& qr_code);
+    void appendRow( const QString& pib, const QString& position, const QString& lvl_access, const QByteArray& photo, const QString& qr_code);
 
     enum Column {
         PIB = 0,

@@ -62,10 +62,10 @@ QVariant AuthorizationModel::data( const QModelIndex& index, int role ) const {
     case Qt::DisplayRole:
     {
         if(index.column() == WORKER)
-            return workerModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toInt(), WorkerModel::Column::PIB);
+            return workerModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toString(), WorkerModel::Column::PIB);
 
         if(index.column() == AUTHORIZER)
-            return workerModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toInt(), WorkerModel::Column::PIB);
+            return workerModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toString(), WorkerModel::Column::PIB);
 
         return model[ index.row() ][ Column( index.column() ) ];
     }
@@ -173,7 +173,7 @@ void AuthorizationModel::setTable(QString t, QSqlDatabase *database)
     db = database;
 }
 
-QVariant AuthorizationModel::getDataWorker(int inn, WorkerModel::Column column)
+QVariant AuthorizationModel::getDataWorker(QString inn, WorkerModel::Column column)
 {
     return workerModel->getDataById(inn, column);
 }

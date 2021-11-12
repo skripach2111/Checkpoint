@@ -847,7 +847,7 @@ void MainWindow::on_pushButton_save_clicked()
         {
             if(flagAddWorker)
             {
-                db->getWorkerModel()->appendRow(ui->lineEdit_addWorkerINN->text().toInt(),
+                db->getWorkerModel()->appendRow(ui->lineEdit_addWorkerINN->text(),
                                                 pixmapToByteArray(ui->widget_addWorkerPhoto->getPixmap()),
                                                 ui->lineEdit_addWorkerPIB->text(), ui->dateEdit_addWorkerDate->date(),
                                                 ui->lineEdit_addWorkerPlaceFoRegistration->text(),
@@ -858,7 +858,7 @@ void MainWindow::on_pushButton_save_clicked()
             }
             else
             {
-                db->getWorkerModel()->updatedRow(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), ui->lineEdit_addWorkerINN->text().toInt(),
+                db->getWorkerModel()->updatedRow(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), ui->lineEdit_addWorkerINN->text(),
                                                  pixmapToByteArray(ui->widget_addWorkerPhoto->getPixmap()),
                                                  ui->lineEdit_addWorkerPIB->text(), ui->dateEdit_addWorkerDate->date(),
                                                  ui->lineEdit_addWorkerPlaceFoRegistration->text(),

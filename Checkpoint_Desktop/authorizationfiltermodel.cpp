@@ -89,7 +89,7 @@ bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelInde
     if(params[ LVL_ACCESS ])
     {
         value = sourceModel()->index(source_row, AuthorizationModel::Column::WORKER, source_parent).data(AuthorizationModel::Role::Read);
-        value = ((AuthorizationModel*)sourceModel())->getDataWorker(value.toInt(), WorkerModel::Column::LVL_ACCESS);
+        value = ((AuthorizationModel*)sourceModel())->getDataWorker(value.toString(), WorkerModel::Column::LVL_ACCESS);
         if(value.isValid())
         {
             if(value == values[LVL_ACCESS])

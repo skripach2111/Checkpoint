@@ -54,7 +54,7 @@ public:
         DELETED
     };
 
-    QVariant getDataWorker(int inn, WorkerModel::Column column);
+    QVariant getDataWorker(QString inn, WorkerModel::Column column);
 
 private:
 

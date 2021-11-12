@@ -25,10 +25,10 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
     Qt::ItemFlags flags( const QModelIndex& index ) const;
 
-    void appendRow( const int& inn, const QByteArray& photo, const QString& pib, const QDate& dateOfBirth, const QString& placeOfRegistration,
+    void appendRow( const QString& inn, const QByteArray& photo, const QString& pib, const QDate& dateOfBirth, const QString& placeOfRegistration,
                  const QString& placeOfResidence, const QString& numberPassport, const int& position,
                  const int& lvlAcess, const bool& flag);
-    void updatedRow( int row, const int& inn, const QByteArray& photo, const QString& pib, const QDate& dateOfBirth, const QString& placeOfRegistration,
+    void updatedRow( int row, const QString& inn, const QByteArray& photo, const QString& pib, const QDate& dateOfBirth, const QString& placeOfRegistration,
                  const QString& placeOfResidence, const QString& numberPassport, const int& position,
                  const int& lvlAcess, const bool& flag);
 
@@ -68,7 +68,7 @@ public:
         DELETED
     };
 
-    QVariant getDataById(int inn, Column column);
+    QVariant getDataById(QString inn, Column column);
 
 private:
 

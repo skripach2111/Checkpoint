@@ -97,7 +97,7 @@ Qt::ItemFlags WorkerModel::flags( const QModelIndex& index ) const {
     return flags;
 }
 
-void WorkerModel::appendRow(const int &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag)
+void WorkerModel::appendRow(const QString &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag)
 {
     DataHash person;
     person[ INN ] = inn;
@@ -118,7 +118,7 @@ void WorkerModel::appendRow(const int &inn, const QByteArray &photo, const QStri
     endInsertRows();
 }
 
-void WorkerModel::updatedRow(int row, const int &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag)
+void WorkerModel::updatedRow(int row, const QString &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag)
 {
     beginResetModel();
 
@@ -227,7 +227,7 @@ bool WorkerModel::saveChanges()
             }
             else if(model[ i ][ STATE_ROW ].toInt() == StatesRows::DELETED)
             {
-                query.prepare(QString("UPDATE :table SET flag = 1 WHERE inn = :inn"));
+                query.prepare(QString("UPDATE %1 SET flag = 1 WHERE inn = :inn").arg(table));
 
                 query.bindValue(":inn", model[ i ][ INN ]);
 
@@ -245,11 +245,11 @@ void WorkerModel::setTable(QString t, QSqlDatabase *database)
     db = database;
 }
 
-QVariant WorkerModel::getDataById(int inn, Column column)
+QVariant WorkerModel::getDataById(QString inn, Column column)
 {
     for(int i = 0; i < model.size(); i++)
     {
-        if(model[i][INN].toInt() == inn)
+        if(model[i][INN].toString() == inn)
             return model[i][column];
     }
 }

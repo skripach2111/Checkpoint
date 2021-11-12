@@ -59,7 +59,7 @@ QVariant AccountModel::data( const QModelIndex& index, int role ) const {
             return privilegeModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toInt(), PrivilegeModel::Column::TITLE);
 
         if(index.column() == WORKER)
-            return workerModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toInt(), WorkerModel::Column::PIB);
+            return workerModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toString(), WorkerModel::Column::PIB);
 
         return model[ index.row() ][ Column( index.column() ) ];
     }

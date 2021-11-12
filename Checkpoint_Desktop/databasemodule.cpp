@@ -72,6 +72,25 @@ void DatabaseModule::selectTables()
     workerModel->select();
 }
 
+QString DatabaseModule::authorizationUser(QString login, QString password)
+{
+    QSqlQuery query;
+
+    query.prepare("SELECT password FROM account WHERE login = :login");
+    query.bindValue(":login", login);
+    query.exec();
+
+    if(query.next())
+    {
+        if(query.value(0).toString() == login)
+            return QString();
+        else
+            return "Неверный логин или пароль!";
+    }
+    else
+        return "Пользователь не найден!";
+}
+
 AccessModel *DatabaseModule::getAccessModel()
 {
     return accessModel;

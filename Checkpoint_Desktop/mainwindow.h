@@ -103,6 +103,12 @@ class MainWindow : public QMainWindow
         SAVE_CANCEL_BUTTONS
     };
 
+    enum Privileges {
+        ADMIN = 1,
+        BUHGALTER,
+        SB
+    };
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -220,6 +226,8 @@ private slots:
     void on_pushButton_editPosition_clicked();
 
     void on_pushButton_removePosition_clicked();
+
+    void on_pushButton_exit_clicked();
 
 private:
     Ui::MainWindow *ui;

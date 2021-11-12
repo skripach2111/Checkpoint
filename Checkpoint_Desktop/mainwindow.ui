@@ -33,7 +33,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget_mainWindow">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_authorization">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -1226,8 +1226,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>392</width>
+                 <height>480</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_35">
@@ -1587,8 +1587,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>462</width>
+                 <height>458</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -2051,8 +2051,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>230</width>
+                 <height>120</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_45">
@@ -2174,8 +2174,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>211</width>
+                 <height>102</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_47">
@@ -2335,8 +2335,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>183</width>
+                 <height>186</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_49">
@@ -2607,8 +2607,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>309</width>
+                 <height>154</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -2788,8 +2788,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>159</width>
+                 <height>102</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_53">
@@ -2949,8 +2949,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>545</width>
-                 <height>507</height>
+                 <width>210</width>
+                 <height>87</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -3158,22 +3158,43 @@
               </item>
               <item>
                <widget class="QLabel" name="label_login">
+                <property name="font">
+                 <font>
+                  <pointsize>15</pointsize>
+                  <weight>75</weight>
+                  <italic>false</italic>
+                  <bold>true</bold>
+                 </font>
+                </property>
                 <property name="text">
                  <string>_login</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_fio">
+               <widget class="QLabel" name="label_position">
+                <property name="font">
+                 <font>
+                  <italic>true</italic>
+                 </font>
+                </property>
                 <property name="text">
-                 <string>_fio</string>
+                 <string>_position</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_position">
+               <widget class="QLabel" name="label_fio">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
                 <property name="text">
-                 <string>_position</string>
+                 <string>_fio</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -3211,7 +3232,7 @@
               <item>
                <widget class="QStackedWidget" name="stackedWidget_buttonPanels">
                 <property name="currentIndex">
-                 <number>6</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="page_mainMenuButtons">
                  <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -3242,7 +3263,7 @@
                      <property name="geometry">
                       <rect>
                        <x>0</x>
-                       <y>-79</y>
+                       <y>0</y>
                        <width>177</width>
                        <height>392</height>
                       </rect>
@@ -3933,7 +3954,7 @@
                        <x>0</x>
                        <y>0</y>
                        <width>173</width>
-                       <height>153</height>
+                       <height>138</height>
                       </rect>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -4100,7 +4121,7 @@
                      <property name="geometry">
                       <rect>
                        <x>0</x>
-                       <y>-55</y>
+                       <y>0</y>
                        <width>159</width>
                        <height>208</height>
                       </rect>

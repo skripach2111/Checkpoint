@@ -113,6 +113,15 @@ void AccountModel::removeRow(int row)
     model[ row ][ STATE_ROW ] = StatesRows::DELETED;
 }
 
+QModelIndex AccountModel::getUserByLogin(QString login)
+{
+    for(int i = 0; i < model.size(); i++)
+    {
+        if(login == model[ i ][ LOGIN ].toString())
+            return createIndex(i, LOGIN);
+    }
+}
+
 bool AccountModel::select()
 {
     beginResetModel();

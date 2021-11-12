@@ -29,6 +29,8 @@ public:
     void updateRow( int row, const QString& login, const QString& password, const int& privilege, const int& worker);
     void removeRow( int row );
 
+    QModelIndex getUserByLogin(QString login);
+
     bool select();
     bool saveChange();
     void setTable(QString t, QSqlDatabase *database);

@@ -54,19 +54,24 @@ void MainWindow::on_pushButton_Connect_clicked()
         return;
     }
 
-    if(!db->connect(ui->lineEdit_login->text(), ui->lineEdit_password->text()))
+    //    if(!db->connect(ui->lineEdit_login->text(), ui->lineEdit_password->text()))
+    //    {
+    //        ui->label_loginErrors->setText(db->lastError().databaseText());
+    //        return;
+    //    }
+
+    if(!db->connect("userCheckpoint", "user_checkpoint"))
     {
-        ui->label_loginErrors->setText(db->lastError().databaseText());
+        ui->label_loginErrors->setText("Не удалось подключиться к серверу!");
         return;
     }
 
-    //    switch (db->getPrivileges()) {
+    ui->label_loginErrors->setText(db->authorizationUser(ui->lineEdit_login->text(), ui->lineEdit_password->text()));
 
-    //    }
+    if(ui->label_loginErrors->text().size() != 0)
+        return;
 
     db->selectTables();
-
-    ui->stackedWidget_mainWindow->setCurrentIndex(PagesMainWindow::WORKSPACE);
 
     filterAccess = new AccessFilterModel(this);
     filterAccess->setSourceModel(db->getAccessModel());
@@ -172,6 +177,58 @@ void MainWindow::on_pushButton_Connect_clicked()
     ui->comboBox_addWorkerLvlAccess->setModelColumn(AccessModel::Column::TITLE);
     ui->comboBox_addWorkerPosition->setModel(positionCombobox);
     ui->comboBox_addWorkerPosition->setModelColumn(PositionModel::Column::TITLE);
+
+    QModelIndex index = db->getAccountModel()->getUserByLogin(ui->lineEdit_login->text());
+    ui->label_login->setText(db->getAccountModel()->index(index.row(), AccountModel::Column::LOGIN).data().toString());
+    ui->label_position->setText(db->getAccountModel()->index(index.row(), AccountModel::Column::PRIVILEGE).data().toString());
+    ui->label_fio->setText(db->getAccountModel()->index(index.row(), AccountModel::Column::WORKER).data().toString());
+
+    switch (db->getAccountModel()->index(index.row(), AccountModel::Column::PRIVILEGE).data(AccountModel::Role::Read).toInt())
+    {
+    case Privileges::ADMIN:
+    {
+        ui->pushButton_authorizations->setVisible(false);
+        ui->pushButton_checkpoints->setVisible(false);
+        ui->pushButton_lvlAccesses->setVisible(false);
+        ui->pushButton_accounts->setVisible(true);
+        ui->pushButton_privilege->setVisible(true);
+        ui->pushButton_states->setVisible(true);
+        ui->pushButton_workers->setVisible(false);
+        ui->pushButton_positions->setVisible(false);
+        break;
+    }
+    case Privileges::BUHGALTER:
+    {
+        ui->pushButton_authorizations->setVisible(false);
+        ui->pushButton_checkpoints->setVisible(false);
+        ui->pushButton_lvlAccesses->setVisible(false);
+        ui->pushButton_accounts->setVisible(false);
+        ui->pushButton_privilege->setVisible(false);
+        ui->pushButton_states->setVisible(false);
+        ui->pushButton_workers->setVisible(true);
+        ui->pushButton_positions->setVisible(true);
+        break;
+    }
+    case Privileges::SB:
+    {
+        ui->pushButton_authorizations->setVisible(true);
+        ui->pushButton_checkpoints->setVisible(true);
+        ui->pushButton_lvlAccesses->setVisible(true);
+        ui->pushButton_accounts->setVisible(false);
+        ui->pushButton_privilege->setVisible(false);
+        ui->pushButton_states->setVisible(false);
+        ui->pushButton_workers->setVisible(true);
+        ui->pushButton_positions->setVisible(false);
+        break;
+    }
+    default:
+    {
+        ui->label_loginErrors->setText("Доступ к программе запрещён!");
+        return;
+    }
+    }
+
+    ui->stackedWidget_mainWindow->setCurrentIndex(PagesMainWindow::WORKSPACE);
 }
 
 
@@ -1078,5 +1135,17 @@ void MainWindow::on_pushButton_removePosition_clicked()
     db->getPositionModel()->removeRow(filterPosition->mapToSource(filterPosition->index(ui->listView_positions->currentIndex().row(), 0)).row());
     db->getPositionModel()->saveChanges();
     db->getPositionModel()->select();
+}
+
+
+void MainWindow::on_pushButton_exit_clicked()
+{
+    db->disconnect();
+    ui->lineEdit_login->setText("");
+    ui->lineEdit_password->setText("");
+    ui->label_loginErrors->setText("");
+
+    ui->stackedWidget_mainWindow->setCurrentIndex(PagesMainWindow::AUTHORIZATION);
+    ui->pushButton_back->clicked();
 }
 

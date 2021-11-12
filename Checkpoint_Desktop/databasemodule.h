@@ -37,6 +37,7 @@ public:
 
     int getPrivileges();
     bool connect(QString l, QString p);
+    void disconnect() { db.close(); }
 
     QSqlError lastError() { return db.lastError(); }
 
@@ -44,6 +45,8 @@ public:
     void setHostPort(int port) { db.setPort(port); }
 
     void selectTables();
+
+    QString authorizationUser(QString login, QString password);
 
     AccessModel* getAccessModel();
     AccountModel* getAccountModel();

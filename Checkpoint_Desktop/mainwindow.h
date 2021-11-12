@@ -17,6 +17,7 @@
 #include "positionfiltermodel.h"
 #include "workerfiltermodel.h"
 #include "modelforcombobox.h"
+#include "modelforprint.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -230,6 +231,8 @@ private slots:
     void on_pushButton_removePosition_clicked();
 
     void on_pushButton_exit_clicked();
+
+    void on_pushButton_viewWorkerPrintPass_clicked();
 
 private:
     Ui::MainWindow *ui;

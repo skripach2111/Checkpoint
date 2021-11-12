@@ -21,6 +21,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     modelforcombobox.cpp \
+    modelforprint.cpp \
     positionfiltermodel.cpp \
     positionmodel.cpp \
     privilegemodel.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     databasemodule.h \
     mainwindow.h \
     modelforcombobox.h \
+    modelforprint.h \
     positionfiltermodel.h \
     positionmodel.h \
     privilegemodel.h \

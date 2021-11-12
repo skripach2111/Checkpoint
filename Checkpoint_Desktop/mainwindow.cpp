@@ -1149,3 +1149,29 @@ void MainWindow::on_pushButton_exit_clicked()
     ui->pushButton_back->clicked();
 }
 
+
+void MainWindow::on_pushButton_viewWorkerPrintPass_clicked()
+{
+    ModelForPrint modelData;
+    modelData.appendRow(ui->label_viewWorkerPIB->text(), ui->label_viewWorkerPosition->text(), ui->label_viewWorkerLvlAccess->text(),
+                        pixmapToByteArray(ui->widget_viewWorkerPhoto->getPixmap()), QByteArray());
+
+    QString reportFile = "/home/v1skas/Programming/report.lrxml";
+        if (!reportFile.isEmpty())
+        {
+            LimeReport::ReportEngine m_report;
+
+            m_report.loadFromFile(reportFile);
+
+            qDebug() << m_report.dataManager()->variableNames();
+
+//            m_report.dataManager()->setReportVariable("#FIO", ui->lineEdit_FIO->text());
+//            m_report.dataManager()->setReportVariable("#Position", ui->lineEdit_Position->text());
+//            m_report.dataManager()->setReportVariable("#lvlAccess", ui->comboBox_lvlAccess->currentText());
+//            m_report.dataManager()->setReportVariable("#Photo", ui->label_Photo->getPixmap().toImage());
+            m_report.dataManager()->addModel("modeldata", &modelData, false);
+//            m_report.designReport();
+            m_report.previewReport();
+        }
+}
+

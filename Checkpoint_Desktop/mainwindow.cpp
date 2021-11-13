@@ -759,6 +759,8 @@ void MainWindow::on_pushButton_moreAboutWorker_clicked()
 
 void MainWindow::on_pushButton_editWorker_clicked()
 {
+    ui->label_errorMessage->setText("");
+
     if(ui->tableView_workers->currentIndex().column() == -1)
         return;
 
@@ -798,6 +800,12 @@ void MainWindow::on_pushButton_save_clicked()
         {
             correct = false;
             ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"ИНН\" не может быть пустым!\n\n");
+        }
+
+        if(ui->lineEdit_addWorkerINN->text().size() > 0 && ui->lineEdit_addWorkerINN->text().size() < 11)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Некорректный \"ИНН\"!\n\n");
         }
 
         if(ui->lineEdit_addWorkerPIB->text().size() == 0)
@@ -1084,6 +1092,8 @@ void MainWindow::on_pushButton_addCheckpoint_clicked()
 
 void MainWindow::on_pushButton_editCheckpoint_clicked()
 {
+    ui->label_errorMessage->setText("");
+
     if(ui->tableView_checkpoints->currentIndex().row() == -1)
         return;
 
@@ -1154,6 +1164,8 @@ void MainWindow::on_pushButton_editAccount_clicked()
     if(ui->tableView_accounts->currentIndex().row() == -1)
         return;
 
+    ui->label_errorMessage->setText("");
+
     flagAddAccount = false;
 
     ui->label_addAccountLabel->setText(updateAccountLabel);
@@ -1213,6 +1225,8 @@ void MainWindow::on_pushButton_addLvlAccess_clicked()
 
 void MainWindow::on_pushButton_editLvlAccess_clicked()
 {
+    ui->label_errorMessage->setText("");
+
     if(ui->tableView_lvlAccess->currentIndex().row() == -1)
         return;
 
@@ -1258,6 +1272,8 @@ void MainWindow::on_pushButton_addPosition_clicked()
 
 void MainWindow::on_pushButton_editPosition_clicked()
 {
+    ui->label_errorMessage->setText("");
+
     if(ui->listView_positions->currentIndex().row() == -1)
         return;
 

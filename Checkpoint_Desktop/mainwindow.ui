@@ -33,7 +33,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget_mainWindow">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_authorization">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -393,7 +393,7 @@
         <item row="0" column="1">
          <widget class="QStackedWidget" name="stackedWidget_workPlace">
           <property name="currentIndex">
-           <number>9</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="page_start">
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3091,8 +3091,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>135</width>
-                 <height>52</height>
+                 <width>545</width>
+                 <height>507</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_57">
@@ -3283,7 +3283,7 @@
               <item>
                <widget class="QStackedWidget" name="stackedWidget_buttonPanels">
                 <property name="currentIndex">
-                 <number>9</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="page_mainMenuButtons">
                  <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -3315,7 +3315,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>128</width>
+                       <width>177</width>
                        <height>392</height>
                       </rect>
                      </property>
@@ -3341,43 +3341,6 @@
                           <height>40</height>
                          </size>
                         </property>
-                        <property name="palette">
-                         <palette>
-                          <active>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </active>
-                          <inactive>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </inactive>
-                          <disabled>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </disabled>
-                         </palette>
-                        </property>
                         <property name="text">
                          <string>Сотрудники</string>
                         </property>
@@ -3400,43 +3363,6 @@
                           <height>40</height>
                          </size>
                         </property>
-                        <property name="palette">
-                         <palette>
-                          <active>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </active>
-                          <inactive>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </inactive>
-                          <disabled>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </disabled>
-                         </palette>
-                        </property>
                         <property name="text">
                          <string>КПП</string>
                         </property>
@@ -3455,43 +3381,6 @@
                           <width>0</width>
                           <height>40</height>
                          </size>
-                        </property>
-                        <property name="palette">
-                         <palette>
-                          <active>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </active>
-                          <inactive>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </inactive>
-                          <disabled>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </disabled>
-                         </palette>
                         </property>
                         <property name="text">
                          <string>Посещения</string>
@@ -3512,43 +3401,6 @@
                           <height>40</height>
                          </size>
                         </property>
-                        <property name="palette">
-                         <palette>
-                          <active>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </active>
-                          <inactive>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </inactive>
-                          <disabled>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </disabled>
-                         </palette>
-                        </property>
                         <property name="text">
                          <string>Аккаунты</string>
                         </property>
@@ -3567,43 +3419,6 @@
                           <width>0</width>
                           <height>40</height>
                          </size>
-                        </property>
-                        <property name="palette">
-                         <palette>
-                          <active>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </active>
-                          <inactive>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </inactive>
-                          <disabled>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </disabled>
-                         </palette>
                         </property>
                         <property name="text">
                          <string>Уровни доступа</string>
@@ -3624,43 +3439,6 @@
                           <height>40</height>
                          </size>
                         </property>
-                        <property name="palette">
-                         <palette>
-                          <active>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </active>
-                          <inactive>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </inactive>
-                          <disabled>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </disabled>
-                         </palette>
-                        </property>
                         <property name="text">
                          <string>Должности</string>
                         </property>
@@ -3680,43 +3458,6 @@
                           <height>40</height>
                          </size>
                         </property>
-                        <property name="palette">
-                         <palette>
-                          <active>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </active>
-                          <inactive>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </inactive>
-                          <disabled>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </disabled>
-                         </palette>
-                        </property>
                         <property name="text">
                          <string>Привилегии</string>
                         </property>
@@ -3735,43 +3476,6 @@
                           <width>0</width>
                           <height>40</height>
                          </size>
-                        </property>
-                        <property name="palette">
-                         <palette>
-                          <active>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </active>
-                          <inactive>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </inactive>
-                          <disabled>
-                           <colorrole role="Button">
-                            <brush brushstyle="SolidPattern">
-                             <color alpha="255">
-                              <red>50</red>
-                              <green>50</green>
-                              <blue>50</blue>
-                             </color>
-                            </brush>
-                           </colorrole>
-                          </disabled>
-                         </palette>
                         </property>
                         <property name="text">
                          <string>Состояния
@@ -3822,7 +3526,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>122</width>
+                       <width>159</width>
                        <height>162</height>
                       </rect>
                      </property>
@@ -3913,7 +3617,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>122</width>
+                       <width>159</width>
                        <height>162</height>
                       </rect>
                      </property>
@@ -4004,8 +3708,8 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>98</width>
-                       <height>70</height>
+                       <width>173</width>
+                       <height>138</height>
                       </rect>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -4069,7 +3773,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>122</width>
+                       <width>159</width>
                        <height>208</height>
                       </rect>
                      </property>
@@ -4173,7 +3877,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>122</width>
+                       <width>159</width>
                        <height>208</height>
                       </rect>
                      </property>
@@ -4277,7 +3981,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>122</width>
+                       <width>159</width>
                        <height>162</height>
                       </rect>
                      </property>

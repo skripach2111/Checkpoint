@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     settings = new QSettings("settings.conf", QSettings::NativeFormat);
     db->setHostAddress(settings->value("Connection/ip_address", "127.0.0.1").toString());
     db->setHostPort(settings->value("Connection/port", 3306).toInt());
-    ui->label_currentDbName->setText(settings->value("Connection/db_name", "checkpoints").toString());
+    db->setDbName(settings->value("Connection/db_name", "checkpoints").toString());
 
     connect(ui->radioButton_hideTheDismissed, SIGNAL(clicked()), this, SLOT(workerDissmissedFilterChanged()));
     connect(ui->radioButton_showDismissed, SIGNAL(clicked()), this, SLOT(workerDissmissedFilterChanged()));
@@ -345,8 +345,9 @@ void MainWindow::on_pushButton_backToLogin_clicked()
 
 void MainWindow::on_pushButton_settings_clicked()
 {
-    ui->label_currentHostAddress->setText(settings->value("Connection/ip_address").toString());
-    ui->label_currentHostPort->setText(settings->value("Connection/port").toString());
+    ui->label_currentHostAddress->setText(settings->value("Connection/ip_address", "127.0.0.1").toString());
+    ui->label_currentHostPort->setText(settings->value("Connection/port", 3306).toString());
+    ui->label_currentDbName->setText(settings->value("Connections/db_name", "checkpoints").toString());
     ui->stackedWidget_mainWindow->setCurrentIndex(PagesMainWindow::SETTINGS);
 }
 
@@ -363,16 +364,16 @@ void MainWindow::on_pushButton_applySettings_clicked()
         settings->setValue("Connection/port", ui->lineEdit_setHostPort->text());
         db->setHostPort(ui->lineEdit_setHostPort->text().toInt());
     }
-    if(ui->lineEdit_setHostPort->text().size() != 0)
+    if(ui->lineEdit_setDbName->text().size() != 0)
     {
         settings->setValue("Connection/db_name", ui->lineEdit_setDbName->text());
         db->setDbName(ui->lineEdit_setDbName->text());
     }
     settings->sync();
 
-    ui->label_currentHostAddress->setText(settings->value("Connection/ip_address").toString());
-    ui->label_currentHostPort->setText(settings->value("Connection/port").toString());
-    ui->label_currentDbName->setText(settings->value("Connection/db_name").toString());
+    ui->label_currentHostAddress->setText(settings->value("Connection/ip_address", "127.0.0.1").toString());
+    ui->label_currentHostPort->setText(settings->value("Connection/port", 3306).toString());
+    ui->label_currentDbName->setText(settings->value("Connection/db_name", "checkpoints").toString());
 
     ui->lineEdit_setHostAddress->setText("");
     ui->lineEdit_setHostPort->setText("");

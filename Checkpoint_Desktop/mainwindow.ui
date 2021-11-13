@@ -33,7 +33,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget_mainWindow">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="page_authorization">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -4571,8 +4571,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>332</width>
-             <height>135</height>
+             <width>780</width>
+             <height>493</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -4601,49 +4601,13 @@
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QGridLayout" name="gridLayout_6">
-               <item row="0" column="4">
-                <spacer name="horizontalSpacer_11">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>361</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_19">
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_20">
                  <property name="text">
-                  <string>Адрес сервера:</string>
+                  <string>Порт:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="2">
-                <widget class="QLabel" name="label_22">
-                 <property name="text">
-                  <string>Текущий:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_setHostAddress">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="placeholderText">
-                  <string>127.0.0.1</string>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>false</bool>
                  </property>
                 </widget>
                </item>
@@ -4663,15 +4627,60 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_20">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_19">
                  <property name="text">
-                  <string>Порт:</string>
+                  <string>Адрес сервера:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
                 </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_setHostAddress">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="placeholderText">
+                  <string>127.0.0.1</string>
+                 </property>
+                 <property name="clearButtonEnabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3">
+                <widget class="QLabel" name="label_currentHostPort">
+                 <property name="font">
+                  <font>
+                   <family>Andale Mono</family>
+                   <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <italic>true</italic>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="4">
+                <spacer name="horizontalSpacer_11">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>361</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
                <item row="0" column="2">
                 <widget class="QLabel" name="label_21">
@@ -4696,12 +4705,42 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="3">
-                <widget class="QLabel" name="label_currentHostPort">
+               <item row="1" column="2">
+                <widget class="QLabel" name="label_22">
+                 <property name="text">
+                  <string>Текущий:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_44">
+                 <property name="text">
+                  <string>Название БД:</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEdit_setDbName">
+                 <property name="placeholderText">
+                  <string>name</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QLabel" name="label_45">
+                 <property name="text">
+                  <string>Текущее:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="3">
+                <widget class="QLabel" name="label_currentDbName">
                  <property name="font">
                   <font>
                    <family>Andale Mono</family>
-                   <pointsize>10</pointsize>
                    <weight>75</weight>
                    <italic>true</italic>
                    <bold>true</bold>

@@ -1,4 +1,4 @@
-QT += quick
+QT += quick sql
 
 CONFIG += c++11
 
@@ -7,6 +7,15 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        ../Checkpoint_Desktop/accessfiltermodel.cpp \
+        ../Checkpoint_Desktop/accountfiltermodel.cpp \
+        ../Checkpoint_Desktop/authorizationfiltermodel.cpp \
+        ../Checkpoint_Desktop/checkpointfiltermodel.cpp \
+        ../Checkpoint_Desktop/modelforcombobox.cpp \
+        ../Checkpoint_Desktop/positionfiltermodel.cpp \
+        ../Checkpoint_Desktop/statemodel.cpp \
+        ../Checkpoint_Desktop/workerfiltermodel.cpp \
+        databasemodule.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -31,3 +40,14 @@ DISTFILES += \
     PageLogin.qml \
     PageSelectCheckpoint.qml \
     SimplePage.qml
+
+HEADERS += \
+    ../Checkpoint_Desktop/accessfiltermodel.h \
+    ../Checkpoint_Desktop/accountfiltermodel.h \
+    ../Checkpoint_Desktop/authorizationfiltermodel.h \
+    ../Checkpoint_Desktop/checkpointfiltermodel.h \
+    ../Checkpoint_Desktop/modelforcombobox.h \
+    ../Checkpoint_Desktop/positionfiltermodel.h \
+    ../Checkpoint_Desktop/statemodel.h \
+    ../Checkpoint_Desktop/workerfiltermodel.h \
+    databasemodule.h

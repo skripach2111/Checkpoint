@@ -24,8 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
     db = new DatabaseModule(this);
 
     settings = new QSettings("settings.conf", QSettings::NativeFormat);
-    db->setHostAddress(settings->value("Connection/ip_address").toString());
-    db->setHostPort(settings->value("Connection/port").toInt());
+    db->setHostAddress(settings->value("Connection/ip_address", "127.0.0.1").toString());
+    db->setHostPort(settings->value("Connection/port", 3306).toInt());
+    ui->label_currentDbName->setText(settings->value("Connection/db_name", "checkpoints").toString());
 
     connect(ui->radioButton_hideTheDismissed, SIGNAL(clicked()), this, SLOT(workerDissmissedFilterChanged()));
     connect(ui->radioButton_showDismissed, SIGNAL(clicked()), this, SLOT(workerDissmissedFilterChanged()));
@@ -362,13 +363,20 @@ void MainWindow::on_pushButton_applySettings_clicked()
         settings->setValue("Connection/port", ui->lineEdit_setHostPort->text());
         db->setHostPort(ui->lineEdit_setHostPort->text().toInt());
     }
+    if(ui->lineEdit_setHostPort->text().size() != 0)
+    {
+        settings->setValue("Connection/db_name", ui->lineEdit_setDbName->text());
+        db->setDbName(ui->lineEdit_setDbName->text());
+    }
     settings->sync();
 
     ui->label_currentHostAddress->setText(settings->value("Connection/ip_address").toString());
     ui->label_currentHostPort->setText(settings->value("Connection/port").toString());
+    ui->label_currentDbName->setText(settings->value("Connection/db_name").toString());
 
     ui->lineEdit_setHostAddress->setText("");
     ui->lineEdit_setHostPort->setText("");
+    ui->lineEdit_setDbName->setText("");
 }
 
 

@@ -41,6 +41,7 @@ public:
 
     QSqlError lastError() { return db.lastError(); }
 
+    void setDbName(QString name) { db.setDatabaseName(name); }
     void setHostAddress(QString address) { db.setHostName(address); }
     void setHostPort(int port) { db.setPort(port); }
 

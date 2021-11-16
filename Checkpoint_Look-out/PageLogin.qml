@@ -5,7 +5,9 @@ import QtQuick.Layouts 1.12
 Item {
     id: root
 
-    signal buttonConnectClicked()
+    property alias errorText: label_error.text
+
+    signal buttonConnectClicked(var login, var password)
     signal buttonSettingsClicked()
 
     Rectangle {
@@ -77,7 +79,7 @@ Item {
         anchors.rightMargin: 20
 
         onClicked: {
-            buttonConnectClicked()
+            buttonConnectClicked(textFieldLogin.text, textFieldPassword.text)
         }
     }
 
@@ -96,6 +98,18 @@ Item {
         onClicked: {
             buttonSettingsClicked()
         }
+    }
+
+    Label {
+        id: label_error
+        x: 304
+        color: "#ff0000"
+        text: qsTr("_error")
+        anchors.top: rectangle.bottom
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 5
     }
 }
 

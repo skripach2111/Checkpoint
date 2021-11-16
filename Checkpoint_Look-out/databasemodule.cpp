@@ -2,7 +2,7 @@
 
 DatabaseModule::DatabaseModule()
 {
-    db = QSqlDatabase::addDatabase("QMARIADB");
+    db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("localhost");
     db.setPort(3306);
     db.setDatabaseName("checkpoints");
@@ -54,8 +54,11 @@ bool DatabaseModule::connect(QString l, QString p)
 
         return true;
     }
-    else
-        return false;
+
+    qDebug() << db.lastError();
+
+    return false;
+
 }
 
 void DatabaseModule::selectTables()
@@ -70,23 +73,24 @@ void DatabaseModule::selectTables()
     workerModel->select();
 }
 
-QString DatabaseModule::authorizationUser(QString login, QString password)
+bool DatabaseModule::authorizationUser(QString login, QString password)
 {
     QSqlQuery query;
 
-    query.prepare("SELECT password FROM account WHERE login = :login");
+    query.prepare("SELECT password FROM account WHERE login = :login ;");
     query.bindValue(":login", login);
     query.exec();
 
     if(query.next())
     {
-        if(query.value(0).toString() == login)
-            return QString();
-        else
-            return "Неверный логин или пароль!";
+        if(query.value(0).toString() == password)
+            return true;
     }
-    else
-        return "Пользователь не найден!";
+
+    qDebug() << db.lastError();
+    qDebug() << query.lastError();
+
+        return false;
 }
 
 AccessModel *DatabaseModule::getAccessModel()

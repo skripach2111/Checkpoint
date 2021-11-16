@@ -7,16 +7,23 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        ../Checkpoint_Desktop/accessfiltermodel.cpp \
-        ../Checkpoint_Desktop/accountfiltermodel.cpp \
-        ../Checkpoint_Desktop/authorizationfiltermodel.cpp \
-        ../Checkpoint_Desktop/checkpointfiltermodel.cpp \
-        ../Checkpoint_Desktop/modelforcombobox.cpp \
-        ../Checkpoint_Desktop/positionfiltermodel.cpp \
-        ../Checkpoint_Desktop/statemodel.cpp \
-        ../Checkpoint_Desktop/workerfiltermodel.cpp \
+        accessfiltermodel.cpp \
+        accessmodel.cpp \
+        accountfiltermodel.cpp \
+        accountmodel.cpp \
+        authorizationfiltermodel.cpp \
+        authorizationmodel.cpp \
+        checkpointfiltermodel.cpp \
+        checkpointmodel.cpp \
         databasemodule.cpp \
-        main.cpp
+        main.cpp \
+        modelforcombobox.cpp \
+        positionfiltermodel.cpp \
+        positionmodel.cpp \
+        privilegemodel.cpp \
+        statemodel.cpp \
+        workerfiltermodel.cpp \
+        workermodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -42,12 +49,22 @@ DISTFILES += \
     SimplePage.qml
 
 HEADERS += \
-    ../Checkpoint_Desktop/accessfiltermodel.h \
-    ../Checkpoint_Desktop/accountfiltermodel.h \
-    ../Checkpoint_Desktop/authorizationfiltermodel.h \
-    ../Checkpoint_Desktop/checkpointfiltermodel.h \
-    ../Checkpoint_Desktop/modelforcombobox.h \
-    ../Checkpoint_Desktop/positionfiltermodel.h \
-    ../Checkpoint_Desktop/statemodel.h \
-    ../Checkpoint_Desktop/workerfiltermodel.h \
-    databasemodule.h
+    accessfiltermodel.h \
+    accessmodel.h \
+    accountfiltermodel.h \
+    accountmodel.h \
+    authorizationfiltermodel.h \
+    authorizationmodel.h \
+    checkpointfiltermodel.h \
+    checkpointmodel.h \
+    databasemodule.h \
+    modelforcombobox.h \
+    positionfiltermodel.h \
+    positionmodel.h \
+    privilegemodel.h \
+    statemodel.h \
+    workerfiltermodel.h \
+    workermodel.h
+
+SUBDIRS += \
+    ../../../Qt/5.15.2/Src/qtbase/src/plugins/sqldrivers/mysql/mysql.pro

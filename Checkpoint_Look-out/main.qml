@@ -14,6 +14,13 @@ Window {
         mainView.pop()
     }
 
+    DatabaseModule {
+        id: db
+
+        hostAddress: "213.110.121.129"
+        hostPort: 3306
+    }
+
     StackView {
         id: mainView
         anchors.fill: parent
@@ -29,10 +36,24 @@ Window {
         }
 
         PageLogin {
+            id: pageLoginContents
             anchors.fill: parent
+            errorText: ""
 
             onButtonConnectClicked: {
-                mainView.push(pageSelectCheckpoint)
+                if(db.connect("userCheckpoint", "user_checkpoint"))
+                {
+                    if(db.authorizationUser(login, password))
+                    {
+                        mainView.push(pageSelectCheckpoint)
+                    }
+                    else
+                        pageLoginContents.errorText = "Неверный логин или пароль!"
+                }
+                else
+                {
+                    pageLoginContents.errorText = "Не удалось подключиться к серверу!"
+                }
             }
             onButtonSettingsClicked: {
                 mainView.push(pageSettings)
@@ -66,6 +87,7 @@ Window {
         visible: false
 
         onButtonBackClicked: {
+            db.disconnect()
             pagePop()
         }
 

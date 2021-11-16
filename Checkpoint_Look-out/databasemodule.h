@@ -3,6 +3,10 @@
 
 #include <QObject>
 #include <QQuickItem>
+#include <QSqlDatabase>
+#include <QSqlTableModel>
+#include <QSqlError>
+#include <QSqlQuery>
 
 #include <QObject>
 #include <QSqlDatabase>
@@ -10,14 +14,14 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
-#include "../Checkpoint_Desktop/accessfiltermodel.h"
-#include "../Checkpoint_Desktop/accountfiltermodel.h"
-#include "../Checkpoint_Desktop/authorizationfiltermodel.h"
-#include "../Checkpoint_Desktop/checkpointfiltermodel.h"
-#include "../Checkpoint_Desktop/modelforcombobox.h"
-#include "../Checkpoint_Desktop/positionfiltermodel.h"
-#include "../Checkpoint_Desktop/statemodel.h"
-#include "../Checkpoint_Desktop/workerfiltermodel.h"
+#include "accessmodel.h"
+#include "accountmodel.h"
+#include "authorizationmodel.h"
+#include "checkpointmodel.h"
+#include "positionmodel.h"
+#include "privilegemodel.h"
+#include "statemodel.h"
+#include "workermodel.h"
 
 class DatabaseModule : public QQuickItem
 {
@@ -31,12 +35,15 @@ public:
 
     Q_INVOKABLE QSqlError lastError() { return db.lastError(); }
 
-    Q_INVOKABLE void setHostAddress(QString address) { db.setHostName(address); }
-    Q_INVOKABLE void setHostPort(int port) { db.setPort(port); }
+    Q_INVOKABLE void setHostAddress(QString address) { db.setHostName(address); _hostName = address; }
+    Q_INVOKABLE void setHostPort(int port) { db.setPort(port); _hostPort = port; }
+
+    Q_PROPERTY(QString hostAddress MEMBER _hostName WRITE setHostAddress);
+    Q_PROPERTY(int hostPort MEMBER _hostPort WRITE setHostPort);
 
     void selectTables();
 
-    Q_INVOKABLE QString authorizationUser(QString login, QString password);
+    Q_INVOKABLE bool authorizationUser(QString login, QString password);
 
     AccessModel* getAccessModel();
     AccountModel* getAccountModel();
@@ -59,6 +66,9 @@ private:
     PrivilegeModel* privilegeModel;
     StateModel* stateModel;
     WorkerModel* workerModel;
+
+    QString _hostName;
+    int _hostPort;
 };
 
 #endif // DATABASEMODULE_H

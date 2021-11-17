@@ -5,6 +5,7 @@
 #include <QTranslator>
 
 #include "databasemodule.h"
+#include "connectioncontroller.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +15,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<DatabaseModule>("com.custom", 1, 0, "DatabaseModule");
+    qmlRegisterType<ConnectionController>("com.custom", 1, 0, "ConnectionController");
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();

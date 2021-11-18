@@ -12,15 +12,15 @@ DatabaseModule::DatabaseModule(QObject *parent)
 
 int DatabaseModule::getPrivileges()
 {
-    QSqlQuery *qu;
-    qu->prepare("SELECT privilege FROM account WHERE login = :login");
-    qu->bindValue(":login", login);
-    qu->exec();
+    QSqlQuery qu;
+    qu.prepare("SELECT privilege FROM account WHERE login = :login");
+    qu.bindValue(":login", login);
+    qu.exec();
 
-    qDebug() << qu->lastError();
+    qDebug() << qu.lastError();
 
-    if(qu->next())
-        return qu->value(0).toInt();
+    if(qu.next())
+        return qu.value(0).toInt();
     else
         return 0;
 }
@@ -85,7 +85,10 @@ QString DatabaseModule::authorizationUser(QString login, QString password)
     if(query.next())
     {
         if(query.value(0).toString() == login)
+        {
+            this->login = login;
             return QString();
+        }
         else
             return "Неверный логин или пароль!";
     }

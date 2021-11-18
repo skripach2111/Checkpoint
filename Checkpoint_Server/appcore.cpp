@@ -95,23 +95,17 @@ void AppCore::slotReadClient()
             in >> password;
 
             QString error = db->authorizationUser(login, password);
-            qDebug() << "AUTHORIZED";
 
             if(!error.isEmpty())
             {
                 lastError = error;
                 doSendToClientsMessage(ERROR);
                 nNextBlockSize = 0;
-                client.pSocket->disconnect();
-                client.pSocket->close();
+                slotClientDisconnected();
                 return;
             }
 
-            qDebug() << "NO ERROR";
-
-            int privileges = db->getPrivileges();
-            qDebug() << "switch";
-            switch (privileges) {
+            switch (db->getPrivileges()) {
             case Privileges::VAHTA:
             {
                 qDebug() << "AUTH_COMPLETE";
@@ -124,7 +118,7 @@ void AppCore::slotReadClient()
                 lastError = "Вы не можете использовать это приложение!";
                 doSendToClientsMessage(ERROR);
                 nNextBlockSize = 0;
-                client.pSocket->close();
+                slotClientDisconnected();
                 return;
             }
             }
@@ -147,17 +141,14 @@ void AppCore::slotStop()
     client.statusConnection = false;
 
     pServer->disconnect();
-
-    delete pServer;
-    delete client.pSocket;
 }
 
 void AppCore::slotClientDisconnected()
 {
+    qDebug() << "client disconect";
     client.statusConnection = false;
-    delete client.pSocket;
-
-    emit clientDisconnected();
+    client.pSocket->disconnect();
+    client.pSocket->close();
 }
 
 void AppCore::doSendToClientsMessage(COMMAND command)

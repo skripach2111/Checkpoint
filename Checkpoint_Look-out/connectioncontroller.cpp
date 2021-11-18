@@ -5,6 +5,11 @@ ConnectionController::ConnectionController(QObject *parent)
     nNextBlockSize = 0;
 }
 
+void ConnectionController::getCheckpointModel()
+{
+    send(CHECKPOINTS);
+}
+
 void ConnectionController::connect()
 {
     tcpSocket = new QTcpSocket();
@@ -17,6 +22,9 @@ void ConnectionController::connect()
 
     host = QHostAddress("127.0.0.1");
     port = 12012;
+
+    checkpointModel = new CheckpointModel(this);
+    checkpointComboBox->setSourceModel(checkpointModel);
 
     tcpSocket->connectToHost(host, port);
 }
@@ -64,6 +72,10 @@ void ConnectionController::send(COMMAND command)
     case AUTH:
     {
         out << _login << _password;
+        break;
+    }
+    case CHECKPOINTS:
+    {
         break;
     }
     }
@@ -119,6 +131,29 @@ void ConnectionController::slotReadyRead()
         {
             in >> lastError;
             emit errorConnection(lastError);
+        }
+        case CHECKPOINTS:
+        {
+            int count = 0;
+            QVariant id;
+            QVariant title;
+            QVariant location;
+            QVariant lvl_access;
+
+            in >> count;
+
+            for(int i = 0; i < count; i++)
+            {
+                in >> id;
+                in >> title;
+                in >> location;
+                in >> lvl_access;
+
+
+            }
+
+            emit comingCheckpointModel();
+            break;
         }
         default:
         {

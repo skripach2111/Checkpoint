@@ -49,6 +49,8 @@ class AppCore : public QObject
     PositionFilterModel *filterPosition;
     WorkerFilterModel *filterWorker;
 
+    CheckpointModel *modelCheckpoint;
+
     ModelForComboBox *accessCombobox;
     ModelForComboBox *positionCombobox;
     ModelForComboBox *privilegeCombobox;
@@ -83,7 +85,8 @@ public:
         WORKER,
         ACCOUNT,
         ERROR,
-        AUTH_COMPLETE
+        AUTH_COMPLETE,
+        CHECKPOINTS
     };
 
     void doSendToClientsMessage(COMMAND command);

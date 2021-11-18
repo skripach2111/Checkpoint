@@ -7,24 +7,9 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        accessfiltermodel.cpp \
-        accessmodel.cpp \
-        accountfiltermodel.cpp \
-        accountmodel.cpp \
-        authorizationfiltermodel.cpp \
-        authorizationmodel.cpp \
-        checkpointfiltermodel.cpp \
         checkpointmodel.cpp \
         connectioncontroller.cpp \
-        databasemodule.cpp \
-        main.cpp \
-        modelforcombobox.cpp \
-        positionfiltermodel.cpp \
-        positionmodel.cpp \
-        privilegemodel.cpp \
-        statemodel.cpp \
-        workerfiltermodel.cpp \
-        workermodel.cpp
+        main.cpp
 
 RESOURCES += qml.qrc
 
@@ -50,23 +35,8 @@ DISTFILES += \
     SimplePage.qml
 
 HEADERS += \
-    accessfiltermodel.h \
-    accessmodel.h \
-    accountfiltermodel.h \
-    accountmodel.h \
-    authorizationfiltermodel.h \
-    authorizationmodel.h \
-    checkpointfiltermodel.h \
     checkpointmodel.h \
-    connectioncontroller.h \
-    databasemodule.h \
-    modelforcombobox.h \
-    positionfiltermodel.h \
-    positionmodel.h \
-    privilegemodel.h \
-    statemodel.h \
-    workerfiltermodel.h \
-    workermodel.h
+    connectioncontroller.h
 
 SUBDIRS += \
     ../../../Qt/5.15.2/Src/qtbase/src/plugins/sqldrivers/mysql/mysql.pro

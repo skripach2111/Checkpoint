@@ -87,7 +87,8 @@ void AppCore::slotReadClient()
         switch (command)
         {
         case AUTH:
-        {qDebug() << "AUTH";
+        {
+            qDebug() << "AUTH";
             QString login;
             QString password;
 
@@ -123,6 +124,12 @@ void AppCore::slotReadClient()
             }
             }
 
+            break;
+        }
+        case CHECKPOINTS:
+        {
+            qDebug() << "CHECKPOINTS";
+            doSendToClientsMessage(CHECKPOINTS);
             break;
         }
         default:
@@ -165,6 +172,22 @@ void AppCore::doSendToClientsMessage(COMMAND command)
         break;
     }
     case AUTH_COMPLETE:{
+        break;
+    }
+    case CHECKPOINTS:
+    {
+        db->getCheckpointModel()->select();
+        modelCheckpoint = db->getCheckpointModel();
+        out << modelCheckpoint->rowCount(QModelIndex());
+
+        for(int i = 0; i < modelCheckpoint->rowCount(QModelIndex()); i++)
+        {
+            out << modelCheckpoint->index(i, CheckpointModel::Column::ID).data();
+            out << modelCheckpoint->index(i, CheckpointModel::Column::TITLE).data();
+            out << modelCheckpoint->index(i, CheckpointModel::Column::LOCATION).data();
+            out << modelCheckpoint->index(i, CheckpointModel::Column::LVL_ACCESS).data(CheckpointModel::Role::Read);
+        }
+
         break;
     }
     }

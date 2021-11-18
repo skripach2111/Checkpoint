@@ -5,6 +5,8 @@
 #include <QQuickItem>
 #include <QtNetwork>
 
+#include "checkpointmodel.h"
+
 class ConnectionController : public QQuickItem
 {
     Q_OBJECT
@@ -22,6 +24,8 @@ class ConnectionController : public QQuickItem
 
     QString lastError;
 
+    CheckpointModel modelCheckpoint;
+
 public:
     explicit ConnectionController(QObject *parent = 0);
 
@@ -33,16 +37,21 @@ public:
         WORKER,
         ACCOUNT,
         ERROR,
-        AUTH_COMPLETE
+        AUTH_COMPLETE,
+        CHECKPOINTS
     };
 
     void setLogin(QString l) { _login = l; }
     void setPassword(QString p) { _password = p; }
 
+    Q_INVOKABLE void getCheckpointModel();
+
+
 signals:
     void disconnected();
     void connected();
     void errorConnection(QString message);
+    void comingCheckpointModel();
 
 public slots:
     void connect();

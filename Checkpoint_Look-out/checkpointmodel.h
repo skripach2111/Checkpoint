@@ -8,8 +8,6 @@
 #include <QObject>
 #include <QDebug>
 
-#include "accessmodel.h"
-
 class CheckpointModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -17,57 +15,27 @@ class CheckpointModel : public QAbstractTableModel
 public:
     explicit CheckpointModel(QObject *parent = nullptr);
 
-    int rowCount( const QModelIndex& parent ) const;
-    int columnCount( const QModelIndex& parent ) const;
-    QVariant data( const QModelIndex& index, int role ) const;
-    bool setData( const QModelIndex& index, const QVariant& value, int role );
-    QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
-    Qt::ItemFlags flags( const QModelIndex& index ) const;
+    virtual int rowCount( const QModelIndex& parent ) const;
+    virtual QVariant data( const QModelIndex& index, int role ) const;
+    virtual QHash<int, QByteArray> roleNames() const;
 
-    void appendRow( const int& id, const QString& title, const QString& location, const int& lvlAccess, const bool& flag );
-    void updateRow( int row, const QString& title, const QString& location, const int& lvlAccess, const bool& flag );
-    void removeRow( int row );
+    void appendRow( const int& id, const QString& title, const QString& location, const QString& lvlAccess);
 
-    bool select();
-    bool saveChanges();
-    void setTable(QString t, QSqlDatabase *database);
-
-    void setAccesModel(AccessModel *m_access) { accessModel = m_access; }
-
-    enum Column {
-        ID = 0,
+    enum Roles {
+        ID = Qt::UserRole + 1,
         TITLE,
         LOCATION,
-        LVL_ACCESS,
-        FLAG,
-        LAST,
-        STATE_ROW
-    };
-
-    enum Role {
-        Display = 0x1,
-        Read
-    };
-
-    enum StatesRows {
-        NOT_EDITED = 0x1,
-        ADDED,
-        EDITED,
-        DELETED
+        LVL_ACCESS
     };
 
 private:
 
-    typedef QHash< Column, QVariant > DataHash;
+    typedef QHash< int, QVariant > DataHash;
     typedef QList< DataHash > DataList;
     DataList model;
 
     QSqlDatabase *db;
     QSqlQuery query;
-
-    QString table;
-
-    AccessModel *accessModel;
 };
 
 #endif // CHECKPOINTMODEL_H

@@ -6,6 +6,7 @@
 
 #include "databasemodule.h"
 #include "connectioncontroller.h"
+#include "modelforcombobox.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +17,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<ConnectionController>("com.custom", 1, 0, "ConnectionController");
+    qmlRegisterType<ModelForComboBox>("com.custom", 1, 0, "ModelForComboBox");
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();

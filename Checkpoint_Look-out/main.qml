@@ -29,8 +29,17 @@ Window {
         }
 
         onConnected: {
+            getCheckpointModel();
+        }
+
+        onComingCheckpointModel: {
             mainView.push(pageSelectCheckpoint)
         }
+    }
+
+    ModelForComboBox {
+        id: checkpointModel
+        source: connectionController.checkpoint
     }
 
     StackView {
@@ -108,6 +117,7 @@ Window {
         }
 
         PageSelectCheckpoint {
+            id: pageSelectCheckpointContent
             anchors.fill: parent
 
             onButtonSelectClicked: {

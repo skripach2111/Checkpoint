@@ -9,13 +9,13 @@ AppCore::AppCore(QObject *parent)
     db->setHostPort(settings->value("Connection/port", 3306).toInt());
     db->setDbName(settings->value("Connection/db_name", "checkpoints").toString());
 
-//    const QHostAddress &localhost = QHostAddress(QHostAddress::LocalHost);
-//    for (const QHostAddress &address: QNetworkInterface::allAddresses()) {
-//        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != localhost)
-//            host.ip = address;
-//    }
+        const QHostAddress &localhost = QHostAddress(QHostAddress::LocalHost);
+        for (const QHostAddress &address: QNetworkInterface::allAddresses()) {
+            if (address.protocol() == QAbstractSocket::IPv4Protocol && address != localhost)
+                host.ip = address;
+        }
 
-    host.ip = QHostAddress("127.0.0.1");
+//    host.ip = QHostAddress("127.0.0.1");
     host.port = 12012;
     nNextBlockSize = 0;
 }
@@ -132,6 +132,23 @@ void AppCore::slotReadClient()
             doSendToClientsMessage(CHECKPOINTS);
             break;
         }
+        case STATES:
+        {
+            qDebug() << "STATES";
+            doSendToClientsMessage(STATES);
+            break;
+        }
+        case AUTH_WORKER:
+        {
+            qDebug() << "AUTH_WORKER";
+
+            in >> inn;
+            in >> checkpoint;
+
+            qDebug() << "DO SEND AUTH WORKER";
+
+            doSendToClientsMessage(COMMAND::AUTH_WORKER);
+        }
         default:
         {
             break;
@@ -163,7 +180,10 @@ void AppCore::doSendToClientsMessage(COMMAND command)
     QByteArray  arrBlock;
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_13);
-    out << (quint16)0 << command;
+    out << (quint16)0;
+    out << command;
+
+    qDebug() << command << ":COMMAND";
 
     switch (command) {
     case ERROR:
@@ -178,15 +198,104 @@ void AppCore::doSendToClientsMessage(COMMAND command)
     {
         db->getCheckpointModel()->select();
         modelCheckpoint = db->getCheckpointModel();
-        out << modelCheckpoint->rowCount(QModelIndex());
+
+        int count = 0;
 
         for(int i = 0; i < modelCheckpoint->rowCount(QModelIndex()); i++)
         {
-            out << modelCheckpoint->index(i, CheckpointModel::Column::ID).data();
-            out << modelCheckpoint->index(i, CheckpointModel::Column::TITLE).data();
-            out << modelCheckpoint->index(i, CheckpointModel::Column::LOCATION).data();
-            out << modelCheckpoint->index(i, CheckpointModel::Column::LVL_ACCESS).data(CheckpointModel::Role::Read);
+            if(modelCheckpoint->index(i, CheckpointModel::Column::FLAG).data().toInt() != 1)
+            {
+                count++;
+                out << modelCheckpoint->index(i, CheckpointModel::Column::ID).data();
+                out << modelCheckpoint->index(i, CheckpointModel::Column::TITLE).data();
+                out << modelCheckpoint->index(i, CheckpointModel::Column::LOCATION).data();
+                out << modelCheckpoint->index(i, CheckpointModel::Column::LVL_ACCESS).data(CheckpointModel::Role::Read);
+
+                qDebug() << modelCheckpoint->index(i, CheckpointModel::Column::ID).data() << modelCheckpoint->index(i, CheckpointModel::Column::TITLE).data() << modelCheckpoint->index(i, CheckpointModel::Column::LOCATION).data() << modelCheckpoint->index(i, CheckpointModel::Column::LVL_ACCESS).data(CheckpointModel::Role::Read);
+            }
         }
+
+        out.device()->seek(0);
+        out << quint16(arrBlock.size() - sizeof(quint16));
+
+        break;
+    }
+    case STATES:
+    {
+        modelState = db->getStateModel();
+        modelState->select();
+
+        int count = 0;
+
+        for(int i = 0; i < modelCheckpoint->rowCount(QModelIndex()); i++)
+        {
+            if(modelState->index(i, StateModel::Column::FLAG).data().toInt() != 1)
+            {
+                count++;
+                out << modelCheckpoint->index(i, StateModel::Column::ID).data();
+                out << modelCheckpoint->index(i, StateModel::Column::TITLE).data();
+            }
+        }
+
+        out.device()->seek(0);
+        out << quint16(arrBlock.size() - sizeof(quint16));
+
+        break;
+    }
+    case AUTH_WORKER:
+    {
+        qDebug() << "AUTH WORKER";
+        db->selectTables();
+
+        QString fio;
+        QString position;
+        QString lvl_acces;
+        QDate dateAuth;
+        QTime timeAuth;
+        QString state;
+
+        qDebug() << "1";
+        qDebug() << "inn: " << inn;
+        qDebug() << "checkpoint: " << checkpoint;
+
+        fio = db->getWorkerModel()->getDataById(inn, WorkerModel::Column::PIB).toString();
+        qDebug() << "fio" << fio;
+        position = db->getWorkerModel()->getDataById(inn, WorkerModel::Column::POSITION).toString();
+        qDebug() << "position" << position;
+        lvl_acces = db->getWorkerModel()->getDataById(inn, WorkerModel::Column::LVL_ACCESS).toString();
+        qDebug() << "lvl_access" << lvl_acces;
+        dateAuth = QDate::currentDate();
+        qDebug() << "dateAuth" << dateAuth;
+        timeAuth = QTime::currentTime();
+        qDebug() << "timeAuth" << timeAuth;
+
+        qDebug() << "2";
+
+        if(db->getCheckpointModel()->getDataById(checkpoint, CheckpointModel::Column::LVL_ACCESS).toInt() <=
+                db->getWorkerModel()->getDataById(inn, WorkerModel::Column::LVL_ACCESS).toInt())
+        {
+            state = 1;
+            out << fio;
+            out << position;
+            out << lvl_acces;
+            out << dateAuth.toString();
+            out << timeAuth.toString();
+            out << state;
+            qDebug() << "OUT";
+        }
+        else
+        {
+            state = 3;
+            out << fio;
+            out << position;
+            out << lvl_acces;
+            out << dateAuth.toString();
+            out << timeAuth.toString();
+            out << state;
+            qDebug() << "OUT";
+        }
+
+        qDebug() << "3";
 
         break;
     }
@@ -194,7 +303,8 @@ void AppCore::doSendToClientsMessage(COMMAND command)
 
     out.device()->seek(0);
     out << quint16(arrBlock.size() - sizeof(quint16));
-    out.device()->seek(arrBlock.size()-1);
+    qDebug() << "size: " << arrBlock.size();
+    qDebug() << "uint16 size: " << (quint16)arrBlock.size();
 
     client.pSocket->write(arrBlock);
 }

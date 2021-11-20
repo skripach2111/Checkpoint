@@ -5,6 +5,17 @@ CheckpointModel::CheckpointModel(QObject *parent) : QAbstractTableModel(parent)
 
 }
 
+CheckpointModel::CheckpointModel(const CheckpointModel &modelNew)
+{
+    for(int i = 0; i < this->model.size(); i++)
+        model.append(modelNew.model.at(i));
+}
+
+int CheckpointModel::columnCount(const QModelIndex &parent) const
+{
+    return LAST;
+}
+
 int CheckpointModel::rowCount( const QModelIndex& parent ) const
 {
     Q_UNUSED( parent )
@@ -25,6 +36,10 @@ QVariant CheckpointModel::data( const QModelIndex& index, int role ) const {
 
     switch (role)
     {
+    case Qt::DisplayRole:
+    {
+        return model[ index.row() ][ index.column() ];
+    }
     case ID:
     {
         return model[ index.row() ][ ID - Qt::UserRole -1 ];
@@ -35,11 +50,11 @@ QVariant CheckpointModel::data( const QModelIndex& index, int role ) const {
     }
     case LOCATION:
     {
-
+        return model[ index.row() ][ LOCATION - Qt::UserRole -1 ];
     }
     case LVL_ACCESS:
     {
-
+        return model[ index.row() ][ LVL_ACCESS - Qt::UserRole -1 ];
     }
     default:
     {
@@ -60,4 +75,15 @@ void CheckpointModel::appendRow(const int &id, const QString &title, const QStri
     beginInsertRows( QModelIndex(), row, row );
     model.append( record );
     endInsertRows();
+}
+
+QHash<int, QByteArray> CheckpointModel::roleNames() const
+{
+    QHash<int, QByteArray> roles = QAbstractTableModel::roleNames();
+    roles[ID] = "id";
+    roles[TITLE] = "title";
+    roles[LOCATION] = "location";
+    roles[LVL_ACCESS] = "lvl_access";
+
+    return roles;
 }

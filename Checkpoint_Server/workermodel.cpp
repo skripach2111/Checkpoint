@@ -252,6 +252,8 @@ QVariant WorkerModel::getDataById(QString inn, Column column)
         if(model[i][INN].toString() == inn)
             return model[i][column];
     }
+
+    return QVariant();
 }
 
 bool WorkerModel::setData( const QModelIndex& index, const QVariant& value, int role ) {

@@ -7,6 +7,9 @@ Item {
 
     signal buttonSelectClicked()
 
+    property alias comboBoxModel: comboBox_selectCheckpoint.model
+    property alias selectCheckpoint: comboBox_selectCheckpoint.currentIndex
+
     ColumnLayout {
         id: column
         x: 84
@@ -31,33 +34,29 @@ Item {
             id: comboBox_selectCheckpoint
 
             Layout.fillWidth: true
-            model: checkpointModel
 
-            delegate: Rectangle {
-                Text {
-                    text: model.TITLE_2
-                }
-            }
+            textRole: "title"
+            valueRole: "value"
         }
 
-        Button {
-            id: buttonSelectCheckpoint
-            x: 532
-            y: 432
-            width: 120
-            height: 40
-            text: qsTr("Выбрать")
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            font.pointSize: 12
-            anchors.bottomMargin: 20
-            anchors.rightMargin: 20
+    }
 
-            onClicked: {
-                buttonSelectClicked()
-            }
+    Button {
+        id: buttonSelectCheckpoint
+        x: 318
+        y: 219
+        width: 120
+        height: 40
+        text: qsTr("Выбрать")
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        font.pointSize: 12
+        anchors.bottomMargin: 20
+        anchors.rightMargin: 20
+
+        onClicked: {
+            buttonSelectClicked()
         }
-
     }
 }
 

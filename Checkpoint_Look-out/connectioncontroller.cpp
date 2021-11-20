@@ -10,6 +10,13 @@ void ConnectionController::getCheckpointModel()
     send(CHECKPOINTS);
 }
 
+void ConnectionController::authWorker(int checkpoint, QString inn)
+{
+    checkpointId = checkpoint;
+    this->inn = inn;
+    send(AUTH_WORKER);
+}
+
 void ConnectionController::connect()
 {
     tcpSocket = new QTcpSocket();
@@ -20,11 +27,8 @@ void ConnectionController::connect()
     QObject::connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(slotDisconnected()));
     QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),this, SLOT(slotError(QAbstractSocket::SocketError)));
 
-    host = QHostAddress("127.0.0.1");
+    host = QHostAddress("192.168.0.101");
     port = 12012;
-
-    checkpointModel = new CheckpointModel(this);
-    checkpointComboBox->setSourceModel(checkpointModel);
 
     tcpSocket->connectToHost(host, port);
 }
@@ -78,6 +82,13 @@ void ConnectionController::send(COMMAND command)
     {
         break;
     }
+    case AUTH_WORKER:
+    {
+        qDebug() << "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" << modelCheckpoint->data(modelCheckpoint->index(checkpointId, 0), CheckpointModel::Roles::ID);
+        out << inn;
+        out << modelCheckpoint->data(modelCheckpoint->index(checkpointId, 0), CheckpointModel::Roles::ID);
+        break;
+    }
     }
 
     out.device()->seek(0);
@@ -88,52 +99,65 @@ void ConnectionController::send(COMMAND command)
 
 void ConnectionController::slotReadyRead()
 {
+    qDebug() << "slotReadyRead ##########################################################################";
+
     QDataStream in(tcpSocket);
     in.setVersion(QDataStream::Qt_5_13);
-    for (;;)
+
+    if (nNextBlockSize == 0)
     {
-        if (!nNextBlockSize)
+        if (tcpSocket->bytesAvailable() < sizeof(quint16))
         {
-            if (tcpSocket->bytesAvailable() < sizeof(quint16))
-            {
-                break;
-            }
-
-            in >> nNextBlockSize;
+            return;
         }
 
-        if (tcpSocket->bytesAvailable() < nNextBlockSize)
-        {
-            break;
-        }
+        in >> nNextBlockSize;
+    }
+
+    if (tcpSocket->bytesAvailable() < nNextBlockSize)
+    {
+        qDebug() << "break ##########################################################################";
+        return;
+    }
+    else
+    {
+        qDebug() << "########################################################################## nNext: " << nNextBlockSize;
+
+        nNextBlockSize = 0;
 
         int COMMAND;
 
         in >> COMMAND;
+        qDebug() << COMMAND << ":command ##########################################################################";
 
         switch (COMMAND)
         {
         case AUTH_COMPLETE:
         {
+            qDebug() << "AUTH_COMPLETE ##########################################################################";
             emit connected();
 
-//            Notification *Notification = new class Notification();
-//            Notification->setNotification(message);
+            //            Notification *Notification = new class Notification();
+            //            Notification->setNotification(message);
 
-//            if(!this->isVisible() || !this->isHidden() || !this->isActiveWindow())
-//            {
+            //            if(!this->isVisible() || !this->isHidden() || !this->isActiveWindow())
+            //            {
 
-//            }
+            //            }
 
             break;
         }
         case ERROR:
         {
+            qDebug() << "ERROR ##########################################################################";
             in >> lastError;
             emit errorConnection(lastError);
         }
         case CHECKPOINTS:
         {
+            qDebug() << "CHECKPOINTS ##########################################################################";
+            modelCheckpoint = new CheckpointModel(this);
+
             int count = 0;
             QVariant id;
             QVariant title;
@@ -149,18 +173,40 @@ void ConnectionController::slotReadyRead()
                 in >> location;
                 in >> lvl_access;
 
-
+                modelCheckpoint->appendRow(id.toInt(), title.toString(), location.toString(), lvl_access.toString());
             }
 
             emit comingCheckpointModel();
             break;
         }
+        case AUTH_WORKER:
+        {
+            qDebug() << "AUTH_WORKER ##########################################################################";
+            QString fio;
+            QString position;
+            QString lvl_access;
+            QString date;
+            QString time;
+            QString state;
+
+            in >> fio;
+            in >> position;
+            in >> lvl_access;
+            in >> date;
+            in >> time;
+            in >> state;
+
+            qDebug() << "AUTH WORKER ##########################################################################";
+            emit workerAuthoriazationResult(fio, position, lvl_access, QDate::fromString(date), QTime::fromString(time), state);
+
+            break;
+        }
         default:
         {
+            qDebug() << "default ##########################################################################";
+            qDebug() << in;
             break;
         }
         }
-
-        nNextBlockSize = 0;
     }
 }

@@ -5,5 +5,7 @@
         <file>PageSelectCheckpoint.qml</file>
         <file>PageLogin.qml</file>
         <file>SimplePage.qml</file>
+        <file>PageQrReader.qml</file>
+        <file>PageWorkerAuthResult.qml</file>
     </qresource>
 </RCC>

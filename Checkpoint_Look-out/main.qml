@@ -14,12 +14,12 @@ Window {
         mainView.pop()
     }
 
-//    DatabaseModule {
-//        id: db
+    //    DatabaseModule {
+    //        id: db
 
-//        hostAddress: "213.110.121.129"
-//        hostPort: 3306
-//    }
+    //        hostAddress: "213.110.121.129"
+    //        hostPort: 3306
+    //    }
 
     ConnectionController {
         id: connectionController
@@ -33,13 +33,19 @@ Window {
         }
 
         onComingCheckpointModel: {
+            pageSelectCheckpointContent.comboBoxModel = connectionController.checkpoint
             mainView.push(pageSelectCheckpoint)
         }
-    }
-
-    ModelForComboBox {
-        id: checkpointModel
-        source: connectionController.checkpoint
+        onWorkerAuthoriazationResult: {
+            pageAuthResultContent.fio = fio
+            pageAuthResultContent.position = position
+            pageAuthResultContent.lvl_access = lvl_access
+            pageAuthResultContent.dateAuth = date
+            pageAuthResultContent.timeAuth = time
+            pageAuthResultContent.stateText = state
+            mainView.push(pageAuthResult)
+            pageQrReaderContent.scanActive = false
+        }
     }
 
     StackView {
@@ -62,19 +68,19 @@ Window {
             errorText: ""
 
             onButtonConnectClicked: {
-//                if(db.connect("userCheckpoint", "user_checkpoint"))
-//                {
-//                    if(db.authorizationUser(login, password))
-//                    {
-//                        mainView.push(pageSelectCheckpoint)
-//                    }
-//                    else
-//                        pageLoginContents.errorText = "Неверный логин или пароль!"
-//                }
-//                else
-//                {
-//                    pageLoginContents.errorText = "Не удалось подключиться к серверу!"
-//                }
+                //                if(db.connect("userCheckpoint", "user_checkpoint"))
+                //                {
+                //                    if(db.authorizationUser(login, password))
+                //                    {
+                //                        mainView.push(pageSelectCheckpoint)
+                //                    }
+                //                    else
+                //                        pageLoginContents.errorText = "Неверный логин или пароль!"
+                //                }
+                //                else
+                //                {
+                //                    pageLoginContents.errorText = "Не удалось подключиться к серверу!"
+                //                }
 
                 connectionController.login = login
                 connectionController.password = password
@@ -112,7 +118,6 @@ Window {
         visible: false
 
         onButtonBackClicked: {
-            db.disconnect()
             pagePop()
         }
 
@@ -121,10 +126,48 @@ Window {
             anchors.fill: parent
 
             onButtonSelectClicked: {
+                pageQrReaderContent.scanActive = true
+                mainView.push(pageQrReader)
                 //pagePop()
             }
         }
     }
 
+    SimplePage {
+        id: pageQrReader
+        header.visible: true
+        headerText: "Сканер"
+        visible: false
+
+        PageQrReader {
+            id: pageQrReaderContent
+            anchors.fill: parent
+
+            onCodeReaded: connectionController.authWorker(pageSelectCheckpointContent.selectCheckpoint, code)
+        }
+
+        footer: ComboBox {
+            height: 50
+            anchors.left: parent.left
+            anchors.right: parent.right
+        }
+    }
+
+    SimplePage {
+        id: pageAuthResult
+
+        visible: false
+
+        PageWorkerAuthResult {
+            id: pageAuthResultContent
+
+            anchors.fill: parent
+
+            onButtonsClicked: {
+                pageQrReaderContent.scanActive = true
+                pagePop()
+            }
+        }
+    }
 
 }

@@ -10,6 +10,8 @@
 #include <QNetworkInterface>
 #include <QDataStream>
 #include <QString>
+#include <QDate>
+#include <QTime>
 
 #include "databasemodule.h"
 
@@ -50,6 +52,11 @@ class AppCore : public QObject
     WorkerFilterModel *filterWorker;
 
     CheckpointModel *modelCheckpoint;
+    StateModel *modelState;
+    WorkerModel *modelWorker;
+
+    int checkpoint;
+    QString inn;
 
     ModelForComboBox *accessCombobox;
     ModelForComboBox *positionCombobox;
@@ -86,7 +93,9 @@ public:
         ACCOUNT,
         ERROR,
         AUTH_COMPLETE,
-        CHECKPOINTS
+        CHECKPOINTS,
+        STATES,
+        AUTH_WORKER
     };
 
     void doSendToClientsMessage(COMMAND command);

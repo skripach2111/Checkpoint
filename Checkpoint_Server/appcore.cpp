@@ -89,7 +89,6 @@ void AppCore::slotReadClient()
         case AUTH:
         {
             qDebug() << "AUTH";
-            QString login;
             QString password;
 
             in >> login;
@@ -144,10 +143,12 @@ void AppCore::slotReadClient()
 
             in >> inn;
             in >> checkpoint;
+            in >> _state;
 
             qDebug() << "DO SEND AUTH WORKER";
 
             doSendToClientsMessage(COMMAND::AUTH_WORKER);
+            break;
         }
         default:
         {
@@ -201,6 +202,8 @@ void AppCore::doSendToClientsMessage(COMMAND command)
 
         int count = 0;
 
+        out << (int)0;
+
         for(int i = 0; i < modelCheckpoint->rowCount(QModelIndex()); i++)
         {
             if(modelCheckpoint->index(i, CheckpointModel::Column::FLAG).data().toInt() != 1)
@@ -215,8 +218,8 @@ void AppCore::doSendToClientsMessage(COMMAND command)
             }
         }
 
-        out.device()->seek(0);
-        out << quint16(arrBlock.size() - sizeof(quint16));
+        out.device()->seek(sizeof (quint16) + sizeof (command));
+        out << count;
 
         break;
     }
@@ -227,18 +230,20 @@ void AppCore::doSendToClientsMessage(COMMAND command)
 
         int count = 0;
 
-        for(int i = 0; i < modelCheckpoint->rowCount(QModelIndex()); i++)
+        out << (int)0;
+
+        for(int i = 0; i < modelState->rowCount(QModelIndex())-1; i++)
         {
             if(modelState->index(i, StateModel::Column::FLAG).data().toInt() != 1)
             {
                 count++;
-                out << modelCheckpoint->index(i, StateModel::Column::ID).data();
-                out << modelCheckpoint->index(i, StateModel::Column::TITLE).data();
+                out << modelState->index(i, StateModel::Column::ID).data();
+                out << modelState->index(i, StateModel::Column::TITLE).data();
             }
         }
 
-        out.device()->seek(0);
-        out << quint16(arrBlock.size() - sizeof(quint16));
+        out.device()->seek(sizeof (quint16) + sizeof (command));
+        out << count;
 
         break;
     }
@@ -247,22 +252,22 @@ void AppCore::doSendToClientsMessage(COMMAND command)
         qDebug() << "AUTH WORKER";
         db->selectTables();
 
-        QString fio;
-        QString position;
-        QString lvl_acces;
-        QDate dateAuth;
-        QTime timeAuth;
-        QString state;
+        QVariant fio;
+        QVariant position;
+        QVariant lvl_acces;
+        QVariant dateAuth;
+        QVariant timeAuth;
+        QVariant state;
 
         qDebug() << "1";
         qDebug() << "inn: " << inn;
         qDebug() << "checkpoint: " << checkpoint;
 
-        fio = db->getWorkerModel()->getDataById(inn, WorkerModel::Column::PIB).toString();
+        fio = db->getWorkerModel()->getDataById(inn, WorkerModel::Column::PIB);
         qDebug() << "fio" << fio;
-        position = db->getWorkerModel()->getDataById(inn, WorkerModel::Column::POSITION).toString();
+        position = db->getPositionModel()->getDataById(db->getWorkerModel()->getDataById(inn, WorkerModel::Column::POSITION).toInt(), PositionModel::Column::TITLE);
         qDebug() << "position" << position;
-        lvl_acces = db->getWorkerModel()->getDataById(inn, WorkerModel::Column::LVL_ACCESS).toString();
+        lvl_acces = db->getAccessModel()->getDataById(db->getWorkerModel()->getDataById(inn, WorkerModel::Column::LVL_ACCESS).toInt(), AccessModel::Column::TITLE);
         qDebug() << "lvl_access" << lvl_acces;
         dateAuth = QDate::currentDate();
         qDebug() << "dateAuth" << dateAuth;
@@ -278,10 +283,13 @@ void AppCore::doSendToClientsMessage(COMMAND command)
             out << fio;
             out << position;
             out << lvl_acces;
-            out << dateAuth.toString();
-            out << timeAuth.toString();
-            out << state;
+            out << dateAuth;
+            out << timeAuth;
+            out << "Допущен";
+            out << true;
             qDebug() << "OUT";
+
+            db->getAuthorizationModel()->appendRow(inn, dateAuth.toDate(), timeAuth.toTime(), _state, db->getWorkerModel()->data(db->getAccountModel()->getUserByLogin(login), Qt::DisplayRole).toString(), checkpoint);
         }
         else
         {
@@ -289,13 +297,17 @@ void AppCore::doSendToClientsMessage(COMMAND command)
             out << fio;
             out << position;
             out << lvl_acces;
-            out << dateAuth.toString();
-            out << timeAuth.toString();
-            out << state;
+            out << dateAuth;
+            out << timeAuth;
+            out << "Недопущен";
+            out << false;
             qDebug() << "OUT";
+            db->getAuthorizationModel()->appendRow(inn, dateAuth.toDate(), timeAuth.toTime(), 3, db->getWorkerModel()->data(db->getAccountModel()->getUserByLogin(login), Qt::DisplayRole).toString(), checkpoint);
         }
 
         qDebug() << "3";
+
+        db->getAuthorizationModel()->saveChanges();
 
         break;
     }
@@ -304,7 +316,7 @@ void AppCore::doSendToClientsMessage(COMMAND command)
     out.device()->seek(0);
     out << quint16(arrBlock.size() - sizeof(quint16));
     qDebug() << "size: " << arrBlock.size();
-    qDebug() << "uint16 size: " << (quint16)arrBlock.size();
+    qDebug() << "uint16 size: " << quint16(arrBlock.size() - sizeof(quint16));
 
     client.pSocket->write(arrBlock);
 }

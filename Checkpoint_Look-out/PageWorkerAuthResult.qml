@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
-Item {
+Page {
     id: root
 
     signal buttonsClicked()
@@ -13,34 +13,63 @@ Item {
     property string lvl_access: "lvl_access"
     property string dateAuth: "date"
     property string timeAuth: "time"
+    property string colorButtons: "red"
 
-//    header: Button {
-//        height: 50
+    header: Button {
+        height: 50
 
-//        anchors.left: parent.left
-//        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.right: parent.right
+        font.bold: true
+        font.pointSize: 14
 
-//        text: stateText
+        text: stateText
 
-//        onClicked: buttonsClicked()
-//    }
+        background: Rectangle {
+            color: colorButtons
+        }
 
-//    footer: Button {
-//        height: 50
+        onClicked: buttonsClicked()
+    }
 
-//        anchors.left: parent.left
-//        anchors.right: parent.right
+    footer: Button {
+        height: 50
 
-//        text: stateText
+        anchors.left: parent.left
+        anchors.right: parent.right
+        font.bold: true
+        font.pointSize: 14
 
-//        onClicked: buttonsClicked()
-//    }
+        text: stateText
+
+        background: Rectangle {
+            color: colorButtons
+        }
+
+        onClicked: buttonsClicked()
+    }
 
     ColumnLayout {
         anchors.fill: parent
 
         Label {
+            text: "ФИО:"
+            font.underline: true
+            font.bold: true
+            font.italic: false
+            font.pointSize: 10
+        }
+
+        Label {
             text: fio
+        }
+
+        Label {
+            text: "Должность:"
+            font.underline: true
+            font.bold: true
+            font.italic: false
+            font.pointSize: 10
         }
 
         Label {
@@ -48,7 +77,23 @@ Item {
         }
 
         Label {
+            text: "Уровень доступа:"
+            font.underline: true
+            font.bold: true
+            font.italic: false
+            font.pointSize: 10
+        }
+
+        Label {
             text: lvl_access
+        }
+
+        Label {
+            text: "Дата авторизации:"
+            font.underline: true
+            font.bold: true
+            font.italic: false
+            font.pointSize: 10
         }
 
         Label {
@@ -56,7 +101,19 @@ Item {
         }
 
         Label {
+            text: "Время авторизации:"
+            font.underline: true
+            font.bold: true
+            font.italic: false
+            font.pointSize: 10
+        }
+
+        Label {
             text: timeAuth
+        }
+
+        Item {
+            Layout.fillHeight: true
         }
     }
 }

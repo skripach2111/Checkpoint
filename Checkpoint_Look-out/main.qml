@@ -36,6 +36,12 @@ Window {
             pageSelectCheckpointContent.comboBoxModel = connectionController.checkpoint
             mainView.push(pageSelectCheckpoint)
         }
+
+        onComingStateModel: {
+            statesComboBox.model = connectionController.state
+            mainView.push(pageQrReader)
+        }
+
         onWorkerAuthoriazationResult: {
             pageAuthResultContent.fio = fio
             pageAuthResultContent.position = position
@@ -43,7 +49,12 @@ Window {
             pageAuthResultContent.dateAuth = date
             pageAuthResultContent.timeAuth = time
             pageAuthResultContent.stateText = state
-            mainView.push(pageAuthResult)
+            if(color)
+                pageAuthResultContent.colorButtons = "green"
+            else
+                pageAuthResultContent.colorButtons = "red"
+
+            mainView.push(pageAuthResultContent)
             pageQrReaderContent.scanActive = false
         }
     }
@@ -127,7 +138,7 @@ Window {
 
             onButtonSelectClicked: {
                 pageQrReaderContent.scanActive = true
-                mainView.push(pageQrReader)
+                connectionController.getStatesModel()
                 //pagePop()
             }
         }
@@ -142,32 +153,33 @@ Window {
         PageQrReader {
             id: pageQrReaderContent
             anchors.fill: parent
+            scanActive: false
 
-            onCodeReaded: connectionController.authWorker(pageSelectCheckpointContent.selectCheckpoint, code)
+            onCodeReaded: connectionController.authWorker(pageSelectCheckpointContent.selectCheckpoint, code, statesComboBox.currentIndex)
         }
 
         footer: ComboBox {
+            id: statesComboBox
             height: 50
             anchors.left: parent.left
             anchors.right: parent.right
+
+            textRole: "title"
+            valueRole: "value"
         }
     }
 
-    SimplePage {
-        id: pageAuthResult
-
-        visible: false
 
         PageWorkerAuthResult {
             id: pageAuthResultContent
 
             anchors.fill: parent
+            visible: false
 
             onButtonsClicked: {
-                pageQrReaderContent.scanActive = true
                 pagePop()
+                pageQrReaderContent.scanActive = true
             }
         }
-    }
 
 }

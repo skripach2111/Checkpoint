@@ -57,6 +57,9 @@ class AppCore : public QObject
 
     int checkpoint;
     QString inn;
+    int _state;
+
+    QString login;
 
     ModelForComboBox *accessCombobox;
     ModelForComboBox *positionCombobox;
@@ -85,7 +88,7 @@ public:
     };
 
     enum COMMAND {
-        PING = 1,
+        AUTH_WORKER = 1,
         MESSAGE,
         AUTH,
         LISTEN,
@@ -94,8 +97,7 @@ public:
         ERROR,
         AUTH_COMPLETE,
         CHECKPOINTS,
-        STATES,
-        AUTH_WORKER
+        STATES
     };
 
     void doSendToClientsMessage(COMMAND command);

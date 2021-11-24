@@ -10,10 +10,16 @@ void ConnectionController::getCheckpointModel()
     send(CHECKPOINTS);
 }
 
-void ConnectionController::authWorker(int checkpoint, QString inn)
+void ConnectionController::getStatesModel()
+{
+    send(STATES);
+}
+
+void ConnectionController::authWorker(int checkpoint, QString inn, int state)
 {
     checkpointId = checkpoint;
     this->inn = inn;
+    _state = state;
     send(AUTH_WORKER);
 }
 
@@ -27,7 +33,7 @@ void ConnectionController::connect()
     QObject::connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(slotDisconnected()));
     QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),this, SLOT(slotError(QAbstractSocket::SocketError)));
 
-    host = QHostAddress("192.168.0.101");
+    host = QHostAddress("192.168.5.30");
     port = 12012;
 
     tcpSocket->connectToHost(host, port);
@@ -82,11 +88,16 @@ void ConnectionController::send(COMMAND command)
     {
         break;
     }
+    case STATES:
+    {
+        break;
+    }
     case AUTH_WORKER:
     {
         qDebug() << "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" << modelCheckpoint->data(modelCheckpoint->index(checkpointId, 0), CheckpointModel::Roles::ID);
         out << inn;
         out << modelCheckpoint->data(modelCheckpoint->index(checkpointId, 0), CheckpointModel::Roles::ID);
+        out << modelState->data(modelState->index(_state, 0), CheckpointModel::Roles::ID);
         break;
     }
     }
@@ -112,6 +123,7 @@ void ConnectionController::slotReadyRead()
         }
 
         in >> nNextBlockSize;
+        qDebug() << "########################################################################## nNext: " << nNextBlockSize;
     }
 
     if (tcpSocket->bytesAvailable() < nNextBlockSize)
@@ -125,12 +137,13 @@ void ConnectionController::slotReadyRead()
 
         nNextBlockSize = 0;
 
-        int COMMAND;
+        int command;
 
-        in >> COMMAND;
-        qDebug() << COMMAND << ":command ##########################################################################";
+        in >> command;
 
-        switch (COMMAND)
+        qDebug() << command << ":command ##########################################################################";
+
+        switch (command)
         {
         case AUTH_COMPLETE:
         {
@@ -179,15 +192,48 @@ void ConnectionController::slotReadyRead()
             emit comingCheckpointModel();
             break;
         }
+        case STATES:
+        {
+            qDebug() << "STATES ##########################################################################";
+            modelState = new StateModel(this);
+            qDebug() << "1 ##########################################################################";
+            int count = 0;
+            QVariant id;
+            QVariant title;
+
+            qDebug() << "2 ##########################################################################";
+
+            in >> count;
+
+            qDebug() << count << "count ##########################################################################";
+
+            for(int i = 0; i < count; i++)
+            {
+                in >> id;
+                in >> title;
+
+                qDebug() << "READ ##########################################################################";
+                qDebug() << id;
+                qDebug() << title;
+
+                modelState->appendRow(id.toInt(), title.toString());
+            }
+
+            qDebug() << "3 ##########################################################################";
+
+            emit comingStateModel();
+            break;
+        }
         case AUTH_WORKER:
         {
             qDebug() << "AUTH_WORKER ##########################################################################";
-            QString fio;
-            QString position;
-            QString lvl_access;
-            QString date;
-            QString time;
-            QString state;
+            QVariant fio;
+            QVariant position;
+            QVariant lvl_access;
+            QVariant date;
+            QVariant time;
+            QVariant state;
+            QVariant color;
 
             in >> fio;
             in >> position;
@@ -195,9 +241,10 @@ void ConnectionController::slotReadyRead()
             in >> date;
             in >> time;
             in >> state;
+            in >> color;
 
             qDebug() << "AUTH WORKER ##########################################################################";
-            emit workerAuthoriazationResult(fio, position, lvl_access, QDate::fromString(date), QTime::fromString(time), state);
+            emit workerAuthoriazationResult(fio.toString(), position.toString(), lvl_access.toString(), date.toDate().toString(), time.toTime().toString(), state.toString(), color.toBool());
 
             break;
         }
@@ -208,5 +255,10 @@ void ConnectionController::slotReadyRead()
             break;
         }
         }
+
+        if(in.atEnd())
+            qDebug() << "IN end ###########################################################################";
+        else
+            qDebug() << "IN not end #######################################################################";
     }
 }

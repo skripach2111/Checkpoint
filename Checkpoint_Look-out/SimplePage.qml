@@ -9,7 +9,6 @@ Page {
     property alias headerText: title.text
 
     signal buttonBackClicked()
-    signal buttonNextClicked()
 
     header: ToolBar {
         height:  50

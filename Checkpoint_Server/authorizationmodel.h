@@ -23,10 +23,11 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
     Qt::ItemFlags flags( const QModelIndex& index ) const;
 
-    void appendRow( const int& worker, const QDate& date, const QTime& time, const int& state, const int& authorizer, const int& checkpoint );
+    void appendRow( const QString& worker, const QDate& date, const QTime& time, const int& state, const QString& authorizer, const int& checkpoint );
 
     bool select();
     bool submit();
+    bool saveChanges();
     void setTable(QString t, QSqlDatabase *database);
 
     void setWorkerModel(WorkerModel *m_worker) { workerModel = m_worker; }

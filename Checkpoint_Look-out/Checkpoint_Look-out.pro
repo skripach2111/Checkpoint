@@ -11,7 +11,8 @@ CONFIG += c++17
 SOURCES += \
         checkpointmodel.cpp \
         connectioncontroller.cpp \
-        main.cpp
+        main.cpp \
+        statemodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -54,4 +55,5 @@ DISTFILES += \
 
 HEADERS += \
     checkpointmodel.h \
-    connectioncontroller.h
+    connectioncontroller.h \
+    statemodel.h

@@ -34,12 +34,12 @@ Item {
                         videoOutput.mapNormalizedRectToItem(Qt.rect(0.25, 0.25, 0.5, 0.5)))
         }
 
-//        ScannerOverlay {
-//            id: scannerOverlay
-//            anchors.fill: parent
+        //        ScannerOverlay {
+        //            id: scannerOverlay
+        //            anchors.fill: parent
 
-//            captureRect: videoOutput.mapRectToItem(barcodeFilter.captureRect)
-//        }
+        //            captureRect: videoOutput.mapRectToItem(barcodeFilter.captureRect)
+        //        }
 
         // used to get camera focus on touched point
         MouseArea {
@@ -64,9 +64,8 @@ Item {
                                                                      0.5, 0.5)))
 
         onCapturedChanged: {
-                scanActive = false
-                codeReaded(captured)
-                console.log("captured: " + captured)
+            codeReaded(captured)
+            console.log("captured: " + captured)
             log.text = "captured: " + captured
         }
     }

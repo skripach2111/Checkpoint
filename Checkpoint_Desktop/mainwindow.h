@@ -234,6 +234,12 @@ private slots:
 
     void on_pushButton_viewWorkerPrintPass_clicked();
 
+    void on_pushButton_updateTables_clicked();
+
+    void on_dateEdit_filterAuthorization_userDateChanged(const QDate &date);
+
+    void on_timeEdit_filterAuthorization_userTimeChanged(const QTime &time);
+
 private:
     Ui::MainWindow *ui;
 };

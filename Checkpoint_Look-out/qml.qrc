@@ -7,5 +7,6 @@
         <file>SimplePage.qml</file>
         <file>PageQrReader.qml</file>
         <file>PageWorkerAuthResult.qml</file>
+        <file>settings.png</file>
     </qresource>
 </RCC>

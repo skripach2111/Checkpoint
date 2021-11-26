@@ -14,22 +14,18 @@ Window {
         mainView.pop()
     }
 
-    //    DatabaseModule {
-    //        id: db
-
-    //        hostAddress: "213.110.121.129"
-    //        hostPort: 3306
-    //    }
-
     ConnectionController {
         id: connectionController
 
         onErrorConnection: {
             pageLoginContents.errorText = message;
+            errorLabel.text = message;
+            pageError.visible = true;
         }
 
         onConnected: {
             getCheckpointModel();
+            pageLoginContents.errorText = ""
         }
 
         onComingCheckpointModel: {
@@ -55,7 +51,6 @@ Window {
                 pageAuthResultContent.colorButtons = "red"
 
             mainView.push(pageAuthResultContent)
-            pageQrReaderContent.scanActive = false
         }
     }
 
@@ -79,25 +74,25 @@ Window {
             errorText: ""
 
             onButtonConnectClicked: {
-                //                if(db.connect("userCheckpoint", "user_checkpoint"))
-                //                {
-                //                    if(db.authorizationUser(login, password))
-                //                    {
-                //                        mainView.push(pageSelectCheckpoint)
-                //                    }
-                //                    else
-                //                        pageLoginContents.errorText = "Неверный логин или пароль!"
-                //                }
-                //                else
-                //                {
-                //                    pageLoginContents.errorText = "Не удалось подключиться к серверу!"
-                //                }
 
-                connectionController.login = login
-                connectionController.password = password
-                connectionController.connect()
+                if(login.length != 0 && password.length != 0)
+                {
+                    connectionController.login = login
+                    connectionController.password = password
+                    connectionController.connect()
+                }
+                else
+                    errorText = "Все поля должны быть заполнены!"
             }
             onButtonSettingsClicked: {
+                pageSettingsContent.currentIP = connectionController.getSettings("Connection/ip_address")
+                pageSettingsContent.currentPort = connectionController.getSettings("Connection/port")
+
+                if(pageSettingsContent.currentIP.length == 0)
+                    pageSettingsContent.currentIP = "127.0.0.1"
+
+                if(pageSettingsContent.currentPort == "0")
+                    pageSettingsContent.currentPort = "12012"
                 mainView.push(pageSettings)
             }
         }
@@ -110,14 +105,28 @@ Window {
         visible: false
 
         onButtonBackClicked: {
+            pageSettingsContent.fieldIP = ""
+            pageSettingsContent.fieldPort = ""
+
             pagePop()
         }
 
         PageSettings {
+            id: pageSettingsContent
             anchors.fill: parent
 
             onButtonSubmitClicked: {
-                pagePop()
+
+                if(fieldIP.length != 0)
+                    connectionController.setSettings("Connection/ip_address", fieldIP)
+                if(fieldPort.length != 0)
+                    connectionController.setSettings("Connection/port", fieldPort)
+
+                currentIP = connectionController.getSettings("Connection/ip_address")
+                currentPort = connectionController.getSettings("Connection/port")
+
+                pageSettingsContent.fieldIP = ""
+                pageSettingsContent.fieldPort = ""
             }
         }
     }
@@ -129,6 +138,7 @@ Window {
         visible: false
 
         onButtonBackClicked: {
+            connectionController.disconnect()
             pagePop()
         }
 
@@ -155,7 +165,11 @@ Window {
             anchors.fill: parent
             scanActive: false
 
-            onCodeReaded: connectionController.authWorker(pageSelectCheckpointContent.selectCheckpoint, code, statesComboBox.currentIndex)
+            onCodeReaded: {
+                pageQrReaderContent.scanActive = false
+                connectionController.authWorker(pageSelectCheckpointContent.selectCheckpoint, code, statesComboBox.currentIndex)
+                console.log("onCodeReaded")
+            }
         }
 
         footer: ComboBox {
@@ -167,19 +181,24 @@ Window {
             textRole: "title"
             valueRole: "value"
         }
+
+        onButtonBackClicked: {
+            connectionController.disconnect()
+            mainView.pop(pageLogin)
+        }
     }
 
 
-        PageWorkerAuthResult {
-            id: pageAuthResultContent
+    PageWorkerAuthResult {
+        id: pageAuthResultContent
 
-            anchors.fill: parent
-            visible: false
+        anchors.fill: parent
+        visible: false
 
-            onButtonsClicked: {
-                pagePop()
-                pageQrReaderContent.scanActive = true
-            }
+        onButtonsClicked: {
+            pagePop()
+            pageQrReaderContent.scanActive = true
         }
+    }
 
 }

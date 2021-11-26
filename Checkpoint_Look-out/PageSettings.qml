@@ -7,6 +7,11 @@ Item {
 
     signal buttonSubmitClicked()
 
+    property alias currentIP: labelCurrentIP.text
+    property alias currentPort: labelCurrentPort.text
+    property alias fieldIP: textFieldIP.text
+    property alias fieldPort: textFieldPort.text
+
     ColumnLayout {
         id: mainLayout
         x: 0
@@ -34,7 +39,7 @@ Item {
 
             Label {
                 id: labelCurrentIP
-                text: qsTr("Текущий: 127.0.0.1")
+                text: qsTr("127.0.0.1")
                 font.italic: true
                 font.bold: true
                 font.pointSize: 12
@@ -58,7 +63,7 @@ Item {
 
             Label {
                 id: labelCurrentPort
-                text: qsTr("Текущий: 3306")
+                text: qsTr("3306")
                 font.italic: true
                 font.bold: true
                 font.pointSize: 12

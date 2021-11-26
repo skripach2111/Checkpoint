@@ -150,12 +150,12 @@ void MainWindow::on_pushButton_Connect_clicked()
     filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::TIME, false);
     filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::CHECKPOINT, false);
     filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::LVL_ACCESS, false);
-    filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, 1);
     filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, true);
-    filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_OUT, 2);
+    filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, 1);
     filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_OUT, true);
-    filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_NOT_ALLOWED, 3);
+    filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_OUT, 2);
     filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_NOT_ALLOWED, true);
+    filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_NOT_ALLOWED, 3);
 
     filterCheckpoint->setEnabledFilterParam(CheckpointFilterModel::FilterParam::TITLE, false);
     filterCheckpoint->setEnabledFilterParam(CheckpointFilterModel::FilterParam::LVL_ACCESS, false);
@@ -479,7 +479,7 @@ void MainWindow::on_comboBox_filterCheckpointByLvlAccess_currentIndexChanged(int
 
 void MainWindow::on_checkBox_filterAuthorizationByDate_stateChanged(int arg1)
 {
-    if(arg1 == 1)
+    if(ui->checkBox_filterAuthorizationByDate->isChecked())
     {
         ui->dateEdit_filterAuthorization->setEnabled(true);
         filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::DATE, true);
@@ -495,7 +495,7 @@ void MainWindow::on_checkBox_filterAuthorizationByDate_stateChanged(int arg1)
 
 void MainWindow::on_checkBox_filterAuthorizationByTime_stateChanged(int arg1)
 {
-    if(arg1 == 1)
+    if(ui->checkBox_filterAuthorizationByTime->isChecked())
     {
         ui->timeEdit_filterAuthorization->setEnabled(true);
         filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::TIME, true);
@@ -559,7 +559,7 @@ void MainWindow::on_comboBox_filterAuthorizationByLvlAccess_currentIndexChanged(
 
 void MainWindow::on_checkBox_filterAuthorizationByStateIncoming_stateChanged(int arg1)
 {
-    if(ui->checkBox_filterAuthorizationByStateGraduates->isChecked())
+    if(ui->checkBox_filterAuthorizationByStateIncoming->isChecked())
     {
         filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, true);
         filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_IN, 1);
@@ -583,7 +583,7 @@ void MainWindow::on_checkBox_filterAuthorizationByStateGraduates_stateChanged(in
 
 void MainWindow::on_checkBox_filterAuthorizationByStateInadmissible_stateChanged(int arg1)
 {
-    if(ui->checkBox_filterAuthorizationByStateGraduates->isChecked())
+    if(ui->checkBox_filterAuthorizationByStateInadmissible->isChecked())
     {
         filterAuthorization->setEnabledFilterParam(AuthorizationFilterModel::FilterParam::STATE_NOT_ALLOWED, true);
         filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::STATE_NOT_ALLOWED, 3);
@@ -1141,7 +1141,7 @@ void MainWindow::on_pushButton_moreAboutAuthorization_clicked()
     ui->label_viewAuthorizationDate->setText(filterAuthorization->sourceModel()->index(filterAuthorization->mapToSource(ui->tableView_authorizations->currentIndex()).row(), AuthorizationModel::Column::DATE).data().toString());
     ui->label_viewAuthorizationState->setText(filterAuthorization->sourceModel()->index(filterAuthorization->mapToSource(ui->tableView_authorizations->currentIndex()).row(), AuthorizationModel::Column::STATE).data().toString());
     ui->label_viewAuthorizationTime->setText(filterAuthorization->sourceModel()->index(filterAuthorization->mapToSource(ui->tableView_authorizations->currentIndex()).row(), AuthorizationModel::Column::TIME).data().toString());
-    ui->label_viewAuthorizationWorker->setText(filterAuthorization->sourceModel()->index(filterAuthorization->mapToSource(ui->tableView_authorizations->currentIndex()).row(), AuthorizationModel::Column::CHECKPOINT).data().toString());
+    ui->label_viewAuthorizationWorker->setText(filterAuthorization->sourceModel()->index(filterAuthorization->mapToSource(ui->tableView_authorizations->currentIndex()).row(), AuthorizationModel::Column::WORKER).data().toString());
 
     ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::AUTHORIZATIONS_VIEW);
 }
@@ -1338,5 +1338,23 @@ void MainWindow::on_pushButton_viewWorkerPrintPass_clicked()
         m_report.dataManager()->addModel("modeldata", &modelData, false);
         m_report.previewReport();
     }
+}
+
+
+void MainWindow::on_pushButton_updateTables_clicked()
+{
+    db->selectTables();
+}
+
+
+void MainWindow::on_dateEdit_filterAuthorization_userDateChanged(const QDate &date)
+{
+    filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::DATE, ui->dateEdit_filterAuthorization->date());
+}
+
+
+void MainWindow::on_timeEdit_filterAuthorization_userTimeChanged(const QTime &time)
+{
+    filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::TIME, ui->timeEdit_filterAuthorization->time());
 }
 

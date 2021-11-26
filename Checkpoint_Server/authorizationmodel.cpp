@@ -168,6 +168,8 @@ bool AuthorizationModel::saveChanges()
         }
     }
 
+    qDebug() << db->lastError();
+
     return true;
 }
 

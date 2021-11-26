@@ -30,6 +30,8 @@ class ConnectionController : public QQuickItem
     CheckpointModel* modelCheckpoint;
     StateModel* modelState;
 
+    QSettings *settings;
+
     int checkpointId = -1;
     QString inn;
     int _state;
@@ -78,6 +80,9 @@ public slots:
     void slotDisconnected();
     void slotConnected();
     void slotError(QAbstractSocket::SocketError);
+
+    QVariant getSettings(QString name);
+    void setSettings(QString name, QVariant value) { settings->setValue(name, value); }
 };
 
 #endif // CONNECTIONCONTROLLER_H

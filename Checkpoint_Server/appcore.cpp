@@ -64,6 +64,7 @@ void AppCore::slotNewConnection()
 
 void AppCore::slotReadClient()
 {
+    qDebug() << "readClient";
     QTcpSocket* pClientSocket = (QTcpSocket*)sender();
     QDataStream in(pClientSocket);
     in.setVersion(QDataStream::Qt_5_13);
@@ -155,6 +156,11 @@ void AppCore::slotReadClient()
             break;
         }
         }
+
+        if(in.atEnd())
+            qDebug() << "IN end";
+        else
+            qDebug() << "IN not end";
 
         nNextBlockSize = 0;
     }
@@ -258,6 +264,7 @@ void AppCore::doSendToClientsMessage(COMMAND command)
         QVariant dateAuth;
         QVariant timeAuth;
         QVariant state;
+        QVariant color;
 
         qDebug() << "1";
         qDebug() << "inn: " << inn;
@@ -276,31 +283,33 @@ void AppCore::doSendToClientsMessage(COMMAND command)
 
         qDebug() << "2";
 
-        if(db->getCheckpointModel()->getDataById(checkpoint, CheckpointModel::Column::LVL_ACCESS).toInt() <=
-                db->getWorkerModel()->getDataById(inn, WorkerModel::Column::LVL_ACCESS).toInt())
+        if(db->getAccessModel()->getDataById(db->getCheckpointModel()->getDataById(checkpoint, CheckpointModel::Column::LVL_ACCESS).toInt(), AccessModel::Column::PRIVILEGE).toInt() >=
+                db->getAccessModel()->getDataById(db->getWorkerModel()->getDataById(inn, WorkerModel::Column::LVL_ACCESS).toInt(), AccessModel::Column::PRIVILEGE).toInt())
         {
-            state = 1;
+            state = "Допущен";
+            color = true;
             out << fio;
             out << position;
             out << lvl_acces;
             out << dateAuth;
             out << timeAuth;
-            out << "Допущен";
-            out << true;
+            out << state;
+            out << color;
             qDebug() << "OUT";
 
             db->getAuthorizationModel()->appendRow(inn, dateAuth.toDate(), timeAuth.toTime(), _state, db->getWorkerModel()->data(db->getAccountModel()->getUserByLogin(login), Qt::DisplayRole).toString(), checkpoint);
         }
         else
         {
-            state = 3;
+            state = "Недопущен";
+            color = false;
             out << fio;
             out << position;
             out << lvl_acces;
             out << dateAuth;
             out << timeAuth;
-            out << "Недопущен";
-            out << false;
+            out << state;
+            out << color;
             qDebug() << "OUT";
             db->getAuthorizationModel()->appendRow(inn, dateAuth.toDate(), timeAuth.toTime(), 3, db->getWorkerModel()->data(db->getAccountModel()->getUserByLogin(login), Qt::DisplayRole).toString(), checkpoint);
         }
@@ -308,6 +317,8 @@ void AppCore::doSendToClientsMessage(COMMAND command)
         qDebug() << "3";
 
         db->getAuthorizationModel()->saveChanges();
+
+        qDebug() << "break";
 
         break;
     }

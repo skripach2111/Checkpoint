@@ -3,6 +3,7 @@
 ConnectionController::ConnectionController(QObject *parent)
 {
     nNextBlockSize = 0;
+    settings = new QSettings("settings.conf", QSettings::NativeFormat);
 }
 
 void ConnectionController::getCheckpointModel()
@@ -20,6 +21,7 @@ void ConnectionController::authWorker(int checkpoint, QString inn, int state)
     checkpointId = checkpoint;
     this->inn = inn;
     _state = state;
+    qDebug() << "SEND AUTH WORKER##########################################################################";
     send(AUTH_WORKER);
 }
 
@@ -33,8 +35,14 @@ void ConnectionController::connect()
     QObject::connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(slotDisconnected()));
     QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),this, SLOT(slotError(QAbstractSocket::SocketError)));
 
-    host = QHostAddress("192.168.5.30");
-    port = 12012;
+    host = QHostAddress(getSettings("Connection/ip_address").toString());
+    port = getSettings("Connection/port").toInt();
+
+    if(host.toString().size() == 0)
+        host = QHostAddress("127.0.0.1");
+
+    if(port <= 0)
+        port = 12012;
 
     tcpSocket->connectToHost(host, port);
 }
@@ -57,6 +65,16 @@ void ConnectionController::slotError(QAbstractSocket::SocketError err)
                                      );
 
     emit errorConnection(strError);
+}
+
+QVariant ConnectionController::getSettings(QString name)
+{
+    if(name == "Connection/ip_address")
+        return settings->value(name, "127.0.0.1");
+    else if(name == "Connection/port")
+        return settings->value(name, 12012);
+
+    return QVariant();
 }
 
 void ConnectionController::disconnect()
@@ -96,8 +114,8 @@ void ConnectionController::send(COMMAND command)
     {
         qDebug() << "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" << modelCheckpoint->data(modelCheckpoint->index(checkpointId, 0), CheckpointModel::Roles::ID);
         out << inn;
-        out << modelCheckpoint->data(modelCheckpoint->index(checkpointId, 0), CheckpointModel::Roles::ID);
-        out << modelState->data(modelState->index(_state, 0), CheckpointModel::Roles::ID);
+        out << modelCheckpoint->data(modelCheckpoint->index(checkpointId, 0), CheckpointModel::Roles::ID).toInt();
+        out << modelState->data(modelState->index(_state, 0), StateModel::Roles::ID).toInt();
         break;
     }
     }
@@ -165,6 +183,7 @@ void ConnectionController::slotReadyRead()
             qDebug() << "ERROR ##########################################################################";
             in >> lastError;
             emit errorConnection(lastError);
+            break;
         }
         case CHECKPOINTS:
         {

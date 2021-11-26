@@ -23,8 +23,39 @@ void AuthorizationFilterModel::setEnabledFilterParam(FilterParam par, bool flag)
 
 bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    bool flag = true;
+    bool flag = false;
     QVariant value;
+
+        if(params[ STATE_IN ] && !flag)
+        {
+            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data(AuthorizationModel::Role::Read);
+            if(value.isValid())
+            {
+                if(value.toInt() == values[STATE_IN].toInt())
+                    flag = true;
+            }
+        }
+
+         if(params[ STATE_OUT ] && !flag)
+        {
+            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data(AuthorizationModel::Role::Read);
+            if(value.isValid())
+            {
+                if(value.toInt() == values[STATE_OUT].toInt())
+                    flag = true;
+            }
+        }
+
+         if(params[ STATE_NOT_ALLOWED ] && !flag)
+        {
+            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data(AuthorizationModel::Role::Read);
+            if(value.isValid())
+            {
+                if(value.toInt() == values[STATE_NOT_ALLOWED].toInt())
+                    flag = true;
+            }
+        }
+
 
     if(params[ WORKER ])
     {
@@ -98,41 +129,6 @@ bool AuthorizationFilterModel::filterAcceptsRow(int source_row, const QModelInde
                 flag *= 0;
         }
     }
-
-    if(params[ STATE_IN ] || params[ STATE_OUT ] || params[ STATE_NOT_ALLOWED ])
-    {
-        if(params[ STATE_IN ])
-        {
-            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data(AuthorizationModel::Role::Read);
-            if(value.isValid())
-            {
-                if(value.toInt() == values[STATE_IN])
-                    flag += 1;
-            }
-        }
-
-        if(params[ STATE_OUT ])
-        {
-            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data(AuthorizationModel::Role::Read);
-            if(value.isValid())
-            {
-                if(value.toInt() == values[STATE_OUT])
-                    flag += 1;
-            }
-        }
-
-        if(params[ STATE_NOT_ALLOWED ])
-        {
-            value = sourceModel()->index(source_row, AuthorizationModel::Column::STATE, source_parent).data(AuthorizationModel::Role::Read);
-            if(value.isValid())
-            {
-                if(value.toInt() == values[STATE_NOT_ALLOWED])
-                    flag += 1;
-            }
-        }
-    }
-    else
-        flag *= 0;
 
     return flag;
 }

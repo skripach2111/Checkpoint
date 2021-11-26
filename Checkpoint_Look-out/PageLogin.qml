@@ -83,21 +83,48 @@ Item {
         }
     }
 
-    Button {
+//    Button {
+//        id: buttonSettings
+//        x: 532
+//        width: 40
+//        height: 40
+//        text: qsTr("@")
+//        anchors.right: parent.right
+//        anchors.top: parent.top
+//        display: AbstractButton.IconOnly
+//        anchors.topMargin: 20
+//        anchors.rightMargin: 20
+//        font.pointSize: 12
+//        icon: "qrc:/settings.png"
+
+//        onClicked: {
+//            buttonSettingsClicked()
+//        }
+//    }
+
+    MouseArea {
         id: buttonSettings
         x: 532
         width: 40
         height: 40
-        text: qsTr("@")
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.topMargin: 20
         anchors.rightMargin: 20
-        font.pointSize: 12
+    Rectangle {
+        color: "#494848"
+        anchors.fill: parent
 
-        onClicked: {
-            buttonSettingsClicked()
+        Image {
+            id: imageButtonSettings
+            anchors.fill: parent
+            source: "qrc:/settings.png"
+            fillMode: Image.PreserveAspectFit
+            //anchors.fill: parent
         }
+    }
+
+    onClicked: buttonSettingsClicked()
     }
 
     Label {
@@ -117,6 +144,6 @@ Item {
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;formeditorZoom:0.66;height:480;width:640}
+    D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/

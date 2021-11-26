@@ -67,6 +67,12 @@ QVariant AuthorizationModel::data( const QModelIndex& index, int role ) const {
         if(index.column() == AUTHORIZER)
             return workerModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toString(), WorkerModel::Column::PIB);
 
+        if(index.column() == STATE)
+            return stateModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toInt(), StateModel::Column::TITLE);
+
+        if(index.column() == CHECKPOINT)
+            return checkpointModel->getDataById(model[ index.row() ][ Column( index.column() ) ].toInt(), CheckpointModel::Column::TITLE);
+
         return model[ index.row() ][ Column( index.column() ) ];
     }
     case AuthorizationModel::Role::Read:
@@ -112,7 +118,7 @@ bool AuthorizationModel::select()
         model.removeFirst();
     endRemoveRows();
 
-    query.prepare(QString("SELECT * FROM %1").arg(table));
+    query.prepare(QString("SELECT * FROM %1 ORDER BY date DESC, time DESC").arg(table));
     query.exec();
     if(query.next())
     {

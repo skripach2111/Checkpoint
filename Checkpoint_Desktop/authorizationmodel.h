@@ -8,6 +8,8 @@
 #include <QObject>
 
 #include "workermodel.h"
+#include "statemodel.h"
+#include "checkpointmodel.h"
 
 class AuthorizationModel : public QAbstractTableModel
 {
@@ -30,6 +32,8 @@ public:
     void setTable(QString t, QSqlDatabase *database);
 
     void setWorkerModel(WorkerModel *m_worker) { workerModel = m_worker; }
+    void setStateModel(StateModel *m_state) { stateModel = m_state; }
+    void setCheckpointModel(CheckpointModel *m_checkpoint) { checkpointModel = m_checkpoint; }
 
     enum Column {
         WORKER = 0,
@@ -68,6 +72,8 @@ private:
     QString table;
 
     WorkerModel *workerModel;
+    StateModel *stateModel;
+    CheckpointModel *checkpointModel;
 };
 
 #endif // AUTHORIZATIONMODEL_H

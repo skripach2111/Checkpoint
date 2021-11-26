@@ -56,6 +56,8 @@ public:
         DELETED
     };
 
+    QVariant getDataById(int id, Column column);
+
 private:
 
     typedef QHash< Column, QVariant > DataHash;

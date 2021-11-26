@@ -50,6 +50,8 @@ bool DatabaseModule::connect(QString l, QString p)
         accountModel->setPrivilegeModel(privilegeModel);
         accountModel->setWorkerModel(workerModel);
         authorizationModel->setWorkerModel(workerModel);
+        authorizationModel->setStateModel(stateModel);
+        authorizationModel->setCheckpointModel(checkpointModel);
         checkpointModel->setAccesModel(accessModel);
         workerModel->setAccessModel(accessModel);
         workerModel->setPositionModel(positionModel);

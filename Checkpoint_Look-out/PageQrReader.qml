@@ -66,24 +66,12 @@ Item {
         onCapturedChanged: {
             codeReaded(captured)
             console.log("captured: " + captured)
-            log.text = "captured: " + captured
         }
-    }
-
-    Label {
-        id: log
-        height: 50
-
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-
-        text: "log"
     }
 }
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.9}
+    D{i:0;autoSize:true;formeditorZoom:0.9;height:480;width:640}
 }
 ##^##*/

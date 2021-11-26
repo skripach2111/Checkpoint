@@ -130,6 +130,15 @@ void StateModel::setTable(QString t, QSqlDatabase *database)
     db = database;
 }
 
+QVariant StateModel::getDataById(int id, Column column)
+{
+    for(int i = 0; i < model.size(); i++)
+    {
+        if(model[i][ID].toInt() == id)
+            return model[i][column];
+    }
+}
+
 bool StateModel::setData( const QModelIndex& index, const QVariant& value, int role ) {
     if( !index.isValid() || role != Qt::EditRole || model.count() <= index.row() ) {
         return false;

@@ -25,8 +25,8 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
     Qt::ItemFlags flags( const QModelIndex& index ) const;
 
-    void appendRow( const QString& login, const QString& password, const int& privilege, const int& worker);
-    void updateRow( int row, const QString& login, const QString& password, const int& privilege, const int& worker);
+    void appendRow( const QString& login, const QString& password, const int& privilege, const QString& worker);
+    void updateRow( int row, const QString& login, const QString& password, const int& privilege, const QString& worker);
     void removeRow( int row );
 
     QModelIndex getUserByLogin(QString login);

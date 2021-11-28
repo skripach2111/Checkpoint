@@ -923,7 +923,7 @@ void MainWindow::on_pushButton_save_clicked()
             }
             else
             {
-                db->getCheckpointModel()->updateRow(filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(), CheckpointModel::Column::ID).data().toInt(),
+                db->getCheckpointModel()->updateRow(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(),
                                                     ui->lineEdit_addCheckpointTitle->text(),
                                                     ui->lineEdit_addCheckpointLocation->text(),
                                                     ui->comboBox_addCheckpointLvlAccess->currentIndex(), 0);
@@ -974,7 +974,7 @@ void MainWindow::on_pushButton_save_clicked()
             {
                 db->getAccountModel()->appendRow(ui->lineEdit_addAccountLogin->text(), ui->lineEdit_addAccountPasswordFirst->text(),
                                                  ui->comboBox_addAccountPrivilege->currentIndex(),
-                                                 workerCombobox->index(ui->comboBox_addAccountWorker->currentIndex(), WorkerModel::Column::INN).data().toInt());
+                                                 workerCombobox->index(ui->comboBox_addAccountWorker->currentIndex(), WorkerModel::Column::INN).data().toString());
             }
             else
             {
@@ -982,7 +982,7 @@ void MainWindow::on_pushButton_save_clicked()
                                                  ui->lineEdit_addAccountLogin->text(),
                                                  ui->lineEdit_addAccountPasswordFirst->text(),
                                                  ui->comboBox_addAccountPrivilege->currentIndex(),
-                                                 workerCombobox->index(ui->comboBox_addAccountWorker->currentIndex(), WorkerModel::Column::INN).data().toInt());
+                                                 workerCombobox->index(ui->comboBox_addAccountWorker->currentIndex(), WorkerModel::Column::INN).data().toString());
             }
 
             db->getAccountModel()->saveChange();
@@ -1180,7 +1180,7 @@ void MainWindow::on_pushButton_editAccount_clicked()
     ui->label_addAccountLabel->setText(updateAccountLabel);
 
     ui->comboBox_addAccountPrivilege->setCurrentIndex(filterAccount->sourceModel()->index(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(), AccountModel::Column::PRIVILEGE).data(AccountModel::Role::Read).toInt());
-    ui->comboBox_addAccountWorker->setCurrentIndex(filterAccount->sourceModel()->index(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(), AccountModel::Column::WORKER).data(AccountModel::Role::Read).toInt());
+    ui->comboBox_addAccountWorker->setCurrentIndex(filterAccount->sourceModel()->index(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(), AccountModel::Column::WORKER).row()+1);
     ui->lineEdit_addAccountLogin->setEnabled(false);
     ui->lineEdit_addAccountLogin->setText(filterAccount->sourceModel()->index(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(), AccountModel::Column::LOGIN).data().toString());
     ui->lineEdit_addAccountPasswordFirst->setText(filterAccount->sourceModel()->index(filterAccount->mapToSource(ui->tableView_accounts->currentIndex()).row(), AccountModel::Column::PASSWORD).data().toString());

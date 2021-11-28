@@ -81,7 +81,7 @@ Qt::ItemFlags AccountModel::flags( const QModelIndex& index ) const {
     return flags;
 }
 
-void AccountModel::appendRow(const QString &login, const QString& password, const int &privilege, const int &worker)
+void AccountModel::appendRow(const QString &login, const QString& password, const int &privilege, const QString &worker)
 {
     DataHash account;
     account[ LOGIN ] = login;
@@ -96,7 +96,7 @@ void AccountModel::appendRow(const QString &login, const QString& password, cons
     endInsertRows();
 }
 
-void AccountModel::updateRow(int row, const QString &login, const QString& password, const int &privilege, const int &worker)
+void AccountModel::updateRow(int row, const QString &login, const QString& password, const int &privilege, const QString &worker)
 {
     beginResetModel();
 

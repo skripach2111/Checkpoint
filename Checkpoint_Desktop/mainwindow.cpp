@@ -107,26 +107,31 @@ void MainWindow::on_pushButton_Connect_clicked()
 
 
     ui->tableView_workers->setModel(filterWorker);
+    ui->tableView_workers->resizeColumnsToContents();
     ui->comboBox_filterWorkerByPosition->setModel(positionCombobox);
     ui->comboBox_filterWorkerByPosition->setModelColumn(PositionModel::Column::TITLE);
     ui->comboBox_filterWorkerByLvlAccess->setModel(accessCombobox);
     ui->comboBox_filterWorkerByLvlAccess->setModelColumn(AccessModel::Column::TITLE);
 
     ui->tableView_checkpoints->setModel(filterCheckpoint);
+    ui->tableView_checkpoints->resizeColumnsToContents();
     ui->comboBox_filterCheckpointByLvlAccess->setModel(accessCombobox);
     ui->comboBox_filterCheckpointByLvlAccess->setModelColumn(AccessModel::Column::TITLE);
 
     ui->tableView_authorizations->setModel(filterAuthorization);
+    ui->tableView_authorizations->resizeColumnsToContents();
     ui->comboBox_filterAuthorizationByCheckpoint->setModel(checkpointCombobox);
     ui->comboBox_filterAuthorizationByCheckpoint->setModelColumn(CheckpointModel::Column::TITLE);
     ui->comboBox_filterAuthorizationByLvlAccess->setModel(accessCombobox);
     ui->comboBox_filterAuthorizationByLvlAccess->setModelColumn(AccessModel::Column::TITLE);
 
     ui->tableView_accounts->setModel(filterAccount);
+    ui->tableView_accounts->resizeColumnsToContents();
     ui->comboBox_filterAccountsByPrivileges->setModel(privilegeCombobox);
     ui->comboBox_filterAccountsByPrivileges->setModelColumn(PrivilegeModel::Column::TITLE);
 
     ui->tableView_lvlAccess->setModel(filterAccess);
+    ui->tableView_lvlAccess->resizeColumnsToContents();
 
     ui->listView_positions->setModel(filterPosition);
     ui->listView_positions->setModelColumn(PositionModel::Column::TITLE);

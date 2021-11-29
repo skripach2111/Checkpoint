@@ -393,7 +393,7 @@
         <item row="0" column="1">
          <widget class="QStackedWidget" name="stackedWidget_workPlace">
           <property name="currentIndex">
-           <number>3</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="page_start">
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -580,6 +580,12 @@
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectRows</enum>
               </property>
+              <property name="wordWrap">
+               <bool>false</bool>
+              </property>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -668,6 +674,9 @@
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectRows</enum>
               </property>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -900,6 +909,9 @@
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectRows</enum>
               </property>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -985,6 +997,9 @@
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectRows</enum>
               </property>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -1079,6 +1094,9 @@
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectRows</enum>
               </property>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -1273,8 +1291,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>392</width>
-                 <height>480</height>
+                 <width>545</width>
+                 <height>507</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_35">
@@ -1638,8 +1656,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>462</width>
-                 <height>458</height>
+                 <width>545</width>
+                 <height>507</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -2102,8 +2120,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>230</width>
-                 <height>120</height>
+                 <width>545</width>
+                 <height>507</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_45">
@@ -2225,8 +2243,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>211</width>
-                 <height>102</height>
+                 <width>545</width>
+                 <height>507</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_47">
@@ -2386,8 +2404,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>183</width>
-                 <height>186</height>
+                 <width>545</width>
+                 <height>507</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_49">
@@ -2658,8 +2676,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>309</width>
-                 <height>154</height>
+                 <width>545</width>
+                 <height>507</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -2839,8 +2857,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>159</width>
-                 <height>102</height>
+                 <width>545</width>
+                 <height>507</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_53">
@@ -3000,8 +3018,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>210</width>
-                 <height>87</height>
+                 <width>545</width>
+                 <height>507</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -3091,8 +3109,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>135</width>
-                 <height>52</height>
+                 <width>545</width>
+                 <height>507</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_57">
@@ -3314,7 +3332,7 @@
                      <property name="geometry">
                       <rect>
                        <x>0</x>
-                       <y>-294</y>
+                       <y>0</y>
                        <width>177</width>
                        <height>464</height>
                       </rect>

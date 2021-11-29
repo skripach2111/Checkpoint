@@ -297,7 +297,7 @@ void AppCore::doSendToClientsMessage(COMMAND command)
             out << color;
             qDebug() << "OUT";
 
-            db->getAuthorizationModel()->appendRow(inn, dateAuth.toDate(), timeAuth.toTime(), _state, db->getWorkerModel()->data(db->getAccountModel()->getUserByLogin(login), Qt::DisplayRole).toString(), checkpoint);
+            db->getAuthorizationModel()->appendRow(inn, dateAuth.toDate(), timeAuth.toTime(), _state, db->getWorkerModel()->getDataById(db->getAccountModel()->index(db->getAccountModel()->getUserByLogin(login).row(), AccountModel::Column::WORKER).data(AccountModel::Role::Read).toString(), WorkerModel::Column::INN).toString(), checkpoint);
         }
         else
         {

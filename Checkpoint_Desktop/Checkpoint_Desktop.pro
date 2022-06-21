@@ -81,5 +81,6 @@ linux{
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/libs
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../libs/
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../libs/limereport/
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../../libs/limereport/
     QMAKE_LFLAGS_RPATH += #. .. ./libs
 }

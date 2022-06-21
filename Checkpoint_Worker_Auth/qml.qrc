@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>PageSettings.qml</file>
+        <file>PageSelectCheckpoint.qml</file>
+        <file>PageLogin.qml</file>
+        <file>SimplePage.qml</file>
+        <file>PageQrReader.qml</file>
+        <file>PageWorkerAuthResult.qml</file>
+        <file>settings.png</file>
+    </qresource>
+</RCC>

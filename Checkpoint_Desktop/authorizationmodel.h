@@ -6,6 +6,7 @@
 #include <QSqlError>
 #include <QAbstractTableModel>
 #include <QObject>
+#include <QDate>
 
 #include "workermodel.h"
 #include "statemodel.h"

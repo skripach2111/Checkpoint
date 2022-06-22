@@ -7,6 +7,7 @@
 #include <QAbstractTableModel>
 #include <QObject>
 #include <QBuffer>
+#include <QDate>
 
 #include "accessmodel.h"
 #include "positionmodel.h"
@@ -53,7 +54,9 @@ public:
         LVL_ACCESS,
         FLAG,
         LAST,
-        STATE_ROW
+        STATE_ROW,
+        LOGIN,
+        PASSWORD
     };
 
     enum Role {

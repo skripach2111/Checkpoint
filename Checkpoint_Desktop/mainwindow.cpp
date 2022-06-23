@@ -688,6 +688,8 @@ void MainWindow::on_pushButton_addWorker_clicked()
     ui->comboBox_addWorkerPosition->setCurrentIndex(0);
     ui->comboBox_addWorkerStateDissmised->setCurrentIndex(0);
     ui->widget_addWorkerPhoto->setScaledPixmap(QPixmap());
+    ui->lineEdit_workerLogin->setText("");
+    ui->lineEdit_workerPassword->setText("");
 
     ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::WORKERS_ADD);
     ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::SAVE_CANCEL_BUTTONS);
@@ -761,6 +763,7 @@ void MainWindow::on_pushButton_moreAboutWorker_clicked()
     ui->label_viewWorkerLvlAccess->setText(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::LVL_ACCESS).data().toString());
     ui->label_viewWorkerPosition->setText(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::POSITION).data().toString());
     ui->widget_viewWorkerPhoto->setScaledPixmap(pixmap);
+    ui->label_workerLogin->setText(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::LOGIN).data().toString());
     if(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::FLAG).data().toInt())
         ui->label_viewWorkerStateDissmised->setText("Уволен");
     else
@@ -795,6 +798,8 @@ void MainWindow::on_pushButton_editWorker_clicked()
     ui->lineEdit_addWorkerPlaceOfResidence->setText(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::PLACE_OF_RESIDENCE).data().toString());
     ui->widget_addWorkerPhoto->setScaledPixmap(pixmap);
     ui->comboBox_addWorkerStateDissmised->setCurrentIndex(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::FLAG).data().toInt());
+    ui->lineEdit_workerLogin->setText(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::LOGIN).data().toString());
+    ui->lineEdit_workerPassword->setText(filterWorker->sourceModel()->index(filterWorker->mapToSource(ui->tableView_workers->currentIndex()).row(), WorkerModel::Column::PASSWORD).data().toString());
 
     ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::WORKERS_ADD);
     ui->stackedWidget_buttonPanels->setCurrentIndex(PagesButtonsPanel::SAVE_CANCEL_BUTTONS);
@@ -864,6 +869,18 @@ void MainWindow::on_pushButton_save_clicked()
             ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Уровень доступа\" не выбрано!\n\n");
         }
 
+        if(ui->lineEdit_workerLogin->text().size() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Логин авторизации\" не может быть пустым!\n\n");
+        }
+
+        if(ui->lineEdit_workerPassword->text().size() == 0)
+        {
+            correct = false;
+            ui->label_errorMessage->setText(ui->label_errorMessage->text()+"Поле \"Пароль авторизации\" не может быть пустым!\n\n");
+        }
+
 
         if(correct)
         {
@@ -876,7 +893,9 @@ void MainWindow::on_pushButton_save_clicked()
                                                 ui->lineEdit_addWorkerPlaceOfResidence->text(),
                                                 ui->lineEdit_addWorkerNumberPassport->text(),
                                                 ui->comboBox_addWorkerPosition->currentIndex(),
-                                                ui->comboBox_addWorkerLvlAccess->currentIndex(), ui->comboBox_addWorkerStateDissmised->currentIndex());
+                                                ui->comboBox_addWorkerLvlAccess->currentIndex(), ui->comboBox_addWorkerStateDissmised->currentIndex(),
+                                                ui->lineEdit_workerLogin->text(),
+                                                ui->lineEdit_workerPassword->text());
             }
             else
             {
@@ -887,7 +906,9 @@ void MainWindow::on_pushButton_save_clicked()
                                                  ui->lineEdit_addWorkerPlaceOfResidence->text(),
                                                  ui->lineEdit_addWorkerNumberPassport->text(),
                                                  ui->comboBox_addWorkerPosition->currentIndex(),
-                                                 ui->comboBox_addWorkerLvlAccess->currentIndex(), ui->comboBox_addWorkerStateDissmised->currentIndex());
+                                                 ui->comboBox_addWorkerLvlAccess->currentIndex(), ui->comboBox_addWorkerStateDissmised->currentIndex(),
+                                                 ui->lineEdit_workerLogin->text(),
+                                                 ui->lineEdit_workerPassword->text());
             }
 
             db->getWorkerModel()->saveChanges();
@@ -1362,4 +1383,36 @@ void MainWindow::on_timeEdit_filterAuthorization_userTimeChanged(const QTime &ti
 {
     filterAuthorization->setFilterParam(AuthorizationFilterModel::FilterParam::TIME, ui->timeEdit_filterAuthorization->time());
 }
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    ModelForPrintCheckpoint modelData;
+    modelData.appendRow(ui->label_viewCheckpointTitle->text(), ui->label_viewCheckpointTitle->text());
+
+    QString reportFile = "reports/checkpoint.lrxml";
+    if (!reportFile.isEmpty())
+    {
+        LimeReport::ReportEngine m_report;
+
+        m_report.loadFromFile(reportFile);
+        m_report.dataManager()->addModel("modeldata", &modelData, false);
+        m_report.previewReport();
+    }
+}
+
+
+void MainWindow::on_pushButton_viewCheckpoint_clicked()
+{
+    if(ui->tableView_checkpoints->currentIndex().row() == -1)
+        return;
+
+    ui->label_viewCheckpointLvlAccess->setText(filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(), CheckpointModel::Column::LVL_ACCESS).data(CheckpointModel::Role::Display).toString());
+    ui->label_viewCheckpointLocation->setText(filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(), CheckpointModel::Column::LOCATION).data().toString());
+    ui->label_viewCheckpointTitle->setText(filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(), CheckpointModel::Column::TITLE).data().toString());
+
+    ui->stackedWidget_workPlace->setCurrentIndex(PagesWorkPlace::CHECKPOINTS_VIEW);
+    switchBackButton(false);
+}
+
 

@@ -18,6 +18,7 @@
 #include "workerfiltermodel.h"
 #include "modelforcombobox.h"
 #include "modelforprint.h"
+#include "modelforprintcheckpoint.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -239,6 +240,10 @@ private slots:
     void on_dateEdit_filterAuthorization_userDateChanged(const QDate &date);
 
     void on_timeEdit_filterAuthorization_userTimeChanged(const QTime &time);
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_viewCheckpoint_clicked();
 
 private:
     Ui::MainWindow *ui;

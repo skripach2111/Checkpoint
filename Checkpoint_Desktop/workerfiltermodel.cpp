@@ -21,7 +21,7 @@ void WorkerFilterModel::setEnabledFilterParam(FilterParam par, bool flag)
 
 bool WorkerFilterModel::filterAcceptsColumn(int source_column, const QModelIndex &source_parent) const
 {
-    if(source_column != WorkerModel::Column::PHOTO && source_column != WorkerModel::Column::FLAG)
+    if(source_column != WorkerModel::Column::PHOTO && source_column != WorkerModel::Column::FLAG && source_column != WorkerModel::Column::PASSWORD)
         return true;
     else
         return false;

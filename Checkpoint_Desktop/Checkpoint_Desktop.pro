@@ -22,6 +22,7 @@ SOURCES += \
     mainwindow.cpp \
     modelforcombobox.cpp \
     modelforprint.cpp \
+    modelforprintcheckpoint.cpp \
     positionfiltermodel.cpp \
     positionmodel.cpp \
     privilegemodel.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     mainwindow.h \
     modelforcombobox.h \
     modelforprint.h \
+    modelforprintcheckpoint.h \
     positionfiltermodel.h \
     positionmodel.h \
     privilegemodel.h \
@@ -69,18 +71,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 # For Lime Report
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/limereport/ -llimereport
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/limereport/ -llimereport
-else:unix: LIBS += -L$$PWD/libs/limereport/ -llimereport
+else:unix: LIBS += -L$$PWD/lib/ -llimereport
 
-INCLUDEPATH += $$PWD/libs/limereport/include
-DEPENDPATH += $$PWD/libs/limereport/include
+INCLUDEPATH += $$PWD/lib/include
+DEPENDPATH += $$PWD/lib/include
 
 
 linux{
     #Link share lib to ../libs/limereport rpath
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/libs
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../libs/
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../libs/limereport/
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../../libs/limereport/
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib/
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib/
+    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../../lib/
     QMAKE_LFLAGS_RPATH += #. .. ./libs
 }

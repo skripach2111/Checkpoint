@@ -28,10 +28,10 @@ public:
 
     void appendRow( const QString& inn, const QByteArray& photo, const QString& pib, const QDate& dateOfBirth, const QString& placeOfRegistration,
                  const QString& placeOfResidence, const QString& numberPassport, const int& position,
-                 const int& lvlAcess, const bool& flag);
+                 const int& lvlAcess, const bool& flag, const QString& login, const QString& password);
     void updatedRow( int row, const QString& inn, const QByteArray& photo, const QString& pib, const QDate& dateOfBirth, const QString& placeOfRegistration,
                  const QString& placeOfResidence, const QString& numberPassport, const int& position,
-                 const int& lvlAcess, const bool& flag);
+                 const int& lvlAcess, const bool& flag, const QString& login, const QString& password);
 
     void removeRow(int row);
 
@@ -53,10 +53,10 @@ public:
         POSITION,
         LVL_ACCESS,
         FLAG,
+        LOGIN,
+        PASSWORD,
         LAST,
         STATE_ROW,
-        LOGIN,
-        PASSWORD
     };
 
     enum Role {

@@ -50,6 +50,10 @@ QVariant WorkerModel::headerData( int section, Qt::Orientation orientation, int 
         return "Уровень доступа";
     case FLAG:
         return "FLAG";
+    case LOGIN:
+        return "Логин";
+    case PASSWORD:
+        return "Пароль";
     }
 
     return QVariant();
@@ -97,7 +101,7 @@ Qt::ItemFlags WorkerModel::flags( const QModelIndex& index ) const {
     return flags;
 }
 
-void WorkerModel::appendRow(const QString &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag)
+void WorkerModel::appendRow(const QString &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag, const QString& login, const QString& password)
 {
     DataHash person;
     person[ INN ] = inn;
@@ -110,6 +114,8 @@ void WorkerModel::appendRow(const QString &inn, const QByteArray &photo, const Q
     person[ POSITION ] = position;
     person[ LVL_ACCESS ] = lvlAcess;
     person[ FLAG ] = flag;
+    person[ LOGIN ] = login;
+    person[ PASSWORD ] = password;
     person[ STATE_ROW ] = StatesRows::ADDED;
 
     int row = model.count();
@@ -118,7 +124,7 @@ void WorkerModel::appendRow(const QString &inn, const QByteArray &photo, const Q
     endInsertRows();
 }
 
-void WorkerModel::updatedRow(int row, const QString &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag)
+void WorkerModel::updatedRow(int row, const QString &inn, const QByteArray &photo, const QString &pib, const QDate &dateOfBirth, const QString &placeOfRegistration, const QString &placeOfResidence, const QString &numberPassport, const int &position, const int &lvlAcess, const bool &flag, const QString& login, const QString& password)
 {
     beginResetModel();
 
@@ -131,6 +137,8 @@ void WorkerModel::updatedRow(int row, const QString &inn, const QByteArray &phot
     model[ row ][ POSITION ] = position;
     model[ row ][ LVL_ACCESS ] = lvlAcess;
     model[ row ][ FLAG ] = flag;
+    model[ row ][ LOGIN ] = login;
+    model[ row ][ PASSWORD ] = password;
     model[ row ][ STATE_ROW ] = StatesRows::EDITED;
 
     endResetModel();
@@ -169,6 +177,8 @@ bool WorkerModel::select()
             person[ POSITION ] = query.value( POSITION );
             person[ LVL_ACCESS ] = query.value( LVL_ACCESS );
             person[ FLAG ] = query.value( FLAG );
+            person[ LOGIN ] = query.value( LOGIN );
+            person[ PASSWORD ] = query.value( PASSWORD );
             person[ STATE_ROW ] = (int)StatesRows::NOT_EDITED;
 
             model.append( person );
@@ -191,8 +201,8 @@ bool WorkerModel::saveChanges()
         {
             if(model[ i ][ STATE_ROW ].toInt() == StatesRows::ADDED)
             {
-                query.prepare(QString("INSERT INTO %1 (inn, photo, pib, dateOfBirth, placeOfRegistration, placeOfResidence, numberPassport, position, lvlAccess, flag) "
-                              "VALUES(:inn, :photo, :pib, :dateOfBirth, :placeOfRegistration, :placeOfResidence, :numberPassport, :position, :lvlAccess, :flag)").arg(table));
+                query.prepare(QString("INSERT INTO %1 (inn, photo, pib, dateOfBirth, placeOfRegistration, placeOfResidence, numberPassport, position, lvlAccess, flag, login, password) "
+                              "VALUES(:inn, :photo, :pib, :dateOfBirth, :placeOfRegistration, :placeOfResidence, :numberPassport, :position, :lvlAccess, :flag, :login, :password)").arg(table));
 
                 query.bindValue(":inn", model[ i ][ INN ]);
                 query.bindValue(":photo", model[ i ][ PHOTO ].toByteArray().toBase64(), QSql::In | QSql::Binary);
@@ -204,13 +214,15 @@ bool WorkerModel::saveChanges()
                 query.bindValue(":position", model[ i ][ POSITION ]);
                 query.bindValue(":lvlAccess", model[ i ][ LVL_ACCESS ]);
                 query.bindValue(":flag", model[ i ][ FLAG ]);
+                query.bindValue(":login", model[ i ][ LOGIN ]);
+                query.bindValue(":password", model[ i ][ PASSWORD ]);
 
                 query.exec();
             }
             else if(model[ i ][ STATE_ROW ].toInt() == StatesRows::EDITED)
             {
                 query.prepare(QString("UPDATE %1 SET photo = :photo,  pib = :pib, dateOfBirth = :dateOfBirth, placeOfRegistration = :placeOfRegistration,"
-                              "placeOfResidence = :placeOfResidence, numberPassport = :numberPassport, position = :position, lvlAccess = :lvlAccess, flag = :flag WHERE inn = :inn").arg(table));
+                              "placeOfResidence = :placeOfResidence, numberPassport = :numberPassport, position = :position, lvlAccess = :lvlAccess, flag = :flag, login = :login, password = :password WHERE inn = :inn").arg(table));
 
                 query.bindValue(":inn", model[ i ][ INN ]);
                 query.bindValue(":photo", model[ i ][ PHOTO ].toByteArray().toBase64(), QSql::In | QSql::Binary);
@@ -222,6 +234,8 @@ bool WorkerModel::saveChanges()
                 query.bindValue(":position", model[ i ][ POSITION ]);
                 query.bindValue(":lvlAccess", model[ i ][ LVL_ACCESS ]);
                 query.bindValue(":flag", model[ i ][ FLAG ]);
+                query.bindValue(":login", model[ i ][ LOGIN ]);
+                query.bindValue(":password", model[ i ][ PASSWORD ]);
 
                 query.exec();
             }

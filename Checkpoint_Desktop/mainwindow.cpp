@@ -1407,7 +1407,7 @@ void MainWindow::on_pushButton_viewCheckpoint_clicked()
     if(ui->tableView_checkpoints->currentIndex().row() == -1)
         return;
 
-    ui->label_viewCheckpointLvlAccess->setText(filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(), CheckpointModel::Column::LVL_ACCESS).data(CheckpointModel::Role::Display).toString());
+    ui->label_viewCheckpointLvlAccess->setText(filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(), CheckpointModel::Column::LVL_ACCESS).data().toString());
     ui->label_viewCheckpointLocation->setText(filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(), CheckpointModel::Column::LOCATION).data().toString());
     ui->label_viewCheckpointTitle->setText(filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(), CheckpointModel::Column::TITLE).data().toString());
 

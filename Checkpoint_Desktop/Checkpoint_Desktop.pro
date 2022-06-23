@@ -69,8 +69,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 #LIBS += /libqsqlmysql.so -l
 
 # For Lime Report
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/limereport/ -llimereport
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/limereport/ -llimereport
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -llimereport
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -llimereport
 else:unix: LIBS += -L$$PWD/lib/ -llimereport
 
 INCLUDEPATH += $$PWD/lib/include
@@ -81,8 +81,8 @@ linux{
     #Link share lib to ../libs/limereport rpath
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
     QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib/
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib/
-    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../../lib/
+#    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib/
+#    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../lib/limereport/
+#    QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/../../lib/
     QMAKE_LFLAGS_RPATH += #. .. ./libs
 }

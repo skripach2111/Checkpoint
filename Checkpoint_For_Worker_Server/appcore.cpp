@@ -16,7 +16,7 @@ AppCore::AppCore(QObject *parent)
         }
 
 //    host.ip = QHostAddress("127.0.0.1");
-    host.port = 12012;
+    host.port = 12013;
     nNextBlockSize = 0;
 }
 
@@ -105,33 +105,35 @@ void AppCore::slotReadClient()
                 slotClientDisconnected();
                 return;
             }
+            else
+                currentWorkerLogin = login;
 
-            switch (db->getPrivileges()) {
-            case Privileges::VAHTA:
-            {
-                qDebug() << "AUTH_COMPLETE";
-                doSendToClientsMessage(AUTH_COMPLETE);
-                break;
-            }
-            default:
-            {
-                qDebug() << "ERROR";
-                lastError = "Вы не можете использовать это приложение!";
-                doSendToClientsMessage(ERROR);
-                nNextBlockSize = 0;
-                slotClientDisconnected();
-                return;
-            }
-            }
-
+//            switch (db->getPrivileges()) {
+//            case Privileges::VAHTA:
+//            {
+//                qDebug() << "AUTH_COMPLETE";
+//                doSendToClientsMessage(AUTH_COMPLETE);
+//                break;
+//            }
+//            default:
+//            {
+//                qDebug() << "ERROR";
+//                lastError = "Вы не можете использовать это приложение!";
+//                doSendToClientsMessage(ERROR);
+//                nNextBlockSize = 0;
+//                slotClientDisconnected();
+//                return;
+//            }
+//            }
+            doSendToClientsMessage(AUTH_COMPLETE);
             break;
         }
-        case CHECKPOINTS:
-        {
-            qDebug() << "CHECKPOINTS";
-            doSendToClientsMessage(CHECKPOINTS);
-            break;
-        }
+//        case CHECKPOINTS:
+//        {
+//            qDebug() << "CHECKPOINTS";
+//            doSendToClientsMessage(CHECKPOINTS);
+//            break;
+//        }
         case STATES:
         {
             qDebug() << "STATES";
@@ -199,36 +201,38 @@ void AppCore::doSendToClientsMessage(COMMAND command)
         break;
     }
     case AUTH_COMPLETE:{
+        db->selectTables();
+        out << db->getWorkerModel()->getIdByLogin(currentWorkerLogin).toString();
         break;
     }
-    case CHECKPOINTS:
-    {
-        db->getCheckpointModel()->select();
-        modelCheckpoint = db->getCheckpointModel();
+//    case CHECKPOINTS:
+//    {
+//        db->getCheckpointModel()->select();
+//        modelCheckpoint = db->getCheckpointModel();
 
-        int count = 0;
+//        int count = 0;
 
-        out << (int)0;
+//        out << (int)0;
 
-        for(int i = 0; i < modelCheckpoint->rowCount(QModelIndex()); i++)
-        {
-            if(modelCheckpoint->index(i, CheckpointModel::Column::FLAG).data().toInt() != 1)
-            {
-                count++;
-                out << modelCheckpoint->index(i, CheckpointModel::Column::ID).data();
-                out << modelCheckpoint->index(i, CheckpointModel::Column::TITLE).data();
-                out << modelCheckpoint->index(i, CheckpointModel::Column::LOCATION).data();
-                out << modelCheckpoint->index(i, CheckpointModel::Column::LVL_ACCESS).data(CheckpointModel::Role::Read);
+//        for(int i = 0; i < modelCheckpoint->rowCount(QModelIndex()); i++)
+//        {
+//            if(modelCheckpoint->index(i, CheckpointModel::Column::FLAG).data().toInt() != 1)
+//            {
+//                count++;
+//                out << modelCheckpoint->index(i, CheckpointModel::Column::ID).data();
+//                out << modelCheckpoint->index(i, CheckpointModel::Column::TITLE).data();
+//                out << modelCheckpoint->index(i, CheckpointModel::Column::LOCATION).data();
+//                out << modelCheckpoint->index(i, CheckpointModel::Column::LVL_ACCESS).data(CheckpointModel::Role::Read);
 
-                qDebug() << modelCheckpoint->index(i, CheckpointModel::Column::ID).data() << modelCheckpoint->index(i, CheckpointModel::Column::TITLE).data() << modelCheckpoint->index(i, CheckpointModel::Column::LOCATION).data() << modelCheckpoint->index(i, CheckpointModel::Column::LVL_ACCESS).data(CheckpointModel::Role::Read);
-            }
-        }
+//                qDebug() << modelCheckpoint->index(i, CheckpointModel::Column::ID).data() << modelCheckpoint->index(i, CheckpointModel::Column::TITLE).data() << modelCheckpoint->index(i, CheckpointModel::Column::LOCATION).data() << modelCheckpoint->index(i, CheckpointModel::Column::LVL_ACCESS).data(CheckpointModel::Role::Read);
+//            }
+//        }
 
-        out.device()->seek(sizeof (quint16) + sizeof (command));
-        out << count;
+//        out.device()->seek(sizeof (quint16) + sizeof (command));
+//        out << count;
 
-        break;
-    }
+//        break;
+//    }
     case STATES:
     {
         modelState = db->getStateModel();
@@ -297,7 +301,7 @@ void AppCore::doSendToClientsMessage(COMMAND command)
             out << color;
             qDebug() << "OUT";
 
-            db->getAuthorizationModel()->appendRow(inn, dateAuth.toDate(), timeAuth.toTime(), _state, db->getWorkerModel()->getDataById(db->getAccountModel()->index(db->getAccountModel()->getUserByLogin(login).row(), AccountModel::Column::WORKER).data(AccountModel::Role::Read).toString(), WorkerModel::Column::INN).toString(), checkpoint);
+            db->getAuthorizationModel()->appendRow(inn, dateAuth.toDate(), timeAuth.toTime(), _state, inn, checkpoint);
         }
         else
         {
@@ -311,7 +315,7 @@ void AppCore::doSendToClientsMessage(COMMAND command)
             out << state;
             out << color;
             qDebug() << "OUT";
-            db->getAuthorizationModel()->appendRow(inn, dateAuth.toDate(), timeAuth.toTime(), 3, db->getWorkerModel()->data(db->getAccountModel()->getUserByLogin(login), Qt::DisplayRole).toString(), checkpoint);
+            db->getAuthorizationModel()->appendRow(inn, dateAuth.toDate(), timeAuth.toTime(), 3, inn, checkpoint);
         }
 
         qDebug() << "3";

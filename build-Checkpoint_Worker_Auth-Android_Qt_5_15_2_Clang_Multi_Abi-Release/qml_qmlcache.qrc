@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<RCC>
+    <qresource prefix="/">
+        <file alias="main.qml">../Checkpoint_Worker_Auth/main.qml</file>
+        <file alias="PageSettings.qml">../Checkpoint_Worker_Auth/PageSettings.qml</file>
+        <file alias="PageSelectCheckpoint.qml">../Checkpoint_Worker_Auth/PageSelectCheckpoint.qml</file>
+        <file alias="PageLogin.qml">../Checkpoint_Worker_Auth/PageLogin.qml</file>
+        <file alias="SimplePage.qml">../Checkpoint_Worker_Auth/SimplePage.qml</file>
+        <file alias="PageQrReader.qml">../Checkpoint_Worker_Auth/PageQrReader.qml</file>
+        <file alias="PageWorkerAuthResult.qml">../Checkpoint_Worker_Auth/PageWorkerAuthResult.qml</file>
+        <file alias="settings.png">../Checkpoint_Worker_Auth/settings.png</file>
+    </qresource>
+</RCC>

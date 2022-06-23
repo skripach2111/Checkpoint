@@ -56,7 +56,7 @@ QVariant ModelForPrintCheckpoint::headerData( int section, Qt::Orientation orien
     return QVariant();
 }
 
-void ModelForPrintCheckpoint::appendRow(const QString &title, const QString &qr_code)
+void ModelForPrintCheckpoint::appendRow(const QString &title, const int &qr_code)
 {
     DataHash record;
     record[ TITLE ] = title;

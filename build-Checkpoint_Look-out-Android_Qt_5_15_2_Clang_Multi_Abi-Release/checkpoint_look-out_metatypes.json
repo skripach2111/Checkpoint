@@ -1,0 +1,657 @@
+[
+    {
+        "classes": [
+            {
+                "className": "SBarcodeDecoder",
+                "object": true,
+                "qualifiedClassName": "SBarcodeDecoder",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "isDecoding",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "isDecodingChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "captured",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "capturedChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "capturedImage",
+                                "type": "QImage"
+                            }
+                        ],
+                        "name": "process",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "SBarcodeDecoder.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "classInfos": [
+                    {
+                        "name": "QML.Element",
+                        "value": "auto"
+                    }
+                ],
+                "className": "SBarcodeFilter",
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "captured",
+                        "notify": "capturedChanged",
+                        "read": "captured",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "captureRect",
+                        "notify": "captureRectChanged",
+                        "read": "captureRect",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QRectF",
+                        "user": false,
+                        "write": "setCaptureRect"
+                    }
+                ],
+                "qualifiedClassName": "SBarcodeFilter",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "captured",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "capturedChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "captureRect",
+                                "type": "QRectF"
+                            }
+                        ],
+                        "name": "captureRectChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "private",
+                        "arguments": [
+                            {
+                                "name": "captured",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "setCaptured",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "clean",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QAbstractVideoFilter"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "SBarcodeFilter.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "classInfos": [
+                    {
+                        "name": "QML.Element",
+                        "value": "auto"
+                    }
+                ],
+                "className": "SBarcodeGenerator",
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "_width",
+                        "name": "width",
+                        "notify": "widthChanged",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "_height",
+                        "name": "height",
+                        "notify": "heightChanged",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "_margin",
+                        "name": "margin",
+                        "notify": "marginChanged",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "_eccLevel",
+                        "name": "eccLevel",
+                        "notify": "eccLevelChanged",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "_fileName",
+                        "name": "fileName",
+                        "notify": "fileNameChanged",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "_format",
+                        "name": "format",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "ZXing::BarcodeFormat",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "_extension",
+                        "name": "extension",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "_filePath",
+                        "name": "filePath",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "_inputText",
+                        "name": "inputText",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "SBarcodeGenerator",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "processFinished",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "width",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "widthChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "height",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "heightChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "margin",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "marginChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "eccLevel",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "eccLevelChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "fileName",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "fileNameChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "inputString",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "process",
+                        "returnType": "bool"
+                    },
+                    {
+                        "access": "public",
+                        "name": "saveImage",
+                        "returnType": "bool"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "format",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "barcodeFormatFromQMLString",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QQuickItem"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "SBarcodeGenerator.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "className": "CheckpointModel",
+                "object": true,
+                "qualifiedClassName": "CheckpointModel",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QAbstractTableModel"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "checkpointmodel.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "className": "ConnectionController",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "getCheckpointModel",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "getStatesModel",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "checkpoint",
+                                "type": "int"
+                            },
+                            {
+                                "name": "inn",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "state",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "authWorker",
+                        "returnType": "void"
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "_login",
+                        "name": "login",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "write": "setLogin"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "_password",
+                        "name": "password",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "write": "setPassword"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "modelCheckpoint",
+                        "name": "checkpoint",
+                        "read": "getCheckpoint",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "CheckpointModel*",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "member": "modelState",
+                        "name": "state",
+                        "read": "getState",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "StateModel*",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "ConnectionController",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "disconnected",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "connected",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "message",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "errorConnection",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "comingCheckpointModel",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "comingStateModel",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "fio",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "position",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "lvl_access",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "date",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "time",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "state",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "color",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "workerAuthoriazationResult",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "name": "connect",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "disconnect",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "command",
+                                "type": "COMMAND"
+                            }
+                        ],
+                        "name": "send",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "slotReadyRead",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "slotDisconnected",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "slotConnected",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "type": "QAbstractSocket::SocketError"
+                            }
+                        ],
+                        "name": "slotError",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "name",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "getSettings",
+                        "returnType": "QVariant"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "name",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "value",
+                                "type": "QVariant"
+                            }
+                        ],
+                        "name": "setSettings",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QQuickItem"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "connectioncontroller.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "className": "StateModel",
+                "object": true,
+                "qualifiedClassName": "StateModel",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QAbstractTableModel"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "statemodel.h",
+        "outputRevision": 67
+    }
+]

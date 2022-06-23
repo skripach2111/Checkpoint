@@ -1,0 +1,94 @@
+{
+    "classes": [
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Element",
+                    "value": "auto"
+                }
+            ],
+            "className": "SBarcodeFilter",
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "name": "captured",
+                    "notify": "capturedChanged",
+                    "read": "captured",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "name": "captureRect",
+                    "notify": "captureRectChanged",
+                    "read": "captureRect",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QRectF",
+                    "user": false,
+                    "write": "setCaptureRect"
+                }
+            ],
+            "qualifiedClassName": "SBarcodeFilter",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "captured",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "capturedChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "captureRect",
+                            "type": "QRectF"
+                        }
+                    ],
+                    "name": "captureRectChanged",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "private",
+                    "arguments": [
+                        {
+                            "name": "captured",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "setCaptured",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "name": "clean",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QAbstractVideoFilter"
+                }
+            ]
+        }
+    ],
+    "inputFile": "SBarcodeFilter.h",
+    "outputRevision": 67
+}

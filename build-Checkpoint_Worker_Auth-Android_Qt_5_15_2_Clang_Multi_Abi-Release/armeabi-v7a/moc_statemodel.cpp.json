@@ -1,0 +1,17 @@
+{
+    "classes": [
+        {
+            "className": "StateModel",
+            "object": true,
+            "qualifiedClassName": "StateModel",
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QAbstractTableModel"
+                }
+            ]
+        }
+    ],
+    "inputFile": "statemodel.h",
+    "outputRevision": 67
+}

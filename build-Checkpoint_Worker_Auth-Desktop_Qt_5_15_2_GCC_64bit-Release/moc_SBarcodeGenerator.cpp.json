@@ -1,0 +1,229 @@
+{
+    "classes": [
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Element",
+                    "value": "auto"
+                }
+            ],
+            "className": "SBarcodeGenerator",
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "_width",
+                    "name": "width",
+                    "notify": "widthChanged",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "_height",
+                    "name": "height",
+                    "notify": "heightChanged",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "_margin",
+                    "name": "margin",
+                    "notify": "marginChanged",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "_eccLevel",
+                    "name": "eccLevel",
+                    "notify": "eccLevelChanged",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "_fileName",
+                    "name": "fileName",
+                    "notify": "fileNameChanged",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "_format",
+                    "name": "format",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "ZXing::BarcodeFormat",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "_extension",
+                    "name": "extension",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "_filePath",
+                    "name": "filePath",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "_inputText",
+                    "name": "inputText",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "SBarcodeGenerator",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "processFinished",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "width",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "widthChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "height",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "heightChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "margin",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "marginChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "eccLevel",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "eccLevelChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "fileName",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "fileNameChanged",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "inputString",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "process",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "name": "saveImage",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "format",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "barcodeFormatFromQMLString",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QQuickItem"
+                }
+            ]
+        }
+    ],
+    "inputFile": "SBarcodeGenerator.h",
+    "outputRevision": 67
+}

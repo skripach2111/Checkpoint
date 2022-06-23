@@ -44,6 +44,8 @@ class AppCore : public QObject
 
     DatabaseModule* db;
 
+    QString currentWorkerLogin;
+
     AccessFilterModel *filterAccess;
     AccountFilterModel *filterAccount;
     AuthorizationFilterModel *filterAuthorization;

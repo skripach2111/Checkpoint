@@ -1,0 +1,54 @@
+{
+    "classes": [
+        {
+            "className": "SBarcodeDecoder",
+            "object": true,
+            "qualifiedClassName": "SBarcodeDecoder",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "isDecoding",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "isDecodingChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "captured",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "capturedChanged",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "capturedImage",
+                            "type": "QImage"
+                        }
+                    ],
+                    "name": "process",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "SBarcodeDecoder.h",
+    "outputRevision": 67
+}

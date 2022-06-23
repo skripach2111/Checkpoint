@@ -1,0 +1,17 @@
+{
+    "classes": [
+        {
+            "className": "CheckpointModel",
+            "object": true,
+            "qualifiedClassName": "CheckpointModel",
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QAbstractTableModel"
+                }
+            ]
+        }
+    ],
+    "inputFile": "checkpointmodel.h",
+    "outputRevision": 67
+}

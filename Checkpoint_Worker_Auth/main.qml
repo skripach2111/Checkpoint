@@ -24,17 +24,21 @@ Window {
         }
 
         onConnected: {
-            getCheckpointModel();
+            //getCheckpointModel();
+
+                connectionController.getStatesModel()
+                //pagePop()
             pageLoginContents.errorText = ""
         }
 
-        onComingCheckpointModel: {
-            pageSelectCheckpointContent.comboBoxModel = connectionController.checkpoint
-            mainView.push(pageSelectCheckpoint)
-        }
+//        onComingCheckpointModel: {
+//            pageSelectCheckpointContent.comboBoxModel = connectionController.checkpoint
+//            mainView.push(pageSelectCheckpoint)
+//        }
 
         onComingStateModel: {
             statesComboBox.model = connectionController.state
+            pageQrReaderContent.scanActive = true
             mainView.push(pageQrReader)
         }
 
@@ -92,7 +96,7 @@ Window {
                     pageSettingsContent.currentIP = "127.0.0.1"
 
                 if(pageSettingsContent.currentPort == "0")
-                    pageSettingsContent.currentPort = "12012"
+                    pageSettingsContent.currentPort = "12013"
                 mainView.push(pageSettings)
             }
         }
@@ -131,28 +135,28 @@ Window {
         }
     }
 
-    SimplePage {
-        id: pageSelectCheckpoint
-        header.visible: true
-        headerText: "Выбор проходной"
-        visible: false
+    //    SimplePage {
+    //        id: pageSelectCheckpoint
+    //        header.visible: true
+    //        headerText: "Выбор проходной"
+    //        visible: false
 
-        onButtonBackClicked: {
-            connectionController.disconnect()
-            pagePop()
-        }
+    //        onButtonBackClicked: {
+    //            connectionController.disconnect()
+    //            pagePop()
+    //        }
 
-        PageSelectCheckpoint {
-            id: pageSelectCheckpointContent
-            anchors.fill: parent
+    //        PageSelectCheckpoint {
+    //            id: pageSelectCheckpointContent
+    //            anchors.fill: parent
 
-            onButtonSelectClicked: {
-                pageQrReaderContent.scanActive = true
-                connectionController.getStatesModel()
-                //pagePop()
-            }
-        }
-    }
+    //            onButtonSelectClicked: {
+    //                pageQrReaderContent.scanActive = true
+    //                connectionController.getStatesModel()
+    //                //pagePop()
+    //            }
+    //        }
+    //    }
 
     SimplePage {
         id: pageQrReader
@@ -166,9 +170,9 @@ Window {
             scanActive: false
 
             onCodeReaded: {
-                pageQrReaderContent.scanActive = false
-                connectionController.authWorker(pageSelectCheckpointContent.selectCheckpoint, code, statesComboBox.currentIndex)
+                //pageQrReaderContent.scanActive = false
                 console.log("onCodeReaded")
+                connectionController.authWorker(code, statesComboBox.currentIndex)
             }
         }
 

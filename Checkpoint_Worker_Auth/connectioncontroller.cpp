@@ -16,10 +16,9 @@ void ConnectionController::getStatesModel()
     send(STATES);
 }
 
-void ConnectionController::authWorker(int checkpoint, QString inn, int state)
+void ConnectionController::authWorker(QString checkpoint, int state)
 {
-    checkpointId = checkpoint;
-    this->inn = inn;
+    checkpointId = checkpoint.toInt();
     _state = state;
     qDebug() << "SEND AUTH WORKER##########################################################################";
     send(AUTH_WORKER);
@@ -42,7 +41,7 @@ void ConnectionController::connect()
         host = QHostAddress("127.0.0.1");
 
     if(port <= 0)
-        port = 12012;
+        port = 12013;
 
     tcpSocket->connectToHost(host, port);
 }
@@ -112,9 +111,9 @@ void ConnectionController::send(COMMAND command)
     }
     case AUTH_WORKER:
     {
-        qDebug() << "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" << modelCheckpoint->data(modelCheckpoint->index(checkpointId, 0), CheckpointModel::Roles::ID);
+        //qDebug() << "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" << modelCheckpoint->data(modelCheckpoint->index(checkpointId, 0), CheckpointModel::Roles::ID);
         out << inn;
-        out << modelCheckpoint->data(modelCheckpoint->index(checkpointId, 0), CheckpointModel::Roles::ID).toInt();
+        out << checkpointId;
         out << modelState->data(modelState->index(_state, 0), StateModel::Roles::ID).toInt();
         break;
     }
@@ -166,6 +165,7 @@ void ConnectionController::slotReadyRead()
         case AUTH_COMPLETE:
         {
             qDebug() << "AUTH_COMPLETE ##########################################################################";
+            in >> inn;
             emit connected();
 
             //            Notification *Notification = new class Notification();

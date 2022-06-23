@@ -58,7 +58,7 @@ public:
 
     Q_INVOKABLE void getCheckpointModel();
     Q_INVOKABLE void getStatesModel();
-    Q_INVOKABLE void authWorker(int checkpoint, QString inn, int state);
+    Q_INVOKABLE void authWorker(QString checkpoint, int state);
 
     CheckpointModel* getCheckpoint() { return modelCheckpoint; }
     StateModel* getState() { return modelState; }

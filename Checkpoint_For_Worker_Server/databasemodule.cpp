@@ -78,13 +78,13 @@ QString DatabaseModule::authorizationUser(QString login, QString password)
 {
     QSqlQuery query;
 
-    query.prepare("SELECT password FROM account WHERE login = :login");
+    query.prepare("SELECT password FROM worker WHERE login = :login");
     query.bindValue(":login", login);
     query.exec();
 
     if(query.next())
     {
-        if(query.value(0).toString() == login)
+        if(query.value(0).toString() == password)
         {
             this->login = login;
             return QString();

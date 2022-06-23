@@ -64,6 +64,7 @@ Item {
                                                                      0.5, 0.5)))
 
         onCapturedChanged: {
+            scanActive = false
             codeReaded(captured)
             console.log("captured: " + captured)
         }

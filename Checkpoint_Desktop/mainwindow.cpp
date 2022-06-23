@@ -1388,7 +1388,7 @@ void MainWindow::on_timeEdit_filterAuthorization_userTimeChanged(const QTime &ti
 void MainWindow::on_pushButton_clicked()
 {
     ModelForPrintCheckpoint modelData;
-    modelData.appendRow(ui->label_viewCheckpointTitle->text(), ui->label_viewCheckpointTitle->text());
+    modelData.appendRow(ui->label_viewCheckpointTitle->text(), filterCheckpoint->sourceModel()->index(filterCheckpoint->mapToSource(ui->tableView_checkpoints->currentIndex()).row(), CheckpointModel::Column::ID).data().toInt());
 
     QString reportFile = "reports/checkpoint.lrxml";
     if (!reportFile.isEmpty())

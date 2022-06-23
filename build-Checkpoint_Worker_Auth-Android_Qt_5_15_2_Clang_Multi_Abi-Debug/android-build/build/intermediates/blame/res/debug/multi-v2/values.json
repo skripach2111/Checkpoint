@@ -1,0 +1,62 @@
+{
+    "logs": [
+        {
+            "outputFile": "/home/v1skas/Документы/GitHub/Checkpoint/build-Checkpoint_Worker_Auth-Android_Qt_5_15_2_Clang_Multi_Abi-Debug/android-build/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "map": [
+                {
+                    "source": "/home/v1skas/Документы/GitHub/Checkpoint/build-Checkpoint_Worker_Auth-Android_Qt_5_15_2_Clang_Multi_Abi-Debug/android-build/res/values/strings.xml",
+                    "from": {
+                        "startLines": "0",
+                        "startColumns": "49",
+                        "startOffsets": "49",
+                        "endColumns": "125",
+                        "endOffsets": "125"
+                    },
+                    "to": {
+                        "startLines": "29",
+                        "startColumns": "4",
+                        "startOffsets": "1465",
+                        "endColumns": "80",
+                        "endOffsets": "1541"
+                    }
+                },
+                {
+                    "source": "/home/v1skas/Qt/5.15.2/android/src/android/java/res/values/strings.xml",
+                    "from": {
+                        "startLines": "5,4,3,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "319,197,85,427",
+                        "endColumns": "107,121,111,97",
+                        "endOffsets": "422,314,192,520"
+                    },
+                    "to": {
+                        "startLines": "30,31,32,33",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "1546,1654,1776,1888",
+                        "endColumns": "107,121,111,97",
+                        "endOffsets": "1649,1771,1883,1981"
+                    }
+                },
+                {
+                    "source": "/home/v1skas/Документы/GitHub/Checkpoint/build-Checkpoint_Worker_Auth-Android_Qt_5_15_2_Clang_Multi_Abi-Debug/android-build/res/values/libs.xml",
+                    "from": {
+                        "startLines": "9,32,13,2",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "292,1318,347,55",
+                        "endLines": "11,34,30,4",
+                        "endColumns": "12,12,12,12",
+                        "endOffsets": "341,1583,1312,166"
+                    },
+                    "to": {
+                        "startLines": "2,5,8,26",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,109,379,1349",
+                        "endLines": "4,7,25,28",
+                        "endColumns": "12,12,12,12",
+                        "endOffsets": "104,374,1344,1460"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,244 @@
+{
+    "classes": [
+        {
+            "className": "ConnectionController",
+            "methods": [
+                {
+                    "access": "public",
+                    "name": "getCheckpointModel",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "getStatesModel",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "checkpoint",
+                            "type": "int"
+                        },
+                        {
+                            "name": "inn",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "state",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "authWorker",
+                    "returnType": "void"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "_login",
+                    "name": "login",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "write": "setLogin"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "_password",
+                    "name": "password",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "write": "setPassword"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "modelCheckpoint",
+                    "name": "checkpoint",
+                    "read": "getCheckpoint",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "CheckpointModel*",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "member": "modelState",
+                    "name": "state",
+                    "read": "getState",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "StateModel*",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "ConnectionController",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "disconnected",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "connected",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "message",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "errorConnection",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "comingCheckpointModel",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "comingStateModel",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "fio",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "position",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "lvl_access",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "date",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "time",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "state",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "color",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "workerAuthoriazationResult",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "name": "connect",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "disconnect",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "command",
+                            "type": "COMMAND"
+                        }
+                    ],
+                    "name": "send",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "slotReadyRead",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "slotDisconnected",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "slotConnected",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "type": "QAbstractSocket::SocketError"
+                        }
+                    ],
+                    "name": "slotError",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "name",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "getSettings",
+                    "returnType": "QVariant"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "name",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "value",
+                            "type": "QVariant"
+                        }
+                    ],
+                    "name": "setSettings",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QQuickItem"
+                }
+            ]
+        }
+    ],
+    "inputFile": "connectioncontroller.h",
+    "outputRevision": 67
+}
